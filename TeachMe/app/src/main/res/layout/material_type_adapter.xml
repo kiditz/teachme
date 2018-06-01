@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" app:cardBackgroundColor="@android:color/white"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="1dp"
+        app:cardMaxElevation="1dp"
+        app:cardPreventCornerOverlap="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <LinearLayout
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:padding="@dimen/ten_dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ImageView
+                android:id="@+id/materialTypeImage"
+                android:src="@color/colorAccent"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="@dimen/four_dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                tools:ignore="ContentDescription"/>
+        <TextView
+                android:maxWidth="70dp"
+                android:maxLines="3"
+                android:id="@+id/materialTypeName"
+                android:textStyle="bold"
+                android:text="@string/three_dot"
+                android:maxLength="60"
+                android:textSize="12sp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

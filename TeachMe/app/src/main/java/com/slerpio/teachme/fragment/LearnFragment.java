@@ -2,21 +2,20 @@ package com.slerpio.teachme.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.slerpio.teachme.App;
+import com.slerpio.teachme.MaterialTypeActivity;
 import com.slerpio.teachme.R;
 import com.slerpio.teachme.adapter.LearnAdapter;
 import com.slerpio.teachme.adapter.PaginationOnScrollListener;
+import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.helper.NetworkUtils;
 import com.slerpio.teachme.helper.TeachmeApi;
 import com.slerpio.teachme.helper.Translations;
@@ -43,6 +42,7 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
 
     @BindView(R.id.recycler)
     protected RecyclerView recycler;
+
     @Inject
     protected Retrofit retrofit;
     @Inject
@@ -63,8 +63,9 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
     public LearnFragment() {
     }
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         ((App)getActivity().getApplication()).getNetOauthComponent().inject(this);
         this.disposable  = new CompositeDisposable();
         this.adapter = new LearnAdapter(getContext(), topics);
@@ -87,6 +88,7 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         pagination.setPageHandler(this);
 
         recycler.addOnScrollListener(pagination);
+
         return v;
     }
 
@@ -101,7 +103,11 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         Domain input = new Domain();
         input.put("page", page);
         input.put("size", pagination.getTotalItemCount());
-        input.put("level_id", userRepository.findUser().getLevel_id());
+        try {
+            input.put("level_id", userRepository.findUser().getLevel_id());
+        }catch (Exception ignore){
+
+        }
         return materialService.getMaterialTopicByLevel(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
     }
 
@@ -131,5 +137,18 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         disposable.add(getData(page).subscribe(pagination::showResponse, error -> NetworkUtils.errorHandle(userRepository, translations, getActivity(), error)));
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.learn_fragment_menu, menu);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_create_material){
+            IntentUtils.moveTo(getActivity(), MaterialTypeActivity.class);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

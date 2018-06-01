@@ -39,6 +39,7 @@ import retrofit2.Retrofit;
 
 import javax.inject.Inject;
 
+@SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -46,14 +47,13 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getName();
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
-    @BindView(R.id.fab)
-    protected FloatingActionButton fab;
     @BindView(R.id.drawer_layout)
-    protected DrawerLayout drawer;
+    DrawerLayout drawer;
     @BindView(R.id.nav_view)
-    protected NavigationView navigationView;
+    NavigationView navigationView;
     @BindView(R.id.tabs)
-    protected TabLayout tabLayout;
+    TabLayout tabLayout;
+
     @BindView(R.id.container)
     protected ViewPager container;
     protected TextView username;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     @io.reactivex.annotations.NonNull
     private CompositeDisposable disposable = new CompositeDisposable();
     protected ViewPagerFragmentAdapter adapter;
-    UserUpdater updateUser;
+    private UserUpdater updateUser;
     private int[] icons = new int[]{
             R.drawable.ic_dashboard, R.drawable.ic_archive, R.drawable.ic_task
     };
@@ -83,10 +83,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager());
         ButterKnife.bind(this);
-        ((App)getApplication()).getNetOauthComponent().inject(this);
+        ((App) getApplication()).getNetOauthComponent().inject(this);
         setSupportActionBar(toolbar);
         teacherService = retrofit.create(TeacherService.class);
-        if(userRepository.findUser() == null){
+        if (userRepository.findUser() == null) {
             moveToLogin();
         }
         updateUser = payload -> {
@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity
             this.fullname.setText(user.getFullname());
 
         };
+
+
         initDrawer();
         fillAccount();
 
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void initDrawer(){
+    private void initDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity
     private void fillAccount() {
 
         User user = userRepository.findUser();
-        if(user != null) {
+        if (user != null) {
             username.setText("@" + user.getUsername());
             disposable.add(teacherService.findTeacherByUsername(user.getUsername()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(response -> {
                 if (TeachmeApi.ok(response)) {
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity
                 NetworkUtils.errorHandle(userRepository, translations, this, error);
             }));
             imageService.loadImage(profileImage, user.getUsername());
-        }else{
+        } else {
             moveToLogin();
         }
     }
@@ -205,7 +207,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         navigationView.setCheckedItem(id);
-        switch (id){
+        switch (id) {
             case R.id.nav_logout:
                 userRepository.removeUser();
                 moveToLogin();
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void moveToLogin(){
+    private void moveToLogin() {
         IntentUtils.moveTo(this, LoginActivity.class);
         finish();
     }

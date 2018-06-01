@@ -13,6 +13,7 @@
     <string name="change_password">Ubah Password</string>
     <string name="choose_image">Pilih Gambar</string>
     <string name="clazz">Kelas</string>
+    <string name="create_material">Buat Materi</string>
     <string name="cooperative">Koperasi</string>
     <!--D-->
     <string name="dashboard">Beranda</string>
@@ -82,6 +83,7 @@
     <string name="three_dot">...</string>
     <string name="title_add_school">Buat Sekolah</string>
     <string name="title_edit_profile">Ubah Profile</string>
+    <string name="title_choose_type">Tipe Materi</string>
     <string name="title_profile">Profile</string>
     <string name="title_school_and_course">Sekolah / Kursus</string>
 
