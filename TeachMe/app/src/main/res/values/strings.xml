@@ -1,0 +1,99 @@
+<resources>
+    <!--A-->
+
+    <string name="absent">Absen</string>
+    <string name="add_school_success">Penambahan %s berhasil dilakukan</string>
+    <string name="account">Akun</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">TeachMe</string>
+    <!--B-->
+    <!--C-->
+    <string name="challenge">Tantangan</string>
+    <string name="change_profile">Ubah Profile</string>
+    <string name="change_password">Ubah Password</string>
+    <string name="choose_image">Pilih Gambar</string>
+    <string name="clazz">Kelas</string>
+    <string name="cooperative">Koperasi</string>
+    <!--D-->
+    <string name="dashboard">Beranda</string>
+    <string name="description">Deskripsi</string>
+    <string name="done">Selesai</string>
+
+    <string name="does_not_have_account">Belum punya akun?</string>
+    <!--E-->
+    <string name="edit_user_success">Perubahan data sudah berhasil dilakukan.</string>
+    <!--F-->
+    <string name="failed_while_choosing_file">Gagal saat memilih gambar.</string>
+    <string name="fullname">Nama Lengkap</string>
+    <!--G-->
+    <string name="gender">Jenis Kelamin</string>
+    <!--H-->
+    <string name="have_account">Sudah punya akun?</string>
+    <string name="have_fun">Bersenang-senanglah dengan pelajaran anda baik di sekolah, dirumah, maupun tempat kursus
+    </string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--I-->
+    <string name="invalid_phone_number">No Hanphone tidak valid</string>
+    <string name="invalid_username">Username tidak valid</string>
+    <!--L-->
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <!--M-->
+    <string name="man">Laki-Laki</string>
+    <string name="material">Materi</string>
+    <!--N-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="notification">Pemberitahuan</string>
+    <string name="no_material">Belum ada materi.</string>
+    <!--P-->
+    <string name="password">Password</string>
+    <string name="phone_number">No Handphone</string>
+    <string name="profile">Profile</string>
+    <!--Q-->
+    <string name="question_and_answer">Tanya Jawab</string>
+    <!--R-->
+    <string name="register">Daftar</string>
+    <string name="registration_success">Pendaftaran sudah berhasil dilakukan.</string>
+    <string name="report_group">Laporan</string>
+    <string name="required_value_fullname">Nama lengkap harus di isi.</string>
+    <string name="required_value_image">Harap pilih gambar terlebih dahulu.</string>
+    <string name="required_length_password">Panjang password minimal 6.</string>
+    <string name="required_value_phone">No Handphone harus di isi.</string>
+    <string name="required_value_username">Username harus di isi.</string>
+    <string name="required_value_name">Nama harus di isi.</string>
+    <string name="required_value_retype_password">Ketik ulang password harus di isi.</string>
+    <string name="retype_password_fail">Password harus sama.</string>
+    <string name="retype_password">Ketik ulang password</string>
+    <string name="required_value_school_name">Nama Sekolah harus di isi.</string>
+    <string name="required_value_school_address">Alamat Sekolah harus di isi.</string>
+    <string name="required_value_description">Deskripsi Sekolah harus di isi.</string>
+    <!--S-->
+    <string name="school_name">Nama Sekolah / Tempat Kursus</string>
+    <string name="school">Sekolah / Kursus</string>
+    <string name="school_address">Alamat</string>
+    <string name="school_level_and_class">Tingkatan &amp; Kelas</string>
+    <string name="setting">Pengaturan</string>
+    <string name="send">Kirim</string>
+    <!--T-->
+    <string name="task">Tugas</string>
+    <string name="task_report">Laporan Nilai</string>
+    <string name="teach_me_url">http://192.168.1.126:5000/</string>
+    <string name="three_dot">...</string>
+    <string name="title_add_school">Buat Sekolah</string>
+    <string name="title_edit_profile">Ubah Profile</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_school_and_course">Sekolah / Kursus</string>
+
+
+    <!--U-->
+    <string name="username">Username</string>
+    <!--V-->
+    <string name="view_more">Lihat Detail</string>
+    <!--W-->
+    <string name="wallet">Dompet</string>
+    <string name="web_address">Alamat Web</string>
+    <string name="woman">Perempuan</string>
+
+
+</resources>

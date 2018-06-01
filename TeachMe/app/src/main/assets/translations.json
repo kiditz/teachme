@@ -1,0 +1,10 @@
+{
+  "upload.image.fail": "Tidak dapat melakukan upload file",
+  "user.not.found": "Anda tidak terdaftar dalam sistem kami",
+  "client.id.not.found": "Anda tidak terdaftar dalam sistem kami",
+  "Bad credentials": "Password yang anda masukan salah",
+  "connection.error": "Tidak dapat terhubung dengan server.",
+  "username.has.used": "Username sudah digunakan lain atau akun anda sendiri.",
+  "username.is.invalid": "Username tidak valid.",
+  "phone.number.has.used": "No Handphone sudah digunakan oleh akun lain."
+}

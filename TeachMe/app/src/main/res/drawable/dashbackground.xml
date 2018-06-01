@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="false" android:state_pressed="false" android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#d5000d0d"/>
+            <stroke
+                    android:color="#fff"
+                    android:width="2dp"
+                    android:dashGap="4dp"
+                    android:dashWidth="10dp"
+            />
+        </shape>
+    </item>
+    <item android:state_focused="false" android:state_pressed="false" android:state_selected="false">
+        <shape android:shape="rectangle">
+            <solid android:color="#d5000d0d"/>
+            <stroke
+                    android:color="#fff"
+                    android:width="2dp"
+                    android:dashGap="4dp"
+                    android:dashWidth="10dp"
+            />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#d9013d3d"/>
+            <stroke
+                    android:color="#fff"
+                    android:width="2dp"
+                    android:dashGap="4dp"
+                    android:dashWidth="10dp"
+            />
+        </shape>
+    </item>
+    <item android:state_focused="false" android:state_pressed="false" android:state_selected="false">
+        <shape android:shape="rectangle">
+            <solid android:color="#b9000000"/>
+            <stroke
+                    android:color="#fff"
+                    android:width="2dp"
+                    android:dashGap="4dp"
+                    android:dashWidth="10dp"
+            />
+        </shape>
+    </item>
+    <item android:state_focused="true" android:state_pressed="false" android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#b9000000"/>
+            <stroke
+                    android:color="#fff"
+                    android:width="2dp"
+                    android:dashGap="4dp"
+                    android:dashWidth="10dp"
+            />
+        </shape>
+    </item>
+</selector>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SchoolView">
+        <attr name="schoolName" format="string"/>
+        <attr name="schoolImage" format="reference"/>
+    </declare-styleable>
+</resources>
