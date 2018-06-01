@@ -1,0 +1,9 @@
+{
+  "name":"teachme-rest-api",
+  "interval":"20s",
+  "httpcheck": "http://0.0.0.0:5002/health",
+  "namespace": "config/teachme-rest-api/dev",
+  "log_file":"teachme-rest-api.log",
+  "address": "0.0.0.0",
+  "port":5002
+}

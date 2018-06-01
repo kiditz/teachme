@@ -1,0 +1,741 @@
+2018-06-01 22:09:47,226 ERROR 19026 [slerp.app] app.py:56 - (psycopg2.IntegrityError) duplicate key value violates unique constraint "tm_user_phone_number_key"
+DETAIL:  Key (phone_number)=(+6287788044374) already exists.
+ [SQL: "INSERT INTO tm_user (user_id, phone_number, username, fullname, gender, hash_password, address_id, enabled, account_non_expired, account_non_locked, credentials_non_expired, created_at, update_at) VALUES (nextval('tm_user_user_id_seq'), %(phone_number)s, %(username)s, %(fullname)s, %(gender)s, %(hash_password)s, %(address_id)s, %(enabled)s, %(account_non_expired)s, %(account_non_locked)s, %(credentials_non_expired)s, %(created_at)s, %(update_at)s) RETURNING tm_user.user_id"] [parameters: {'phone_number': '+6287788044374', 'username': 'rifky1', 'fullname': 'Rifky', 'gender': 'M', 'hash_password': <psycopg2.extensions.Binary object at 0x7f9840086350>, 'address_id': None, 'enabled': True, 'account_non_expired': True, 'account_non_locked': True, 'credentials_non_expired': True, 'created_at': datetime.datetime(2018, 6, 1, 22, 9, 47, 197387), 'update_at': None}] (Background on this error at: http://sqlalche.me/e/gkpj)
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.IntegrityError: duplicate key value violates unique constraint "tm_user_phone_number_key"
+DETAIL:  Key (phone_number)=(+6287788044374) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 27, in register_teacher
+    return user_principal_service.register_teacher(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 40, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 29, in register_teacher
+    user_dict = self.do_register(domain, authorities=TEACHER_AUTHORITIES)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 60, in do_register
+    user_principal.save()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/entity.py", line 36, in save
+    self.flush()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/entity.py", line 54, in flush
+    db.session.flush()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/scoping.py", line 153, in do
+    return getattr(self.registry(), name)(*args, **kwargs)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2254, in flush
+    self._flush(objects)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2380, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/langhelpers.py", line 66, in __exit__
+    compat.reraise(exc_type, exc_value, exc_tb)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 187, in reraise
+    raise value
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2344, in _flush
+    flush_context.execute()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 391, in execute
+    rec.execute(self)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 556, in execute
+    uow
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 181, in save_obj
+    mapper, table, insert)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 866, in _emit_insert_statements
+    execute(statement, params)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 948, in execute
+    return meth(self, multiparams, params)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 269, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1060, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1200, in _execute_context
+    context)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1413, in _handle_dbapi_exception
+    exc_info
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 186, in reraise
+    raise value.with_traceback(tb)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (psycopg2.IntegrityError) duplicate key value violates unique constraint "tm_user_phone_number_key"
+DETAIL:  Key (phone_number)=(+6287788044374) already exists.
+ [SQL: "INSERT INTO tm_user (user_id, phone_number, username, fullname, gender, hash_password, address_id, enabled, account_non_expired, account_non_locked, credentials_non_expired, created_at, update_at) VALUES (nextval('tm_user_user_id_seq'), %(phone_number)s, %(username)s, %(fullname)s, %(gender)s, %(hash_password)s, %(address_id)s, %(enabled)s, %(account_non_expired)s, %(account_non_locked)s, %(credentials_non_expired)s, %(created_at)s, %(update_at)s) RETURNING tm_user.user_id"] [parameters: {'phone_number': '+6287788044374', 'username': 'rifky1', 'fullname': 'Rifky', 'gender': 'M', 'hash_password': <psycopg2.extensions.Binary object at 0x7f9840086350>, 'address_id': None, 'enabled': True, 'account_non_expired': True, 'account_non_locked': True, 'credentials_non_expired': True, 'created_at': datetime.datetime(2018, 6, 1, 22, 9, 47, 197387), 'update_at': None}] (Background on this error at: http://sqlalche.me/e/gkpj)
+2018-06-01 22:09:47,496 INFO 19026 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:09:47] "POST /register_teacher HTTP/1.1" 200 -
+2018-06-01 22:09:49,663 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:09:49] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:10:02,392 INFO 19026 [service.user_principal_service] user_principal_service.py:52 - password : b'$2a$10$4XypBjlzv5UBLJY244tW8.0iq8k26QT9RtB0/vCpumIXmDpUfIARG'
+2018-06-01 22:10:02,402 ERROR 19026 [slerp.app] app.py:56 - (psycopg2.IntegrityError) duplicate key value violates unique constraint "tm_user_phone_number_key"
+DETAIL:  Key (phone_number)=(+6287788044374) already exists.
+ [SQL: "INSERT INTO tm_user (user_id, phone_number, username, fullname, gender, hash_password, address_id, enabled, account_non_expired, account_non_locked, credentials_non_expired, created_at, update_at) VALUES (nextval('tm_user_user_id_seq'), %(phone_number)s, %(username)s, %(fullname)s, %(gender)s, %(hash_password)s, %(address_id)s, %(enabled)s, %(account_non_expired)s, %(account_non_locked)s, %(credentials_non_expired)s, %(created_at)s, %(update_at)s) RETURNING tm_user.user_id"] [parameters: {'phone_number': '+6287788044374', 'username': 'rifky1', 'fullname': 'Rifky', 'gender': 'M', 'hash_password': <psycopg2.extensions.Binary object at 0x7f98400869b8>, 'address_id': None, 'enabled': True, 'account_non_expired': True, 'account_non_locked': True, 'credentials_non_expired': True, 'created_at': datetime.datetime(2018, 6, 1, 22, 10, 2, 396700), 'update_at': None}] (Background on this error at: http://sqlalche.me/e/gkpj)
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.IntegrityError: duplicate key value violates unique constraint "tm_user_phone_number_key"
+DETAIL:  Key (phone_number)=(+6287788044374) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 27, in register_teacher
+    return user_principal_service.register_teacher(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 40, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 29, in register_teacher
+    user_dict = self.do_register(domain, authorities=TEACHER_AUTHORITIES)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 60, in do_register
+    user_principal.save()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/entity.py", line 36, in save
+    self.flush()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/entity.py", line 54, in flush
+    db.session.flush()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/scoping.py", line 153, in do
+    return getattr(self.registry(), name)(*args, **kwargs)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2254, in flush
+    self._flush(objects)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2380, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/langhelpers.py", line 66, in __exit__
+    compat.reraise(exc_type, exc_value, exc_tb)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 187, in reraise
+    raise value
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2344, in _flush
+    flush_context.execute()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 391, in execute
+    rec.execute(self)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 556, in execute
+    uow
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 181, in save_obj
+    mapper, table, insert)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 866, in _emit_insert_statements
+    execute(statement, params)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 948, in execute
+    return meth(self, multiparams, params)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 269, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1060, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1200, in _execute_context
+    context)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1413, in _handle_dbapi_exception
+    exc_info
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 186, in reraise
+    raise value.with_traceback(tb)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (psycopg2.IntegrityError) duplicate key value violates unique constraint "tm_user_phone_number_key"
+DETAIL:  Key (phone_number)=(+6287788044374) already exists.
+ [SQL: "INSERT INTO tm_user (user_id, phone_number, username, fullname, gender, hash_password, address_id, enabled, account_non_expired, account_non_locked, credentials_non_expired, created_at, update_at) VALUES (nextval('tm_user_user_id_seq'), %(phone_number)s, %(username)s, %(fullname)s, %(gender)s, %(hash_password)s, %(address_id)s, %(enabled)s, %(account_non_expired)s, %(account_non_locked)s, %(credentials_non_expired)s, %(created_at)s, %(update_at)s) RETURNING tm_user.user_id"] [parameters: {'phone_number': '+6287788044374', 'username': 'rifky1', 'fullname': 'Rifky', 'gender': 'M', 'hash_password': <psycopg2.extensions.Binary object at 0x7f98400869b8>, 'address_id': None, 'enabled': True, 'account_non_expired': True, 'account_non_locked': True, 'credentials_non_expired': True, 'created_at': datetime.datetime(2018, 6, 1, 22, 10, 2, 396700), 'update_at': None}] (Background on this error at: http://sqlalche.me/e/gkpj)
+2018-06-01 22:10:02,436 INFO 19026 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:10:02] "POST /register_teacher HTTP/1.1" 200 -
+2018-06-01 22:10:09,675 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:10:09] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:10:29,684 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:10:29] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:10:49,698 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:10:49] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:11:09,707 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:11:09] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:11:29,718 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:11:29] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:11:49,726 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:11:49] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:12:09,733 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:12:09] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:12:15,633 INFO 19026 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:12:15] "GET /get_school_level HTTP/1.1" 200 -
+2018-06-01 22:12:17,975 INFO 19026 [service.user_principal_service] user_principal_service.py:52 - password : b'$2a$10$gkFhmtEvi5siE/eqk5D0cOfaz6eJhvq2m.wnhF.s2fhf0C5DsRcIu'
+2018-06-01 22:12:17,983 ERROR 19026 [slerp.app] app.py:56 - (psycopg2.IntegrityError) duplicate key value violates unique constraint "tm_user_phone_number_key"
+DETAIL:  Key (phone_number)=(+6287788044374) already exists.
+ [SQL: "INSERT INTO tm_user (user_id, phone_number, username, fullname, gender, hash_password, address_id, enabled, account_non_expired, account_non_locked, credentials_non_expired, created_at, update_at) VALUES (nextval('tm_user_user_id_seq'), %(phone_number)s, %(username)s, %(fullname)s, %(gender)s, %(hash_password)s, %(address_id)s, %(enabled)s, %(account_non_expired)s, %(account_non_locked)s, %(credentials_non_expired)s, %(created_at)s, %(update_at)s) RETURNING tm_user.user_id"] [parameters: {'phone_number': '+6287788044374', 'username': 'rifky1', 'fullname': 'Rifky', 'gender': 'M', 'hash_password': <psycopg2.extensions.Binary object at 0x7f9840086aa8>, 'address_id': None, 'enabled': True, 'account_non_expired': True, 'account_non_locked': True, 'credentials_non_expired': True, 'created_at': datetime.datetime(2018, 6, 1, 22, 12, 17, 978245), 'update_at': None}] (Background on this error at: http://sqlalche.me/e/gkpj)
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.IntegrityError: duplicate key value violates unique constraint "tm_user_phone_number_key"
+DETAIL:  Key (phone_number)=(+6287788044374) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 27, in register_teacher
+    return user_principal_service.register_teacher(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 40, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 29, in register_teacher
+    user_dict = self.do_register(domain, authorities=TEACHER_AUTHORITIES)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 60, in do_register
+    user_principal.save()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/entity.py", line 36, in save
+    self.flush()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/entity.py", line 54, in flush
+    db.session.flush()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/scoping.py", line 153, in do
+    return getattr(self.registry(), name)(*args, **kwargs)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2254, in flush
+    self._flush(objects)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2380, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/langhelpers.py", line 66, in __exit__
+    compat.reraise(exc_type, exc_value, exc_tb)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 187, in reraise
+    raise value
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2344, in _flush
+    flush_context.execute()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 391, in execute
+    rec.execute(self)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 556, in execute
+    uow
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 181, in save_obj
+    mapper, table, insert)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 866, in _emit_insert_statements
+    execute(statement, params)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 948, in execute
+    return meth(self, multiparams, params)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 269, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1060, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1200, in _execute_context
+    context)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1413, in _handle_dbapi_exception
+    exc_info
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 186, in reraise
+    raise value.with_traceback(tb)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (psycopg2.IntegrityError) duplicate key value violates unique constraint "tm_user_phone_number_key"
+DETAIL:  Key (phone_number)=(+6287788044374) already exists.
+ [SQL: "INSERT INTO tm_user (user_id, phone_number, username, fullname, gender, hash_password, address_id, enabled, account_non_expired, account_non_locked, credentials_non_expired, created_at, update_at) VALUES (nextval('tm_user_user_id_seq'), %(phone_number)s, %(username)s, %(fullname)s, %(gender)s, %(hash_password)s, %(address_id)s, %(enabled)s, %(account_non_expired)s, %(account_non_locked)s, %(credentials_non_expired)s, %(created_at)s, %(update_at)s) RETURNING tm_user.user_id"] [parameters: {'phone_number': '+6287788044374', 'username': 'rifky1', 'fullname': 'Rifky', 'gender': 'M', 'hash_password': <psycopg2.extensions.Binary object at 0x7f9840086aa8>, 'address_id': None, 'enabled': True, 'account_non_expired': True, 'account_non_locked': True, 'credentials_non_expired': True, 'created_at': datetime.datetime(2018, 6, 1, 22, 12, 17, 978245), 'update_at': None}] (Background on this error at: http://sqlalche.me/e/gkpj)
+2018-06-01 22:12:17,987 INFO 19026 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:12:17] "POST /register_teacher HTTP/1.1" 200 -
+2018-06-01 22:12:29,750 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:12:29] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:12:49,760 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:12:49] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:13:09,773 INFO 19026 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:13:09] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:13:27,260 INFO 19026 [werkzeug] _internal.py:88 -  * Detected change in '/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py', reloading
+2018-06-01 22:13:31,881 DEBUG 20677 [consulate.adapters] adapters.py:78 - GET http://localhost:8500/v1/kv/config/teachme-rest-api/dev?recurse=None
+2018-06-01 22:13:31,907 DEBUG 20677 [urllib3.connectionpool] connectionpool.py:208 - Starting new HTTP connection (1): localhost
+2018-06-01 22:13:31,975 DEBUG 20677 [urllib3.connectionpool] connectionpool.py:396 - http://localhost:8500 "GET /v1/kv/config/teachme-rest-api/dev?recurse=None HTTP/1.1" 200 652
+2018-06-01 22:13:32,046 DEBUG 20677 [consulate.adapters] adapters.py:91 - PUT http://localhost:8500/v1/agent/service/register with '{"name": "teachme-rest-api", "port": 5002, "address": "0.0.0.0", "check": {"HTTP": "http://0.0.0.0:5002/health", "interval": "20s"}}'
+2018-06-01 22:13:32,133 DEBUG 20677 [urllib3.connectionpool] connectionpool.py:396 - http://localhost:8500 "PUT /v1/agent/service/register HTTP/1.1" 400 23
+2018-06-01 22:13:33,390 WARNING 20677 [werkzeug] _internal.py:88 -  * Debugger is active!
+2018-06-01 22:13:33,391 INFO 20677 [werkzeug] _internal.py:88 -  * Debugger PIN: 783-001-970
+2018-06-01 22:13:33,558 ERROR 20677 [slerp.app] app.py:56 - phone.number.has.used
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 27, in register_teacher
+    return user_principal_service.register_teacher(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 40, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 28, in register_teacher
+    self.validate_add_user(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 135, in validate_add_user
+    raise ValidationException(PHONE_NUMBER_HAS_BEEN_USED)
+slerp.exception.ValidationException: phone.number.has.used
+2018-06-01 22:13:33,574 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:13:33] "POST /register_teacher HTTP/1.1" 200 -
+2018-06-01 22:13:33,599 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:13:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:13:48,171 ERROR 20677 [slerp.app] app.py:56 - phone.number.has.used
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 27, in register_teacher
+    return user_principal_service.register_teacher(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 40, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 28, in register_teacher
+    self.validate_add_user(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 135, in validate_add_user
+    raise ValidationException(PHONE_NUMBER_HAS_BEEN_USED)
+slerp.exception.ValidationException: phone.number.has.used
+2018-06-01 22:13:48,200 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:13:48] "POST /register_teacher HTTP/1.1" 200 -
+2018-06-01 22:13:52,487 ERROR 20677 [slerp.app] app.py:56 - phone.number.has.used
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 27, in register_teacher
+    return user_principal_service.register_teacher(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 40, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 28, in register_teacher
+    self.validate_add_user(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 135, in validate_add_user
+    raise ValidationException(PHONE_NUMBER_HAS_BEEN_USED)
+slerp.exception.ValidationException: phone.number.has.used
+2018-06-01 22:13:52,495 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:13:52] "POST /register_teacher HTTP/1.1" 200 -
+2018-06-01 22:13:53,619 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:13:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:13:57,340 INFO 20677 [service.user_principal_service] user_principal_service.py:52 - password : b'$2a$10$c.lZcoE.CgMth6B9S9Lq/.v3L7WXDkam7YyVNH/WXjsWceCH0astq'
+2018-06-01 22:13:57,440 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:13:57] "POST /register_teacher HTTP/1.1" 200 -
+2018-06-01 22:14:13,629 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:14:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:14:33,642 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:14:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:14:53,657 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:14:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:15:00,294 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:15:00] "GET /find_teacher_by_username?username=rifky HTTP/1.1" 200 -
+2018-06-01 22:15:00,349 INFO 20677 [service.user_principal_service] user_principal_service.py:79 - Saved in >>> /teachme/teachme-rest-api/profile/rifky.png
+2018-06-01 22:15:00,394 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:15:00] "GET /get_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoicmlma3kiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXSwiZXhwIjoxNTI3ODY5Njk5LCJhdXRob3JpdGllcyI6WyJWSUVXX01BUCIsIlZJRVdfQ0xBU1NFUyIsIkFERF9DSEFMTEVOR0UiLCJFRElUX1BST0ZJTEUiLCJWSUVXX01BVEVSSUFMIiwiVklFV19UQVNLIiwiQUREX1NUVURFTlQiLCJBRERfQUJTRU5UIiwiVklFV19BQlNFTlQiLCJWSUVXX1BST0ZJTEUiLCJBRERfVEFTSyIsIkFERF9DTEFTUyIsIkFERF9NQVRFUklBTCJdLCJqdGkiOiI5YTAwZTVhOS01MjlmLTRiMTItOTk2Yy03OWNkZTZkNDgxMjYiLCJjbGllbnRfaWQiOiJraWRpdHoifQ.cMvdXkvmygSFELcNMNcuz1QggqAPdV1VaXmUyPJIxS9vmk-NCzDFXWt9OUrnvivhR-Xt_0k18eiDDKPxvpndv2Ihgdokn272_UQSwxLTZQPJMXb0KeXguBzN58a_NQdb358YZfAwYNzTDHdEQkoDl2TFjgf1jtGG9gJmJRF1lV88mX9YJYVTzsktTXCItJ9VDz_WeI6frz3dzlQPmmrz7WPo7CDofz-RzJs75ER3ix4PuCDFVk3s7yRjQo2jrKyVSt86TH08lJgimyXTOwA2aZ46uNWNqRgIRrnBv36aLo6hhNbDEHlZzjEjGCLKdbCCrT57dJO0mhQF02Yus9XJ_A&username=rifky HTTP/1.1" 200 -
+2018-06-01 22:15:13,664 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:15:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:15:13,807 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:15:13] "GET /get_material_topic?size=10&level_id=13&page=1 HTTP/1.1" 200 -
+2018-06-01 22:15:13,897 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:15:13] "GET /find_teacher_by_username?username=rifky HTTP/1.1" 200 -
+2018-06-01 22:15:13,958 INFO 20677 [slerp.validator] validator.py:38 - key : level_id
+2018-06-01 22:15:13,959 ERROR 20677 [slerp.app] app.py:56 - required.key
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/material_topic_api.py", line 47, in get_material_topic_by_level_id
+    return material_topic_service.get_material_topic_by_level_id(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 39, in new_function
+    raise ValidationException('required.key', key=key)
+slerp.exception.ValidationException: required.key
+2018-06-01 22:15:13,962 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:15:13] "GET /get_material_topic_by_level_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 22:15:26,881 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:15:26] "GET /get_material_topic?size=10&level_id=13&page=1 HTTP/1.1" 200 -
+2018-06-01 22:15:26,954 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:15:26] "GET /find_teacher_by_username?username=rifky HTTP/1.1" 200 -
+2018-06-01 22:15:27,009 INFO 20677 [slerp.validator] validator.py:38 - key : level_id
+2018-06-01 22:15:27,011 ERROR 20677 [slerp.app] app.py:56 - required.key
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/material_topic_api.py", line 47, in get_material_topic_by_level_id
+    return material_topic_service.get_material_topic_by_level_id(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 39, in new_function
+    raise ValidationException('required.key', key=key)
+slerp.exception.ValidationException: required.key
+2018-06-01 22:15:27,014 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:15:27] "GET /get_material_topic_by_level_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 22:15:33,671 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:15:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:15:53,678 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:15:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:16:13,687 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:16:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:16:21,832 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:16:21] "GET /find_teacher_by_username?username=rifky HTTP/1.1" 200 -
+2018-06-01 22:16:21,902 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:16:21] "GET /get_material_topic?size=10&level_id=13&page=1 HTTP/1.1" 200 -
+2018-06-01 22:16:22,052 INFO 20677 [slerp.validator] validator.py:38 - key : level_id
+2018-06-01 22:16:22,055 ERROR 20677 [slerp.app] app.py:56 - required.key
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/material_topic_api.py", line 47, in get_material_topic_by_level_id
+    return material_topic_service.get_material_topic_by_level_id(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 39, in new_function
+    raise ValidationException('required.key', key=key)
+slerp.exception.ValidationException: required.key
+2018-06-01 22:16:22,057 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:16:22] "GET /get_material_topic_by_level_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 22:16:33,731 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:16:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:16:53,756 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:16:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:17:13,763 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:17:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:17:33,773 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:17:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:17:53,783 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:17:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:18:02,024 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:18:02] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:18:02,096 INFO 20677 [service.user_principal_service] user_principal_service.py:79 - Saved in >>> /teachme/teachme-rest-api/profile/kiditz.png
+2018-06-01 22:18:02,155 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:18:02] "GET /get_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUyNzg2OTg4MSwiYXV0aG9yaXRpZXMiOlsiVklFV19NQVAiLCJWSUVXX0NMQVNTRVMiLCJBRERfQ0hBTExFTkdFIiwiRURJVF9QUk9GSUxFIiwiVklFV19NQVRFUklBTCIsIlZJRVdfVEFTSyIsIkFERF9TVFVERU5UIiwiQUREX0FCU0VOVCIsIlZJRVdfQUJTRU5UIiwiVklFV19QUk9GSUxFIiwiQUREX1RBU0siLCJBRERfQ0xBU1MiLCJBRERfTUFURVJJQUwiXSwianRpIjoiMzAyMTAyNGItODAyNS00YjNhLWE1YjgtOWU1NGQ2M2EwNWY5IiwiY2xpZW50X2lkIjoia2lkaXR6In0.gWude33u2UiVDcmSlwCS55XamRLf1vZnAUs2mWaXZILey6AZ2Hn-VhbgG4tudVY9tEeRLUlrjGeW0c3Nqo9i9BzRiQUPHwFtz4ED4IqvQHz9G0ds4q2Ufp1tuZ-sM_k_PxTZ3Ju8zgH7OVEp5R5ua6fTJQbm2BOCkNrJ376L1P_xIbBws2jCSQwKE8WOx6q2EbBvSDWGk3RrEQ_h6RcMmFE0Kn3Xv0OanSNlX2Md66khpHYec_6ycone3v3PZdcjuKEaZM0LZB7Cc5qWZVFQeQ4YAaKHz5Y4mpGZys_SkZYr7VxTi7g_i6upQMc3WxrtgvLf-5Wf1WS7NwE7bz0H1g&username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:18:13,794 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:18:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:18:33,810 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:18:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:18:44,218 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:18:44] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:18:44,266 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:18:44] "GET /get_material_topic?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:18:44,377 INFO 20677 [slerp.validator] validator.py:38 - key : level_id
+2018-06-01 22:18:44,378 ERROR 20677 [slerp.app] app.py:56 - required.key
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/material_topic_api.py", line 47, in get_material_topic_by_level_id
+    return material_topic_service.get_material_topic_by_level_id(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 39, in new_function
+    raise ValidationException('required.key', key=key)
+slerp.exception.ValidationException: required.key
+2018-06-01 22:18:44,383 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:18:44] "GET /get_material_topic_by_level_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 22:18:53,847 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:18:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:19:13,857 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:19:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:19:33,868 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:19:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:19:53,891 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:19:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:20:13,898 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:20:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:20:33,907 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:20:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:20:53,918 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:20:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:21:13,932 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:21:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:21:28,258 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:21:28] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:21:28,319 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:21:28] "GET /get_material_topic?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:21:28,441 INFO 20677 [slerp.validator] validator.py:38 - key : level_id
+2018-06-01 22:21:28,443 ERROR 20677 [slerp.app] app.py:56 - required.key
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/material_topic_api.py", line 47, in get_material_topic_by_level_id
+    return material_topic_service.get_material_topic_by_level_id(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 39, in new_function
+    raise ValidationException('required.key', key=key)
+slerp.exception.ValidationException: required.key
+2018-06-01 22:21:28,446 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:21:28] "GET /get_material_topic_by_level_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 22:21:33,940 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:21:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:21:40,019 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:21:40] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:21:40,087 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:21:40] "GET /get_material_topic?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:21:40,227 INFO 20677 [slerp.validator] validator.py:38 - key : level_id
+2018-06-01 22:21:40,228 ERROR 20677 [slerp.app] app.py:56 - required.key
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/material_topic_api.py", line 47, in get_material_topic_by_level_id
+    return material_topic_service.get_material_topic_by_level_id(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.6/site-packages/slerp/validator.py", line 39, in new_function
+    raise ValidationException('required.key', key=key)
+slerp.exception.ValidationException: required.key
+2018-06-01 22:21:40,232 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:21:40] "GET /get_material_topic_by_level_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 22:21:53,947 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:21:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:22:13,960 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:22:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:22:33,967 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:22:33] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:22:53,974 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:22:53] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:23:13,994 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:23:13] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:23:34,006 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:23:34] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:23:36,195 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:23:36] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:23:36,267 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:23:36] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:23:40,524 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:23:40] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:23:40,547 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:23:40] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:23:54,025 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:23:54] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:24:14,031 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:24:14] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:24:34,039 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:24:34] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:24:54,046 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:24:54] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:25:14,052 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:25:14] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:25:34,058 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:25:34] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:25:54,072 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:25:54] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:26:14,087 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:26:14] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:26:34,100 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:26:34] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:26:54,106 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:26:54] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:27:14,112 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:27:14] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:27:34,146 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:27:34] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:27:54,156 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:27:54] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:28:14,167 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:28:14] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:28:16,876 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:28:16] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:28:16,953 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:28:16] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:28:24,808 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:28:24] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:28:24,908 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:28:24] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:28:34,179 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:28:34] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:28:54,186 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:28:54] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:29:14,192 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:29:14] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:29:34,207 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:29:34] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:29:49,402 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:29:49] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:29:49,606 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:29:49] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:29:54,218 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:29:54] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:29:55,018 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:29:55] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:29:55,075 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:29:55] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:29:57,589 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:29:57] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:30:04,270 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:30:04] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:30:04,323 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:30:04] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:30:14,225 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:30:14] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:30:34,232 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:30:34] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:30:54,238 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:30:54] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:31:14,246 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:31:14] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:31:34,255 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:31:34] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:31:35,021 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:31:35] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:31:35,034 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:31:35] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:31:39,521 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:31:39] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:31:39,560 INFO 20677 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:31:39] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:31:54,264 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:31:54] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:32:14,279 INFO 20677 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:32:14] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:32:33,558 INFO 20677 [werkzeug] _internal.py:88 -  * Detected change in '/home/kiditz/teachme/teachme-rest-api/app/service/material_topic_service.py', reloading
+2018-06-01 22:32:41,843 DEBUG 24629 [consulate.adapters] adapters.py:78 - GET http://localhost:8500/v1/kv/config/teachme-rest-api/dev?recurse=None
+2018-06-01 22:32:41,905 DEBUG 24629 [urllib3.connectionpool] connectionpool.py:208 - Starting new HTTP connection (1): localhost
+2018-06-01 22:32:41,936 DEBUG 24629 [urllib3.connectionpool] connectionpool.py:396 - http://localhost:8500 "GET /v1/kv/config/teachme-rest-api/dev?recurse=None HTTP/1.1" 200 652
+2018-06-01 22:32:41,941 DEBUG 24629 [consulate.adapters] adapters.py:91 - PUT http://localhost:8500/v1/agent/service/register with '{"name": "teachme-rest-api", "port": 5002, "address": "0.0.0.0", "check": {"HTTP": "http://0.0.0.0:5002/health", "interval": "20s"}}'
+2018-06-01 22:32:42,002 DEBUG 24629 [urllib3.connectionpool] connectionpool.py:396 - http://localhost:8500 "PUT /v1/agent/service/register HTTP/1.1" 400 23
+2018-06-01 22:32:46,111 WARNING 24629 [werkzeug] _internal.py:88 -  * Debugger is active!
+2018-06-01 22:32:46,117 INFO 24629 [werkzeug] _internal.py:88 -  * Debugger PIN: 783-001-970
+2018-06-01 22:32:46,324 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:32:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:32:46,451 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:32:46] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:32:46,475 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:32:46] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:33:04,290 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:33:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:33:24,300 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:33:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:33:44,305 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:33:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:34:04,318 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:34:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:34:24,327 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:34:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:34:44,337 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:34:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:35:04,356 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:35:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:35:24,363 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:35:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:35:44,379 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:35:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:36:04,394 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:36:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:36:24,408 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:36:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:36:44,413 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:36:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:37:04,422 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:37:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:37:24,434 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:37:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:37:44,445 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:37:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:38:04,459 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:38:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:38:24,469 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:38:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:38:44,478 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:38:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:38:50,358 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:38:50] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:38:50,402 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:38:50] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:39:04,485 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:39:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:39:05,195 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:39:05] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:39:05,247 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:39:05] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:39:12,466 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:39:12] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:39:12,504 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:39:12] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:39:24,501 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:39:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:39:44,512 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:39:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:40:04,526 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:40:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:40:24,546 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:40:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:40:44,554 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:40:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:41:04,559 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:41:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:41:24,570 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:41:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:41:44,582 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:41:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:42:04,597 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:42:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:42:05,374 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:42:05] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:42:05,394 INFO 24629 [service.user_principal_service] user_principal_service.py:79 - Saved in >>> /teachme/teachme-rest-api/profile/kiditz.png
+2018-06-01 22:42:05,456 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:42:05] "GET /get_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUyNzg3MTMyNCwiYXV0aG9yaXRpZXMiOlsiVklFV19NQVAiLCJWSUVXX0NMQVNTRVMiLCJBRERfQ0hBTExFTkdFIiwiRURJVF9QUk9GSUxFIiwiVklFV19NQVRFUklBTCIsIlZJRVdfVEFTSyIsIkFERF9TVFVERU5UIiwiQUREX0FCU0VOVCIsIlZJRVdfQUJTRU5UIiwiVklFV19QUk9GSUxFIiwiQUREX1RBU0siLCJBRERfQ0xBU1MiLCJBRERfTUFURVJJQUwiXSwianRpIjoiYjYyNTRhYjUtN2I1ZS00Y2VjLWI5ZTUtZTYxZjEzNTI4Zjg0IiwiY2xpZW50X2lkIjoia2lkaXR6In0.0EzBj8DAVXVIdLRDgR3RmlVmEsSpwRozNmJLLhlj0g9jg6P0iITE_eJLs0ugIuEb4vX3sOpNfAdOYK-Dh-8DZoVvkkWMsGFlH93xy-e8LbvMoq00UESGsw9TcdRP-7uPzyFOVxpI5kQ_7Ni1X9g1Yjkffnkdwe24SHixPgL3JRTb6hhZvfKCMtrDHwSc1uTRJrG67KmD0g3FS0uWEKofmKYCFwtJRqrXQZDEKVeuB3wZ8gOt4QdtjIt2Q5xyl8VSyoZqjuZzK9T1dDRo32l7E--AivtWZMyzdQe5fCm0gopDp0s5G-kAttIyBNh-vnhdWAZDRNzhVghhfLnsOKAKGA&username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:42:24,603 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:42:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:42:32,510 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:42:32] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:42:32,560 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:42:32] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:42:35,906 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:42:35] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:42:44,614 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:42:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:42:47,828 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:42:47] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:42:47,916 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:42:47] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:43:04,623 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:43:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:43:24,631 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:43:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:43:44,642 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:43:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:44:04,647 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:44:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:44:24,659 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:44:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:44:44,673 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:44:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:45:04,681 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:45:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:45:24,691 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:45:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:45:44,707 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:45:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:46:04,715 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:46:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:46:24,730 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:46:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:46:35,571 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:46:35] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:46:35,654 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:46:35] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:46:44,740 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:46:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:47:04,775 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:47:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:47:06,841 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:47:06] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:47:06,974 INFO 24629 [service.user_principal_service] user_principal_service.py:79 - Saved in >>> /teachme/teachme-rest-api/profile/kiditz.png
+2018-06-01 22:47:07,051 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:47:07] "GET /get_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUyNzg3MTYyNSwiYXV0aG9yaXRpZXMiOlsiVklFV19NQVAiLCJWSUVXX0NMQVNTRVMiLCJBRERfQ0hBTExFTkdFIiwiRURJVF9QUk9GSUxFIiwiVklFV19NQVRFUklBTCIsIlZJRVdfVEFTSyIsIkFERF9TVFVERU5UIiwiQUREX0FCU0VOVCIsIlZJRVdfQUJTRU5UIiwiVklFV19QUk9GSUxFIiwiQUREX1RBU0siLCJBRERfQ0xBU1MiLCJBRERfTUFURVJJQUwiXSwianRpIjoiN2ExNGZjYzctNTdhYy00ODZjLTllZjQtNWFjNzk5ODQ2NzMxIiwiY2xpZW50X2lkIjoia2lkaXR6In0.qZFG5ke165OWVOLZ7F86j2RnPop8A6VSmNxqBEyy2eIfTludLQ28I8bKbsnzvWMgw8GscyWst-b4e9456aHrpSqI_Pvc843jdII0zWR41pZ9HSJS7wOod68CVpdUB03Ek7J3sPdK9c8AdMRftDdaxE3dljF5FFsif4609p2ISLX-5PPqkttKO64kY6Eh10Rh9nk-7ZrTB4A6FPRx980EAX0-dPcaX2ffjdHwwgm02RtHWb76X0b4IpQ-tZZBVIOaNe3S3UBelm5wntf4XrtDNksa1IX-9XRTEi5Ky3Ydw8WnTut2fWqu4nRYRwbfTRoH-Qseo4MDvUaXgf08i3PZBw&username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:47:24,781 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:47:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:47:44,793 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:47:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:48:04,802 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:48:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:48:24,811 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:48:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:48:44,820 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:48:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:49:04,826 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:49:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:49:24,840 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:49:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:49:44,859 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:49:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:50:04,870 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:50:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:50:24,879 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:50:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:50:31,029 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:50:31] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:50:36,554 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:50:36] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:50:39,460 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:50:39] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:50:44,012 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:50:44] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:50:44,893 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:50:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:50:48,910 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:50:48] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:51:04,900 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:51:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:51:24,911 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:51:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:51:44,918 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:51:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:52:04,937 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:52:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:52:24,945 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:52:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:52:44,956 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:52:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:53:04,967 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:53:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:53:24,974 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:53:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:53:44,980 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:53:44] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:54:04,989 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:54:04] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:54:24,995 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:54:24] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:54:39,533 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:54:39] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:54:39,801 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:54:39] "GET /get_material_topic_by_level_id?size=10&level_id=2&page=1 HTTP/1.1" 200 -
+2018-06-01 22:54:45,004 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:54:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:55:05,014 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:55:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:55:25,023 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:55:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:55:45,031 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:55:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:56:05,073 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:56:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:56:25,081 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:56:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:56:45,089 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:56:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:57:05,109 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:57:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:57:25,120 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:57:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:57:45,127 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:57:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:58:05,140 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:58:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:58:25,151 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:58:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:58:45,166 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:58:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:59:05,173 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:59:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:59:17,173 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:59:17] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 22:59:17,479 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:59:17] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 22:59:17,606 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 22:59:17] "GET /get_material_by_topic_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 22:59:25,186 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:59:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 22:59:45,204 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 22:59:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:00:05,215 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:00:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:00:25,228 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:00:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:00:45,237 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:00:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:01:05,247 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:01:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:01:25,253 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:01:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:01:45,261 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:01:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:02:05,269 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:02:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:02:25,275 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:02:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:02:45,292 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:02:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:03:05,305 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:03:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:03:25,314 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:03:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:03:45,324 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:03:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:04:05,348 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:04:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:04:25,396 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:04:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:04:45,403 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:04:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:05:05,416 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:05:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:05:25,429 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:05:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:05:45,440 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:05:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:06:05,456 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:06:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:06:25,467 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:06:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:06:45,476 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:06:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:07:05,491 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:07:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:07:25,498 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:07:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:07:45,508 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:07:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:08:05,519 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:08:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:08:25,533 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:08:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:08:45,541 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:08:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:09:05,549 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:09:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:09:25,556 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:09:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:09:45,565 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:09:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:09:47,305 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:09:47] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:09:47,398 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:09:47] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 23:09:47,553 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:09:47] "GET /get_material_by_topic_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 23:09:47,748 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:09:47] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:10:05,574 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:10:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:10:24,772 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:10:24] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 23:10:25,085 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:10:25] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:10:25,196 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:10:25] "GET /get_material_by_topic_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 23:10:25,582 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:10:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:10:45,588 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:10:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:10:55,476 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:10:55] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 23:10:55,538 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:10:55] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:10:55,745 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:10:55] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:11:01,784 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:11:01] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 23:11:02,189 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:11:02] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:11:02,461 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:11:02] "GET /get_material_by_topic_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 23:11:05,595 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:11:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:11:11,616 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:11:11] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 23:11:11,636 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:11:11] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:11:11,731 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:11:11] "GET /get_material_by_topic_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 23:11:11,743 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:11:11] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:11:25,603 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:11:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:11:45,615 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:11:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:12:05,624 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:12:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:12:25,636 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:12:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:12:45,643 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:12:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:13:05,651 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:13:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:13:25,662 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:13:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:13:45,672 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:13:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:13:47,590 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:13:47] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 23:13:47,645 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:13:47] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:13:47,955 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:13:47] "GET /get_material_by_topic_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 23:13:51,947 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:13:51] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:13:52,034 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:13:52] "GET /find_teacher_by_username?username=kiditz HTTP/1.1" 200 -
+2018-06-01 23:13:52,192 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:13:52] "GET /get_material_by_topic_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 23:14:05,684 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:14:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:14:25,694 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:14:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:14:45,729 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:14:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:15:01,022 INFO 24629 [service.user_principal_service] user_principal_service.py:79 - Saved in >>> /teachme/teachme-rest-api/profile/hidayanti.png
+2018-06-01 23:15:01,058 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:15:01] "GET /get_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoiaGlkYXlhbnRpIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUyNzg3MzMwMCwiYXV0aG9yaXRpZXMiOlsiVklFV19NQVAiLCJWSUVXX0NMQVNTRVMiLCJBRERfQ0hBTExFTkdFIiwiRURJVF9QUk9GSUxFIiwiVklFV19NQVRFUklBTCIsIlZJRVdfVEFTSyIsIkFERF9TVFVERU5UIiwiQUREX0FCU0VOVCIsIlZJRVdfQUJTRU5UIiwiVklFV19QUk9GSUxFIiwiQUREX1RBU0siLCJBRERfQ0xBU1MiLCJBRERfTUFURVJJQUwiXSwianRpIjoiNjI3YzQzNTgtZTVkOS00OGU3LTk3Y2ItZTI3OTUxMjUxMmYxIiwiY2xpZW50X2lkIjoia2lkaXR6In0.Drv3rjHULU-7-qbQTUA17sjkVJF5cgi56Sa2-499WP08m4xyTLXLDlevEshf4FrYhTUOLre5ILneopYAdHTXvF5d1BqTywjU5gwPJx5jOI37vO91OH9BktlnDhu3izu-DMRQQz9qrV9_3MvzjO0LZa7Qm6udQjZZjZwM8a2-mvIiRZAk8L5xMlinZejx7Kgm8BLwW05DWV2wvA8MVrdlk9DW3VErisbhCfQB6oxwxlALfWbAG_GLD-wtWpDA3WaCRFUlsmDlMXCpPdoyeWbUIEMIobdaCBHIKPOWVIcZqAKy3lqDC1iioTV0XHs5z-ud39uoFG6b8yBaCrGXyEh1IQ&username=hidayanti HTTP/1.1" 200 -
+2018-06-01 23:15:01,084 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:15:01] "GET /find_teacher_by_username?username=hidayanti HTTP/1.1" 200 -
+2018-06-01 23:15:05,738 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:15:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:15:06,791 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:15:06] "GET /find_teacher_by_username?username=hidayanti HTTP/1.1" 200 -
+2018-06-01 23:15:06,856 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:15:06] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:15:06,920 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:15:06] "GET /find_school_by_id?id=2 HTTP/1.1" 404 -
+2018-06-01 23:15:06,983 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:15:06] "GET /get_material_by_topic_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 23:15:25,748 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:15:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:15:45,761 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:15:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:16:05,768 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:16:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:16:11,209 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:16:11] "GET /find_teacher_by_username?username=hidayanti HTTP/1.1" 200 -
+2018-06-01 23:16:11,228 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:16:11] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:16:11,234 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:16:11] "GET /find_school_by_id?id=2 HTTP/1.1" 404 -
+2018-06-01 23:16:25,779 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:16:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:16:45,787 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:16:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:17:05,802 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:17:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:17:25,813 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:17:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:17:45,828 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:17:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:18:05,838 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:18:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:18:25,846 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:18:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:18:45,912 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:18:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:19:05,917 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:19:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:19:25,923 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:19:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:19:45,930 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:19:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:20:00,782 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:20:00] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:20:00,805 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:20:00] "GET /find_teacher_by_username?username=hidayanti HTTP/1.1" 200 -
+2018-06-01 23:20:00,929 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:20:00] "GET /find_school_by_id?id=2 HTTP/1.1" 404 -
+2018-06-01 23:20:01,102 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:20:01] "GET /get_material_by_topic_id?size=10&topic_id=15&page=1 HTTP/1.1" 200 -
+2018-06-01 23:20:05,942 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:20:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:20:25,954 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:20:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:20:45,966 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:20:45] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:21:05,979 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:21:05] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:21:25,991 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:21:25] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:21:46,006 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:21:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:22:06,016 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:22:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:22:26,027 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:22:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:22:46,041 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:22:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:23:06,050 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:23:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:23:26,062 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:23:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:23:46,076 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:23:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:24:06,088 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:24:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:24:26,099 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:24:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:24:46,108 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:24:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:24:59,764 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:24:59] "GET /get_material_by_topic_id?topic_id=15&page=1&size=10 HTTP/1.1" 200 -
+2018-06-01 23:25:00,048 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:25:00] "GET /favicon.ico HTTP/1.1" 404 -
+2018-06-01 23:25:06,115 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:25:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:25:26,200 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:25:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:25:46,207 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:25:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:26:06,214 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:26:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:26:26,221 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:26:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:26:46,232 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:26:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:27:06,238 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:27:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:27:26,245 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:27:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:27:46,255 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:27:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:28:06,263 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:28:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:28:26,272 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:28:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:28:46,279 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:28:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:29:06,294 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:29:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:29:26,300 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:29:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:29:46,306 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:29:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:30:06,320 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:30:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:30:26,328 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:30:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:30:46,351 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:30:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:31:06,369 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:31:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:31:26,384 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:31:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:31:46,390 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:31:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:32:06,403 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:32:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:32:26,409 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:32:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:32:46,416 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:32:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:33:04,731 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:33:04] "GET /find_teacher_by_username?username=hidayanti HTTP/1.1" 200 -
+2018-06-01 23:33:05,087 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:33:05] "GET /get_material_topic_by_level_id?size=10&level_id=4&page=1 HTTP/1.1" 200 -
+2018-06-01 23:33:05,112 INFO 24629 [werkzeug] _internal.py:88 - 192.168.1.126 - - [01/Jun/2018 23:33:05] "GET /find_school_by_id?id=2 HTTP/1.1" 404 -
+2018-06-01 23:33:06,422 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:33:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:33:26,434 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:33:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:33:46,446 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:33:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:34:06,453 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:34:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:34:26,460 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:34:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:34:46,467 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:34:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:35:06,479 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:35:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:35:26,494 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:35:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:35:46,500 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:35:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:36:06,510 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:36:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:36:26,523 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:36:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:36:46,528 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:36:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:37:06,544 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:37:06] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:37:26,557 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:37:26] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:37:46,564 INFO 24629 [werkzeug] _internal.py:88 - 127.0.0.1 - - [01/Jun/2018 23:37:46] "GET /health HTTP/1.1" 200 -
+2018-06-01 23:37:50,912 INFO 24629 [werkzeug] _internal.py:88 -  * Detected change in '/home/kiditz/teachme/teachme-rest-api/app/api/school_api.py', reloading
