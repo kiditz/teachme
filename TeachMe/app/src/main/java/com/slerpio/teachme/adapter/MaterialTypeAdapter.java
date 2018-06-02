@@ -7,11 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.slerpio.teachme.R;
+import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_PDF;
+import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_WRITE;
+import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_VIDEO;
 import com.slerpio.teachme.model.Domain;
 
 import java.util.List;
@@ -36,6 +41,16 @@ public class MaterialTypeAdapter extends RecyclerView.Adapter<MaterialTypeAdapte
         int resourceId = type.getInt("resourceId");
         Glide.with(context).load("").placeholder(resourceId).into(holder.materialTypeImage);
         holder.materialTypeName.setText(type.getString("name"));
+        RxView.clicks(holder.materialTypeLayout).subscribe(view -> {
+            if(type.getString("type").equals(MATERIAL_TYPE_WRITE)){
+
+            }else if(type.getString("type").equals(MATERIAL_TYPE_VIDEO)){
+                //TODO Handle type video
+            }else if(type.getString("type").equals(MATERIAL_TYPE_PDF)){
+                //TODO Handle type pdf
+            }
+        });
+
     }
 
     @Override
@@ -48,6 +63,8 @@ public class MaterialTypeAdapter extends RecyclerView.Adapter<MaterialTypeAdapte
         ImageView materialTypeImage;
         @BindView(R.id.materialTypeName)
         TextView materialTypeName;
+        @BindView(R.id.materialTypeLayout)
+        LinearLayout materialTypeLayout;
         public MaterialTypeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

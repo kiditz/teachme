@@ -15,7 +15,9 @@ import com.slerpio.teachme.model.Domain;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_PDF;
+import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_WRITE;
+import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_VIDEO;
 public class MaterialTypeActivity extends AppCompatActivity {
     @BindView(R.id.recycler)
     protected RecyclerView recycler;
@@ -41,9 +43,9 @@ public class MaterialTypeActivity extends AppCompatActivity {
         // For make sure this only have 3 data
         typeList.clear();
         // Add new material type
-        typeList.add(new Domain().put("name", getString(R.string.material_type_write)).put("resourceId", R.mipmap.material_type_write));
-        typeList.add(new Domain().put("name", getString(R.string.material_type_video)).put("resourceId", R.mipmap.material_type_video));
-        typeList.add(new Domain().put("name", getString(R.string.material_type_pdf)).put("resourceId", R.mipmap.material_type_pdf));
+        typeList.add(new Domain().put("name", getString(R.string.material_type_write)).put("resourceId", R.mipmap.material_type_write).put("type", MATERIAL_TYPE_WRITE));
+        typeList.add(new Domain().put("name", getString(R.string.material_type_video)).put("resourceId", R.mipmap.material_type_video).put("type", MATERIAL_TYPE_VIDEO));
+        typeList.add(new Domain().put("name", getString(R.string.material_type_pdf)).put("resourceId", R.mipmap.material_type_pdf).put("type", MATERIAL_TYPE_PDF));
         adapter.notifyDataSetChanged();
     }
 
