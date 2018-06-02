@@ -2,7 +2,8 @@
 /bin/*
 /lib/*
 /.idea/*
-/*.log.*
-/*.log
+*.log.*
+*.log
+*.pyc
 **/__pycache__/*
 /app/migrations/*
