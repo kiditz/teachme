@@ -22,5 +22,11 @@ class DocumentService(object):
 	@Number(['id'])
 	def get_document(self, domain):
 		document = Document.query.filter_by(id=domain['id']).first()
-		filename = os.path.join(document.folder, document.filename if 'thumbnails' not in domain else document.thumbnails)
+		filename = os.path.join(document.folder,
+		                        document.filename if 'thumbnails' not in domain else document.thumbnails)
 		return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+	
+	@Number(['id'])
+	def find_document_by_id(self, domain):
+		document = Document.query.filter_by(id=domain['id']).first()
+		return {'payload': document.to_dict()}

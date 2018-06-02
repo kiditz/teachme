@@ -30,8 +30,13 @@ public class MultipartUtils {
         return body;
     }
 
-    public static MultipartBody.Part createFileHtml(String key, String data) throws IOException {
-        String filename = UUID.randomUUID().toString().substring(0, 8);
+    /**
+     * Upload with html file for add_document in the slerp server
+     * @param key is the key required from server
+     * @param data is the data html file
+     * */
+    public static MultipartBody.Part createFileHtml(String key, String data) {
+        String filename = UUID.randomUUID().toString().substring(0, 8) + ".html";
         RequestBody reqFile = RequestBody.create(MediaType.parse("text/html"), data);
         return MultipartBody.Part.createFormData(key, filename, reqFile);
     }

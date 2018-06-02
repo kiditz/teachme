@@ -18,6 +18,7 @@ document_service = DocumentService()
 
 @api.route('/add_document', methods=['POST'])
 def add_document():
+	"""Fixme: i want to be tested to"""
 	if 'file' not in request.files:
 		raise ValidationException('file.not.found')
 	file = request.files['file']
@@ -54,8 +55,19 @@ def add_document():
 def get_document():
 	"""
     {
-        "id": "Long"
+        "id": 4
     }
     """
 	domain = request.args.to_dict()
 	return document_service.get_document(domain)
+
+
+@api.route('/find_document_by_id', methods=['GET'])
+def find_document_by_id():
+	"""
+	{
+		"id": 4
+	}
+	"""
+	domain = request.args.to_dict()
+	return document_service.find_document_by_id(domain)

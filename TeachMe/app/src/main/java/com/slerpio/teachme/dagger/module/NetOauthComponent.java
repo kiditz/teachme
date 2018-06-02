@@ -20,4 +20,5 @@ public interface NetOauthComponent {
     void inject(VideoFragment fragment);
     void inject(ActivityFragment fragment);
     void inject(LearnFragment fragment);
+    void inject(MaterialWriteActivity activity);
 }

@@ -29,6 +29,7 @@
 
         <!-- Begin Editor toolbar -->
 
+
         <HorizontalScrollView android:id="@+id/tools"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
@@ -243,6 +244,13 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="100dp"/>
         </ScrollView>
+
+        <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

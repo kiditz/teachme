@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.slerpio.teachme.helper.Translations;
+import com.slerpio.teachme.realm.service.DocumentRepository;
 import com.slerpio.teachme.realm.service.SchoolRepository;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.ImageService;
@@ -39,8 +40,14 @@ public class AppModule {
     }
     @Provides
     @Singleton
-    public SchoolRepository provideSchoolReposity(Realm realm){
+    public SchoolRepository provideSchoolRepository(Realm realm){
         return new SchoolRepository(realm);
+    }
+
+    @Provides
+    @Singleton
+    public DocumentRepository provideDocumentRepository(Realm realm){
+        return new DocumentRepository(realm);
     }
     @Provides
     @Singleton

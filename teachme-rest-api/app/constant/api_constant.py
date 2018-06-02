@@ -1,4 +1,4 @@
-IMAGE_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'mp4'])
+IMAGE_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'mp4', 'html'])
 
 USERNAME_HAS_BEEN_USED = 'username.has.used'
 INVALID_USERNAME = 'username.is.invalid'
