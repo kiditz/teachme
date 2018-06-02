@@ -2,5 +2,6 @@
 /bin/*
 /lib/*
 /.idea/*
+**.log
 **/__pycache__/*
 /app/migrations/*

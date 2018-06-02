@@ -42,6 +42,9 @@
     <!--M-->
     <string name="man">Laki-Laki</string>
     <string name="material">Materi</string>
+    <string name="material_type_write">Tulis</string>
+    <string name="material_type_video">Video</string>
+    <string name="material_type_pdf">Pdf</string>
     <!--N-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

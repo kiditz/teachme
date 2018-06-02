@@ -34,7 +34,7 @@ import javax.inject.Inject;
  * @author kiditz
  */
 public class ActivityFragment extends Fragment {
-    public static final String TAG = ActivityFragment.class.getName();
+    private static final String TAG = ActivityFragment.class.getName();
     @BindView(R.id.schoolView)
     SchoolView schoolView;
     @Inject
@@ -48,7 +48,7 @@ public class ActivityFragment extends Fragment {
 
     @NonNull
     private CompositeDisposable disposable = new CompositeDisposable();
-    SchoolService schoolService;
+    private SchoolService schoolService;
 
     private User user;
     public ActivityFragment() {
@@ -84,21 +84,22 @@ public class ActivityFragment extends Fragment {
     }
 
     private void fillSchool() {
-        Log.d(TAG, "schoolId: " + user.getSchool_id());
-        if(user.getSchool_id() == null){
-     //       schoolView.setVisibility(View.GONE);
-        }else{
-            Log.d(TAG, "fillSchool: ");
-            Long schoolId = user.getSchool_id();
-            disposable.add(schoolService.findSchoolById(schoolId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response ->{
-                if(TeachmeApi.ok(response)){
-                    Domain payload = TeachmeApi.payload(response);
-                    schoolView.setSchoolName(payload.getString("name"));
-                    imageService.loadDocument(schoolView.getSchoolImage(), payload.getLong("document_id"));
-                }else{
-                    Log.e(getClass().getName(), "error: " + response.toString());
-                }
-            }, error -> NetworkUtils.errorHandle(userRepository, translations, getActivity(), error)));
+        if(user != null) {
+            if (user.getSchool_id() == null) {
+                schoolView.setVisibility(View.GONE);
+            } else {
+                Log.d(TAG, "fillSchool: ");
+                Long schoolId = user.getSchool_id();
+                disposable.add(schoolService.findSchoolById(schoolId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
+                    if (TeachmeApi.ok(response)) {
+                        Domain payload = TeachmeApi.payload(response);
+                        schoolView.setSchoolName(payload.getString("name"));
+                        imageService.loadDocument(schoolView.getSchoolImage(), payload.getLong("document_id"));
+                    } else {
+                        Log.e(getClass().getName(), "error: " + response.toString());
+                    }
+                }, error -> NetworkUtils.errorHandle(userRepository, translations, getActivity(), error)));
+            }
         }
     }
 }
