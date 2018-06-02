@@ -21,6 +21,7 @@ public class MaterialTypeActivity extends AppCompatActivity {
     protected RecyclerView recycler;
     private MaterialTypeAdapter adapter;
     private List<Domain> typeList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +35,15 @@ public class MaterialTypeActivity extends AppCompatActivity {
         recycler.setItemAnimator(new DefaultItemAnimator());
         recycler.setAdapter(adapter);
         fillMaterialType();
-
-
     }
 
     private void fillMaterialType() {
-        typeList.add(new Domain().put("name", "Tulis").put("resourceId", R.mipmap.material_type_write));
-        typeList.add(new Domain().put("name", "Video").put("resourceId", R.mipmap.material_type_video));
-        typeList.add(new Domain().put("name", "PDF").put("resourceId", R.mipmap.material_type_pdf));
+        // For make sure this only have 3 data
+        typeList.clear();
+        // Add new material type
+        typeList.add(new Domain().put("name", getString(R.string.material_type_write)).put("resourceId", R.mipmap.material_type_write));
+        typeList.add(new Domain().put("name", getString(R.string.material_type_video)).put("resourceId", R.mipmap.material_type_video));
+        typeList.add(new Domain().put("name", getString(R.string.material_type_pdf)).put("resourceId", R.mipmap.material_type_pdf));
         adapter.notifyDataSetChanged();
     }
 
