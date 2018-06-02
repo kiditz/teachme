@@ -56,6 +56,7 @@ class Document(db.Model, Entity):
 	thumbnails = db.Column(db.Text)
 	mimetype = db.Column(db.String(60), nullable=False)
 	folder = db.Column(db.Text, nullable=False)
+	secure = db.Column(db.Boolean, nullable=False, server_default='t')
 	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
 	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
 	
