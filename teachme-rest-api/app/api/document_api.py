@@ -62,6 +62,17 @@ def get_document():
 	return document_service.get_document(domain)
 
 
+@api.route('/get_free_document', methods=['GET'])
+def get_free_document():
+	"""
+    {
+        "id": 4
+    }
+    """
+	domain = request.args.to_dict()
+	return document_service.get_document(domain)
+
+
 @api.route('/find_document_by_id', methods=['GET'])
 def find_document_by_id():
 	"""

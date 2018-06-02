@@ -15,6 +15,8 @@ class DocumentService(object):
 	
 	@Blank(['filename', 'mimetype', 'folder', 'original_filename'])
 	def add_document(self, domain):
+		type(domain['secure'])
+		domain['secure'] = True if domain['secure'] == 'Y' else False
 		document = Document(domain)
 		document.save()
 		return {'payload': document.to_dict()}
