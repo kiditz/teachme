@@ -2,7 +2,7 @@
 /bin/*
 /lib/*
 /.idea/*
-*.log.*
+/app/**.log.*
 *.log
 *.pyc
 **/__pycache__/*
