@@ -13,10 +13,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.slerpio.teachme.MaterialWriteActivity;
 import com.slerpio.teachme.R;
 import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_PDF;
 import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_WRITE;
 import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_VIDEO;
+
+import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.model.Domain;
 
 import java.util.List;
@@ -43,7 +46,7 @@ public class MaterialTypeAdapter extends RecyclerView.Adapter<MaterialTypeAdapte
         holder.materialTypeName.setText(type.getString("name"));
         RxView.clicks(holder.materialTypeLayout).subscribe(view -> {
             if(type.getString("type").equals(MATERIAL_TYPE_WRITE)){
-
+                IntentUtils.moveTo(context, MaterialWriteActivity.class);
             }else if(type.getString("type").equals(MATERIAL_TYPE_VIDEO)){
                 //TODO Handle type video
             }else if(type.getString("type").equals(MATERIAL_TYPE_PDF)){

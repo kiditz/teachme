@@ -87,6 +87,7 @@
     <string name="title_add_school">Buat Sekolah</string>
     <string name="title_edit_profile">Ubah Profile</string>
     <string name="title_choose_type">Tipe Materi</string>
+    <string name="title_write_material">Tulis Materi</string>
     <string name="title_profile">Profile</string>
     <string name="title_school_and_course">Sekolah / Kursus</string>
 
@@ -99,6 +100,6 @@
     <string name="wallet">Dompet</string>
     <string name="web_address">Alamat Web</string>
     <string name="woman">Perempuan</string>
-
+    <string name="write_material_placeholder">Tulis materi disini...</string>
 
 </resources>

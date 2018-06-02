@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 public class MultipartUtils {
     public static RequestBody createValue(String value){
@@ -27,5 +28,11 @@ public class MultipartUtils {
         );
         MultipartBody.Part body = MultipartBody.Part.createFormData(key, filename, reqFile);
         return body;
+    }
+
+    public static MultipartBody.Part createFileHtml(String key, String data) throws IOException {
+        String filename = UUID.randomUUID().toString().substring(0, 8);
+        RequestBody reqFile = RequestBody.create(MediaType.parse("text/html"), data);
+        return MultipartBody.Part.createFormData(key, filename, reqFile);
     }
 }

@@ -75,7 +75,7 @@ public class RichEditor extends WebView {
         void onAfterInitialLoad(boolean isReady);
     }
 
-    private static final String SETUP_HTML = "file:///android_asset/editor.html";
+    private static final String SETUP_HTML = "file:///android_asset/editor/editor.html";
     private static final String CALLBACK_SCHEME = "re-callback://";
     private static final String STATE_SCHEME = "re-state://";
     private boolean isReady = false;
@@ -92,22 +92,29 @@ public class RichEditor extends WebView {
         this(context, attrs, android.R.attr.webViewStyle);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     public RichEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
+    }
 
+    @SuppressLint("SetJavaScriptEnabled")
+    private void init(Context context, AttributeSet attrs){
         setVerticalScrollBarEnabled(false);
         setHorizontalScrollBarEnabled(false);
-        getSettings().setJavaScriptEnabled(true);
-        setWebChromeClient(new WebChromeClient(){
-            @Override
-            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                Log.d("WebView", consoleMessage.message());
-                return super.onConsoleMessage(consoleMessage);
-            }
-        });
-        setWebViewClient(createWebviewClient());
-        loadUrl(SETUP_HTML);
+        try {
+            getSettings().setJavaScriptEnabled(true);
+            setWebChromeClient(new WebChromeClient(){
+                @Override
+                public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                    Log.d("WebView", consoleMessage.message());
+                    return super.onConsoleMessage(consoleMessage);
+                    }
+            });
+            setWebViewClient(createWebviewClient());
+            loadUrl(SETUP_HTML);
+        }catch (Exception ignore){
+        }
+
 
         applyAttributes(context, attrs);
     }

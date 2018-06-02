@@ -24,6 +24,8 @@ public class IntentUtils {
     }
     public static void moveTo(Context src, Intent intent){
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         src.startActivity(intent);
     }
 

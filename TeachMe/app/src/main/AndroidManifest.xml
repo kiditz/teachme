@@ -69,6 +69,11 @@
                 android:label="@string/title_choose_type">
         </activity>
         <activity
+                android:name=".MaterialWriteActivity"
+                android:label="@string/title_write_material"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
                 android:name=".AddSchoolActivity"
                 android:label="@string/title_add_school"
                 android:windowSoftInputMode="stateHidden">
