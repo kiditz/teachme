@@ -10,4 +10,7 @@ public interface DocumentService {
     @Multipart
     @POST("teachme/add_document")
     Single<Domain> addDocument(@Part("directory") RequestBody directory, @Part MultipartBody.Part file);
+    @Multipart
+    @POST("teachme/add_document")
+    Single<Domain> addDocument(@Part("directory") RequestBody directory, @Part MultipartBody.Part file, @Part("secure") RequestBody secure);
 }

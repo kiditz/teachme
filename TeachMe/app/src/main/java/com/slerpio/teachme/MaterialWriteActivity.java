@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,10 +32,13 @@ import retrofit2.Retrofit;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 public class MaterialWriteActivity extends AppCompatActivity{
     private static final int RESULT_CODE_IMAGE = 1;
+    private static final String TAG = MaterialWriteActivity.class.getName();
     @BindView(R.id.editor)
     RichEditor editor;
     @BindView(R.id.toolbar)
@@ -183,6 +187,18 @@ public class MaterialWriteActivity extends AppCompatActivity{
         }));
     }
 
+    private void doUploadImage(Intent data) throws IOException {
+        MultipartBody.Part part = MultipartUtils.createFile("file", data, this);
+        disposable.add(documentService.addDocument(MultipartUtils.createValue("material_image"), part, MultipartUtils.createValue("N")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
+            if(TeachmeApi.ok(response)){
+                Domain payload = TeachmeApi.payload(response);
+                String imageUrl = getString(R.string.teach_me_url) + "teachme/get_free_document?id=" + payload.getLong("id");
+                editor.insertImage(new URI(imageUrl), "");
+            }else{
+                Snackbar.make(findViewById(android.R.id.content), TeachmeApi.getError(response), Snackbar.LENGTH_LONG).show();
+            }
+        }, error -> NetworkUtils.errorHandle(userRepository, translation, this, error)));
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -199,7 +215,11 @@ public class MaterialWriteActivity extends AppCompatActivity{
 
             @Override
             public void onImagesPicked(List<File> imagesFiles, EasyImage.ImageSource source, int type) {
-                //TODO: Handle the images
+                try {
+                    doUploadImage(data);
+                } catch (IOException e) {
+                    Log.e(TAG, "onImagesPicked: ", e);
+                }
             }
         });
     }

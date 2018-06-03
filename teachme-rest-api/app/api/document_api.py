@@ -43,6 +43,10 @@ def add_document():
 		filename = file_time + '_' + original_filename
 		domain = {'filename': filename, 'folder': directory, 'mimetype': mimetype,
 		          'original_filename': original_filename}
+		# Check if data has secure key
+		if 'secure' in data:
+			domain['secure']= data['secure']
+			
 		final_file_path = os.path.join(directory, filename)
 		file.save(final_file_path)
 		if mimetype.startswith('video'):
