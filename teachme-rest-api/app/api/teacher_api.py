@@ -20,3 +20,15 @@ def find_teacher_by_username():
     """
     domain = request.args.to_dict()
     return teacher_service.find_teacher_by_username(domain)
+
+
+@api.route('/find_teacher_by_user_id', methods=['GET'])
+def find_teacher_by_user_id():
+
+    """
+    {
+        "user_id": "Long"
+    }
+    """
+    domain = request.args.to_dict()
+    return teacher_service.find_teacher_by_user_id(domain)

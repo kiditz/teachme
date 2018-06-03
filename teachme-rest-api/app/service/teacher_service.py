@@ -1,5 +1,5 @@
 from slerp.logger import logging
-from slerp.validator import Blank, ValidationException
+from slerp.validator import Blank, Number, ValidationException
 
 from constant.api_constant import USER_NOT_FOUND
 from entity.models import Teacher
@@ -15,6 +15,13 @@ class TeacherService(object):
 	@Blank(['username'])
 	def find_teacher_by_username(self, domain):
 		teacher = Teacher.query.join(UserPrincipal).filter(UserPrincipal.username == domain['username']).first()
+		if teacher is None:
+			raise ValidationException(USER_NOT_FOUND)
+		return {'payload': teacher.to_dict()}
+	
+	@Number(['user_id'])
+	def find_teacher_by_user_id(self, domain):
+		teacher = Teacher.query.filter_by(user_id=domain['user_id']).first()
 		if teacher is None:
 			raise ValidationException(USER_NOT_FOUND)
 		return {'payload': teacher.to_dict()}

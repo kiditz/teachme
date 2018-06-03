@@ -83,3 +83,16 @@ def edit_user_principal_by_username():
 
 
 
+
+
+
+@api.route('/find_user_principal_by_id', methods=['GET'])
+def find_user_principal_by_id():
+
+    """
+    {
+        "id": "Long"
+    }
+    """
+    domain = request.args.to_dict()
+    return user_principal_service.find_user_principal_by_id(domain)

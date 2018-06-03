@@ -1,7 +1,7 @@
 from slerp.logger import logging
 from slerp.validator import Number, Blank, Key, ValidationException
 from slerp.string_utils import is_blank, is_digit
-
+from api.teacher_api import teacher_service
 from entity.models import Material, MaterialTopic
 
 log = logging.getLogger(__name__)
@@ -14,20 +14,20 @@ class MaterialService(object):
 	@Blank(['title', 'description', 'type'])
 	@Number(['document_id', 'user_id', 'price'])
 	def add_material(self, domain):
+		teacher = teacher_service.find_teacher_by_user_id(domain)['payload']
 		if 'topic_id' not in domain:
-			topic = MaterialTopic({'user_id': domain['user_id']})
+			topic = MaterialTopic({'user_id': teacher['user_id']})
 			if is_blank(domain['name']):
 				raise ValidationException('required.value.name')
-			if 'level_id' in domain and is_digit(domain['level_id']):
-				topic.level_id = domain['level_id']
-			if 'class_id' in domain and is_digit(domain['class_id']):
-				topic.class_id = domain['class_id']
 			topic.name = domain['name']
+			topic.class_id = teacher['class_id']
+			topic.level_id = teacher['level_id']
 			topic.save()
 		else:
 			topic = MaterialTopic.query.get(domain['topic_id'])
 			domain.pop('topic_id')
 		pass
+		
 		material = Material(domain)
 		material.topic_id = topic.id
 		material.save()

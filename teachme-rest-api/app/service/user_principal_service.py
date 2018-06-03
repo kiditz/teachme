@@ -65,6 +65,8 @@ class UserPrincipalService(object):
 	@Key(['username'])
 	def find_user_principal_by_username(self, domain):
 		user_principal = UserPrincipal.query.filter_by(username=domain['username']).first()
+		if user_principal is None:
+			raise ValidationException(USER_NOT_FOUND)
 		user_dict = user_principal.to_dict()
 		return {'payload': user_dict}
 	
@@ -121,7 +123,7 @@ class UserPrincipalService(object):
 		# Validation
 		if domain['phone_number'].startswith('0'):
 			domain['phone_number'] = domain['phone_number'].replace('0', '+62', 1)
-			
+		
 		phone_number = domain['phone_number']
 		username = domain['username']
 		
@@ -151,7 +153,7 @@ class UserPrincipalService(object):
 			raise ValidationException(INVALID_USERNAME)
 		
 		# Validate Phone Number exists
-		log.info('phone number %s : %s', user.phone_number,  phone_number)
+		log.info('phone number %s : %s', user.phone_number, phone_number)
 		log.info('phone number %s', user.phone_number != phone_number)
 		if user.phone_number != phone_number:
 			val_phone_number = UserPrincipal.query.filter_by(phone_number=phone_number).first()
@@ -163,12 +165,21 @@ class UserPrincipalService(object):
 			if val_username is not None:
 				raise ValidationException(USERNAME_HAS_BEEN_USED)
 		pass
-		
+	
 	@Key(['username'])
 	@Number(['page', 'size'])
 	def get_user_principal_by_username(self, domain):
 		page = int(domain['page'])
 		size = int(domain['size'])
-		user_principal_q = UserPrincipal.query.filter(UserPrincipal.username.ilike('%'+domain['username']+'%')).order_by(UserPrincipal.username.asc()).paginate(page, size, error_out=False)
+		user_principal_q = UserPrincipal.query.filter(
+			UserPrincipal.username.ilike('%' + domain['username'] + '%')).order_by(
+			UserPrincipal.username.asc()).paginate(page, size, error_out=False)
 		user_principal_list = list(map(lambda x: x.to_dict(), user_principal_q.items))
 		return {'payload': user_principal_list, 'total': user_principal_q.total, 'total_pages': user_principal_q.pages}
+	
+	@Key(['user_id'])
+	def find_user_principal_by_id(self, domain):
+		user_principal = UserPrincipal.query.filter_by(id=domain['user_id']).first()
+		if user_principal is None:
+			raise ValidationException(USER_NOT_FOUND)
+		return {'payload': user_principal.to_dict()}

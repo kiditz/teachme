@@ -19,6 +19,7 @@ def add_material():
 	"type": "video",
 	"document_id": 4,
 	"user_id": 1,
+	"name": "Test Material Topic"
 	}
 	"""
 	domain = request.get_json()
