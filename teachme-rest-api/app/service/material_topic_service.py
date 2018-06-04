@@ -30,6 +30,17 @@ class MaterialTopicService(object):
 	def get_material_topic_by_level_id(self, domain):
 		page = int(domain['page'])
 		size = int(domain['size'])
-		material_topic_q = MaterialTopic.query.filter_by(level_id=domain['level_id']).order_by(MaterialTopic.name.desc()).paginate(page, size, error_out=False)
+		material_topic_q = MaterialTopic.query.filter_by(level_id=domain['level_id']).order_by(MaterialTopic.name.desc())\
+			.paginate(page, size, error_out=False)
+		material_topic_list = list(map(lambda x: x.to_dict(), material_topic_q.items))
+		return {'payload': material_topic_list, 'total': material_topic_q.total, 'total_pages': material_topic_q.pages}
+	
+	@Blank(['name'])
+	@Number(['page', 'size'])
+	def get_material_topic_by_name(self, domain):
+		page = int(domain['page'])
+		size = int(domain['size'])
+		material_topic_q = MaterialTopic.query.filter(MaterialTopic.name.ilike('%' + domain['name'] + '%'))\
+			.order_by(MaterialTopic.name.asc()).paginate(page, size, error_out=False)
 		material_topic_list = list(map(lambda x: x.to_dict(), material_topic_q.items))
 		return {'payload': material_topic_list, 'total': material_topic_q.total, 'total_pages': material_topic_q.pages}

@@ -55,6 +55,19 @@ class TestMaterial(unittest.TestCase):
 		self.assertEqual(response['status'], 'FAIL')
 		self.assertEqual(response['message'], 'user.not.found')
 
+	def test_get_material_by_title(self):
+		result = requests.get(self.BASE_URL + 'get_material_by_title', params={
+			"page": 1,
+			"size": 10,
+			"title": ""
+		})
+		
+		self.assertIs(result.status_code, 200)
+		response = result.json()
+		log.info('test_get_material_by_title: %s', response)
+		self.assertEqual(response['status'], 'OK')
+		self.assertIsInstance(response['payload'], list)
+
 
 if __name__ == '__main__':
 	unittest.main()

@@ -2,6 +2,7 @@
     <!--A-->
 
     <string name="absent">Absen</string>
+    <string name="add_material_success">Penambahan %s berhasil dilakukan</string>
     <string name="add_school_success">Penambahan %s berhasil dilakukan</string>
     <string name="account">Akun</string>
     <string name="action_settings">Settings</string>
@@ -61,18 +62,22 @@
     <string name="register">Daftar</string>
     <string name="registration_success">Pendaftaran sudah berhasil dilakukan.</string>
     <string name="report_group">Laporan</string>
+    <string name="required_length_password">Panjang password minimal 6.</string>
+    <string name="required_value_description">Deskripsi harus di isi.</string>
     <string name="required_value_fullname">Nama lengkap harus di isi.</string>
     <string name="required_value_image">Harap pilih gambar terlebih dahulu.</string>
-    <string name="required_length_password">Panjang password minimal 6.</string>
-    <string name="required_value_phone">No Handphone harus di isi.</string>
-    <string name="required_value_username">Username harus di isi.</string>
+    <string name="required_value_material">Materi harus di isi.</string>
     <string name="required_value_name">Nama harus di isi.</string>
+    <string name="required_value_phone">No Handphone harus di isi.</string>
     <string name="required_value_retype_password">Ketik ulang password harus di isi.</string>
-    <string name="retype_password_fail">Password harus sama.</string>
-    <string name="retype_password">Ketik ulang password</string>
     <string name="required_value_school_name">Nama Sekolah harus di isi.</string>
     <string name="required_value_school_address">Alamat Sekolah harus di isi.</string>
-    <string name="required_value_description">Deskripsi Sekolah harus di isi.</string>
+    <string name="required_value_title">Judul harus di isi.</string>
+    <string name="required_value_topic">Topic harus di isi.</string>
+    <string name="required_value_username">Username harus di isi.</string>
+    <string name="retype_password_fail">Password harus sama.</string>
+    <string name="retype_password">Ketik ulang password</string>
+
     <!--S-->
     <string name="school_name">Nama Sekolah / Tempat Kursus</string>
     <string name="school">Sekolah / Kursus</string>
@@ -90,6 +95,7 @@
     <string name="title_edit_profile">Ubah Profile</string>
     <string name="title_choose_type">Tipe Materi</string>
     <string name="title_write_material">Tulis Materi</string>
+    <string name="title_add_material">Tambah Materi</string>
     <string name="title_profile">Profile</string>
     <string name="title_school_and_course">Sekolah / Kursus</string>
     <string name="topic">Topik</string>

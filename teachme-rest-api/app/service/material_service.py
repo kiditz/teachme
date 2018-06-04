@@ -1,6 +1,7 @@
 from slerp.logger import logging
+from slerp.string_utils import is_blank
 from slerp.validator import Number, Blank, Key, ValidationException
-from slerp.string_utils import is_blank, is_digit
+
 from api.teacher_api import teacher_service
 from entity.models import Material, MaterialTopic
 
@@ -14,6 +15,7 @@ class MaterialService(object):
 	@Blank(['title', 'description', 'type'])
 	@Number(['document_id', 'user_id', 'price'])
 	def add_material(self, domain):
+		# Teacher variable is for validation and used to fill class id and level id
 		teacher = teacher_service.find_teacher_by_user_id(domain)['payload']
 		if 'topic_id' not in domain:
 			topic = MaterialTopic({'user_id': teacher['user_id']})

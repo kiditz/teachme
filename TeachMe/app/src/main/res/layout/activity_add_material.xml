@@ -47,7 +47,7 @@
     </android.support.design.widget.TextInputLayout>
     <Button
             android:layout_marginTop="20dp"
-            android:id="@+id/sendButton"
+            android:id="@+id/doneButton"
             android:enabled="false"
             android:text="@string/done"
             android:textColor="@android:color/white"

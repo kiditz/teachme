@@ -29,13 +29,14 @@ public class NetworkUtils {
                     }
                     String errorMessage = translations.get(errorBody.getString("error_description"));
                     Snackbar.make(activity.findViewById(android.R.id.content), errorMessage, Snackbar.LENGTH_LONG).show();
-                    return;
+                }else{
+                    Snackbar.make(activity.findViewById(android.R.id.content), "Terjadi kesalahan pada sistem", Snackbar.LENGTH_LONG).show();
                 }
             } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
                 Snackbar.make(activity.findViewById(android.R.id.content), translations.get(GlobalConstant.CONNECTION_ERROR), Snackbar.LENGTH_LONG).show();
-                return;
+            }else{
+                Snackbar.make(activity.findViewById(android.R.id.content), "Terjadi kesalahan pada sistem", Snackbar.LENGTH_LONG).show();
             }
-            Snackbar.make(activity.findViewById(android.R.id.content), "Terjadi kesalahan pada sistem", Snackbar.LENGTH_LONG).show();
         } catch (IOException e) {
             Snackbar.make(activity.findViewById(android.R.id.content), "Terjadi kesalahan pada sistem", Snackbar.LENGTH_LONG).show();
         }

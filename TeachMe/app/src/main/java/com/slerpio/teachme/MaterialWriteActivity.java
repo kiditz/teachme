@@ -28,6 +28,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import org.apache.commons.lang3.StringUtils;
 import retrofit2.Retrofit;
 
 import javax.inject.Inject;
@@ -163,14 +164,17 @@ public class MaterialWriteActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_check){
-            doUploadMaterial();
-            return true;
+            return doUploadMaterial();
         }
         return BackPressed.home(item, this);
     }
 
-    private void doUploadMaterial() {
+    private boolean doUploadMaterial() {
         RequestBody directory = MultipartUtils.createValue("material_type_write");
+        if(StringUtils.isBlank(editor.getHtml())){
+            Snackbar.make(findViewById(android.R.id.content), getString(R.string.required_value_material), Snackbar.LENGTH_LONG).show();
+            return false;
+        }
         MultipartBody.Part part = MultipartUtils.createFileHtml("file", editor.getHtml());
         progressBar.setVisibility(View.VISIBLE);
         disposable.add(documentService.addDocument(directory, part).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response ->{
@@ -178,6 +182,10 @@ public class MaterialWriteActivity extends AppCompatActivity{
             if(TeachmeApi.ok(response)){
                 Domain payload = TeachmeApi.payload(response);
                 documentRepository.add(payload);
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "write");
+                bundle.putString("document", payload.toString());
+                IntentUtils.moveTo(MaterialWriteActivity.this, AddMaterialActivity.class, bundle);
             }else{
                 Snackbar.make(findViewById(android.R.id.content), TeachmeApi.getError(response), Snackbar.LENGTH_LONG).show();
             }
@@ -185,6 +193,7 @@ public class MaterialWriteActivity extends AppCompatActivity{
             progressBar.setVisibility(View.GONE);
             NetworkUtils.errorHandle(userRepository, translation, MaterialWriteActivity.this, error);
         }));
+        return false;
     }
 
     private void doUploadImage(Intent data) throws IOException {
@@ -224,5 +233,9 @@ public class MaterialWriteActivity extends AppCompatActivity{
         });
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposable.clear();
+    }
 }

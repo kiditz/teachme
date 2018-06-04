@@ -1,8 +1,8 @@
-from slerp.exception import ValidationException
 from slerp.logger import logging
 from slerp.validator import Number, Blank, Key
-from constant.api_constant import USER_NOT_FOUND
-from entity.models import School, Address, UserPrincipal
+
+from api.user_principal_api import user_principal_service
+from entity.models import School, Address
 
 log = logging.getLogger(__name__)
 
@@ -14,7 +14,7 @@ class SchoolService(object):
 	@Blank(['name', 'description', 'url', 'address'])
 	@Number(['user_id', 'document_id'])
 	def add_school(self, domain):
-		self.validate_add_school(domain)
+		user_principal_service.find_user_principal_by_id(domain)
 		domain['name'] = domain['name'].upper()
 		address = Address({'address': domain['address']})
 		address.save()
@@ -30,19 +30,13 @@ class SchoolService(object):
 	def get_school_by_name(self, domain):
 		page = int(domain['page'])
 		size = int(domain['size'])
-		
 		name = domain['name']
+		
 		school_q = School.query.filter(School.name.ilike('%' + name + '%')).order_by(School.name.asc()) \
 			.paginate(page, size, error_out=False)
 		school_list = list(map(lambda x: x.to_dict(), school_q.items))
 		return {'payload': school_list, 'total': school_q.total, 'total_pages': school_q.pages}
-	
-	@staticmethod
-	def validate_add_school(domain):
-		user_principal = UserPrincipal.query.get(domain['user_id'])
-		if user_principal is None:
-			raise ValidationException(USER_NOT_FOUND)
-	
+		
 	@Key(['id'])
 	def find_school_by_id(self, domain):
 		school = School.query.filter_by(id=domain['id']).first()

@@ -14,7 +14,7 @@ material_topic_service = MaterialTopicService()
 def add_material_topic():
     """
     {
-    "user_id": "Long",
+    "user_id": 1,
     "name": "String"
     }
     """
@@ -26,8 +26,8 @@ def add_material_topic():
 def get_material_topic():
     """
     {
-        "page": "Long",
-        "size": "Long"
+        "page": 1,
+        "size": 10
     }
     """
     domain = request.args.to_dict()
@@ -45,3 +45,17 @@ def get_material_topic_by_level_id():
     """
     domain = request.args.to_dict()
     return material_topic_service.get_material_topic_by_level_id(domain)
+
+
+@api.route('/get_material_topic_by_name', methods=['GET'])
+def get_material_topic_by_name():
+
+    """
+    {
+        "page": 1,
+        "size": 10,
+        "name": "Matematika"
+    }
+    """
+    domain = request.args.to_dict()
+    return material_topic_service.get_material_topic_by_name(domain)
