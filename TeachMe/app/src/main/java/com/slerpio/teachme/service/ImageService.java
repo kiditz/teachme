@@ -48,10 +48,10 @@ public class ImageService {
             }
         });
     }
-    public void loadMaterialImage(ImageView img, String username){
+    public void loadMaterialImage(ImageView img, Long id){
         String url = context.getString(R.string.teach_me_url);
         String accessToken = preferences.getString("token", "");
-        String resourceUrl = url+ "teachme/get_user_image?access_token="+accessToken+"&username="+ username;
+        String resourceUrl = url+ "teachme/get_user_image?access_token="+accessToken+"&id="+ id;
         Log.d(TAG, resourceUrl);
         Glide.with(context).load(resourceUrl).transform(new CircleTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(new SimpleTarget<GlideDrawable>() {
             @Override

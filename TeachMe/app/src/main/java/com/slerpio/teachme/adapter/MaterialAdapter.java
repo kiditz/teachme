@@ -40,7 +40,11 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.Materi
     public void onBindViewHolder(MaterialViewHolder holder, int position) {
         Domain material = materialList.get(position);
         holder.title.setText(material.getString("title"));
-        imageService.loadThumbnails(holder.image, material.getLong("document_id"));
+        if(material.getString("type").equals("write")){
+            imageService.loadMaterialImage(holder.image, material.getLong("id"));
+        }else{
+            imageService.loadThumbnails(holder.image, material.getLong("document_id"));
+        }
     }
 
     @Override
