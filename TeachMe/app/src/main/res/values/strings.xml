@@ -85,6 +85,7 @@
     <string name="school_level_and_class">Tingkatan &amp; Kelas</string>
     <string name="setting">Pengaturan</string>
     <string name="send">Kirim</string>
+    <string name="system_error">Terjadi kesalahan pada system</string>
     <!--T-->
     <string name="task">Tugas</string>
     <string name="task_report">Laporan Nilai</string>

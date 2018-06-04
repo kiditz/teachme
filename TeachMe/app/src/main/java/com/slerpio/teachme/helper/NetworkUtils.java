@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import com.slerpio.teachme.LoginActivity;
+import com.slerpio.teachme.R;
 import com.slerpio.teachme.model.Domain;
 import com.slerpio.teachme.realm.service.UserRepository;
 import retrofit2.HttpException;
@@ -30,15 +31,15 @@ public class NetworkUtils {
                     String errorMessage = translations.get(errorBody.getString("error_description"));
                     Snackbar.make(activity.findViewById(android.R.id.content), errorMessage, Snackbar.LENGTH_LONG).show();
                 }else{
-                    Snackbar.make(activity.findViewById(android.R.id.content), "Terjadi kesalahan pada sistem", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(activity.findViewById(android.R.id.content), activity.getString(R.string.system_error), Snackbar.LENGTH_LONG).show();
                 }
             } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
                 Snackbar.make(activity.findViewById(android.R.id.content), translations.get(GlobalConstant.CONNECTION_ERROR), Snackbar.LENGTH_LONG).show();
             }else{
-                Snackbar.make(activity.findViewById(android.R.id.content), "Terjadi kesalahan pada sistem", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(activity.findViewById(android.R.id.content), activity.getString(R.string.system_error), Snackbar.LENGTH_LONG).show();
             }
         } catch (IOException e) {
-            Snackbar.make(activity.findViewById(android.R.id.content), "Terjadi kesalahan pada sistem", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(activity.findViewById(android.R.id.content), activity.getString(R.string.system_error), Snackbar.LENGTH_LONG).show();
         }
     }
 }
