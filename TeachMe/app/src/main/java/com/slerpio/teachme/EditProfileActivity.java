@@ -215,7 +215,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }else{
             genderRadioGroup.check(R.id.woman);
         }
-        imageService.loadImage(profileImage, user.getUsername());
+        imageService.loadUserImage(profileImage, user.getUsername());
 
     }
 

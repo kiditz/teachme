@@ -56,8 +56,8 @@ def find_user_principal_by_username():
     return user_principal_service.find_user_principal_by_username(domain)
 
 
-@api.route('/get_image', methods=['GET'])
-def get_image():
+@api.route('/get_user_image', methods=['GET'])
+def get_user_image():
 
     """
     {
@@ -65,7 +65,7 @@ def get_image():
     }
     """
     domain = request.args.to_dict()
-    return user_principal_service.get_image(domain)    
+    return user_principal_service.get_user_image(domain)
 
 
 @api.route('/edit_user_principal_by_username', methods=['PUT'])

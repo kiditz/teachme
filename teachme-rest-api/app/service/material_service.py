@@ -1,8 +1,15 @@
-from slerp.logger import logging
-from slerp.string_utils import is_blank
-from slerp.validator import Number, Blank, Key, ValidationException
+import io
+import os
 
+import requests
+from flask import send_file
+from slerp.app import app
+from slerp.logger import logging
+from slerp.string_utils import is_blank, random_colors, get_name_abbreviations
+from slerp.validator import Number, Blank, Key, ValidationException
+from werkzeug.utils import secure_filename
 from api.teacher_api import teacher_service
+from constant.api_constant import MATERIAL_NOT_FOUND, CONNECTION_ERROR
 from entity.models import Material, MaterialTopic
 
 log = logging.getLogger(__name__)
@@ -55,3 +62,33 @@ class MaterialService(object):
 			.paginate(page, size, error_out=False)
 		material_list = list(map(lambda x: x.to_dict(), material_q.items))
 		return {'payload': material_list, 'total': material_q.total, 'total_pages': material_q.pages}
+	
+	@Key(['id'])
+	def get_material_image(self, domain):
+		material = Material.query.get(domain['id'])
+		if material is None:
+			raise ValidationException(MATERIAL_NOT_FOUND)
+		title = secure_filename(material.title + '.png')
+		base_dir = app.config['UPLOAD_FOLDER']
+		path = os.path.join(base_dir, 'material_image', title)
+		log.info('Saved in >>> %s', path)
+		# Checking directory must be exists if not just make dirs
+		if not os.path.exists(os.path.dirname(path)):
+			os.makedirs(os.path.dirname(path))
+		# Checking if the image has been saved from place hold
+		# if yes read from path if not call image from network then save it into profile folder
+		if not os.path.exists(path):
+			image = requests.get('https://place-hold.it/80x80/' + random_colors(
+				use_hastag=False) + '/fff.png&text=' + get_name_abbreviations(
+				name=title) + '&bold&fontsize=24', stream=True)
+			if image.status_code == 200:
+				with open(path, 'wb') as f:
+					for chunk in image:
+						f.write(chunk)
+				with open(path, 'rb') as f:
+					return send_file(io.BytesIO(f.read()), attachment_filename=title, mimetype='image/png')
+			else:
+				raise ValidationException(CONNECTION_ERROR)
+		else:
+			with open(path, 'rb') as f:
+				return send_file(io.BytesIO(f.read()), attachment_filename=title, mimetype='image/png')

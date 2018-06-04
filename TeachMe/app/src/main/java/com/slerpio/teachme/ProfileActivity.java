@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
         adapter = new ActivityAdapter(this, activities);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
-        imageService.loadImage(profileImage, user.getUsername());
+        imageService.loadUserImage(profileImage, user.getUsername());
         for (int i = 0; i < 10; i++) {
             Domain activity = new Domain();
             activity.put("title", "Test" + i);

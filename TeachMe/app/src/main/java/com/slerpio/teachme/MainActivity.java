@@ -3,7 +3,6 @@ package com.slerpio.teachme;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -170,7 +169,7 @@ public class MainActivity extends AppCompatActivity
                 initViewPager();
                 NetworkUtils.errorHandle(userRepository, translations, this, error);
             }));
-            imageService.loadImage(profileImage, user.getUsername());
+            imageService.loadUserImage(profileImage, user.getUsername());
         } else {
             moveToLogin();
         }

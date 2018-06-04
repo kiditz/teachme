@@ -50,3 +50,14 @@ def get_material_by_topic_id():
 	"""
 	domain = request.args.to_dict()
 	return material_service.get_material_by_topic_id(domain)
+
+
+@api.route('/get_material_image', methods=['GET'])
+def get_material_image():
+	"""
+    {
+        "id": 15
+    }
+    """
+	domain = request.args.to_dict()
+	return material_service.get_material_image(domain)

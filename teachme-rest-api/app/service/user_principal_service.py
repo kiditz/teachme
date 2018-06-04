@@ -70,7 +70,7 @@ class UserPrincipalService(object):
 		return {'payload': user_principal.to_dict()}
 	
 	@Key(['username'])
-	def get_image(self, domain):
+	def get_user_image(self, domain):
 		profile = UserPrincipal.query.filter_by(username=domain['username']).first()
 		if profile is None:
 			raise ValidationException(USER_NOT_FOUND)

@@ -35,10 +35,10 @@ public class ImageService {
         this.preferences = preferences;
     }
 
-    public void loadImage(ImageView img, String username){
+    public void loadUserImage(ImageView img, String username){
         String url = context.getString(R.string.teach_me_url);
         String accessToken = preferences.getString("token", "");
-        String resourceUrl = url+ "teachme/get_image?access_token="+accessToken+"&username="+ username;
+        String resourceUrl = url+ "teachme/get_user_image?access_token="+accessToken+"&username="+ username;
         Log.d(TAG, resourceUrl);
         Glide.with(context).load(resourceUrl).transform(new CircleTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(new SimpleTarget<GlideDrawable>() {
             @Override
@@ -48,7 +48,19 @@ public class ImageService {
             }
         });
     }
-
+    public void loadMaterialImage(ImageView img, String username){
+        String url = context.getString(R.string.teach_me_url);
+        String accessToken = preferences.getString("token", "");
+        String resourceUrl = url+ "teachme/get_user_image?access_token="+accessToken+"&username="+ username;
+        Log.d(TAG, resourceUrl);
+        Glide.with(context).load(resourceUrl).transform(new CircleTransform(context)).diskCacheStrategy(DiskCacheStrategy.ALL).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                img.setImageDrawable(resource);
+                img.setDrawingCacheEnabled(true);
+            }
+        });
+    }
     public void loadDocument(ImageView img, Long documentId){
         String url = context.getString(R.string.teach_me_url);
         String accessToken = preferences.getString("token", "");

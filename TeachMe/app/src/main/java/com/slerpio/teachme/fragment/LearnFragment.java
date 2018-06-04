@@ -105,10 +105,10 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         input.put("size", pagination.getTotalItemCount());
         try {
             input.put("level_id", userRepository.findUser().getLevel_id());
+            return materialService.getMaterialTopicByLevel(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
         }catch (Exception ignore){
-
+            return Single.just(new Domain().put("payload", new ArrayList<>()).put("total", 0).put("total_pages", 0));
         }
-        return materialService.getMaterialTopicByLevel(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
     }
 
     @Override
