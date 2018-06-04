@@ -85,3 +85,14 @@ def find_document_by_id():
 	"""
 	domain = request.args.to_dict()
 	return document_service.find_document_by_id(domain)
+
+
+@api.route('/delete_document_by_id', methods=['DELETE'])
+def delete_document_by_id():
+	"""
+	{
+		"id": 4
+	}
+	"""
+	domain = request.args.to_dict()
+	return document_service.delete_document_by_id(domain)

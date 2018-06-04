@@ -15,7 +15,10 @@ class DocumentService(object):
 	
 	@Blank(['filename', 'mimetype', 'folder', 'original_filename'])
 	def add_document(self, domain):
-		domain['secure'] = True if 'secure' in domain and domain['secure'] == 'Y' else False
+		if 'secure' in domain and domain['secure'] == 'N':
+			domain['secure'] = False
+		else:
+			domain['secure'] = True
 		document = Document(domain)
 		document.save()
 		return {'payload': document.to_dict()}
@@ -31,3 +34,10 @@ class DocumentService(object):
 	def find_document_by_id(self, domain):
 		document = Document.query.filter_by(id=domain['id']).first()
 		return {'payload': document.to_dict()}
+
+	@Number(['id'])
+	def delete_document_by_id(self, domain):
+		document = Document.query.filter_by(id=domain['id']).first()
+		os.remove(os.path.join(document.folder, document.filename))
+		document.delete()
+		return {'payload': {'success': True}}

@@ -1,5 +1,5 @@
 from slerp.logger import logging
-from slerp.validator import Number, Blank
+from slerp.validator import Number, Blank, Key
 
 from entity.models import MaterialTopic
 
@@ -35,7 +35,7 @@ class MaterialTopicService(object):
 		material_topic_list = list(map(lambda x: x.to_dict(), material_topic_q.items))
 		return {'payload': material_topic_list, 'total': material_topic_q.total, 'total_pages': material_topic_q.pages}
 	
-	@Blank(['name'])
+	@Key(['name'])
 	@Number(['page', 'size'])
 	def get_material_topic_by_name(self, domain):
 		page = int(domain['page'])
