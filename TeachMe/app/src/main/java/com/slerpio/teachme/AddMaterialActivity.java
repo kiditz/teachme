@@ -18,6 +18,7 @@ import com.slerpio.teachme.helper.*;
 import com.slerpio.teachme.model.Domain;
 import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
+import com.slerpio.teachme.service.DocumentService;
 import com.slerpio.teachme.service.MaterialService;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -52,6 +53,7 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
     @Inject
     Translations translations;
     private MaterialService materialService;
+    private DocumentService documentService;
     private ArrayAdapter<String> adapter;
     @NonNull
     private CompositeDisposable disposable = new CompositeDisposable();
@@ -73,6 +75,7 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
         this.topic.setThreshold(1);
         this.topic.setAdapter(adapter);
         this.materialService = retrofit.create(MaterialService.class);
+        this.documentService = retrofit.create(DocumentService.class);
         this.topic.setOnKeyListener((v, keyCode, event) -> {
             if(event.getAction() == KeyEvent.ACTION_UP){
                 fillTopic();
@@ -174,6 +177,14 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
 
 
     @Override
+    public void onBackPressed() {
+        disposable.add(documentService.deleteDocument(documentId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response ->{
+            Log.d(TAG, "onBackPressed: "+ response.toString());
+        }, error -> NetworkUtils.errorHandle(userRepository, translations, this, error)));
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         disposable.clear();
@@ -181,6 +192,7 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         return BackPressed.home(item, this);
     }
 }

@@ -55,7 +55,7 @@ public class MaterialWriteActivity extends AppCompatActivity{
     @Inject
     DocumentRepository documentRepository;
     private DocumentService documentService;
-
+    private long documentId = -1;
     @NonNull
     private CompositeDisposable disposable = new CompositeDisposable();
     @Override
@@ -198,7 +198,7 @@ public class MaterialWriteActivity extends AppCompatActivity{
 
     private void doUploadImage(Intent data) throws IOException {
         MultipartBody.Part part = MultipartUtils.createFile("file", data, this);
-        disposable.add(documentService.addDocument(MultipartUtils.createValue("material_image"), part, MultipartUtils.createValue("N")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
+        disposable.add(documentService.addDocument(MultipartUtils.createValue("material_type_write"), part, MultipartUtils.createValue("N")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
             if(TeachmeApi.ok(response)){
                 Domain payload = TeachmeApi.payload(response);
                 String imageUrl = getString(R.string.teach_me_url) + "teachme/get_free_document?id=" + payload.getLong("id");
