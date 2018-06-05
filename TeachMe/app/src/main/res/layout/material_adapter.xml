@@ -13,8 +13,8 @@
             android:src="@color/colorAccent"
             android:scaleType="fitXY"
             android:layout_marginBottom="@dimen/four_dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
     <TextView
             android:maxWidth="70dp"
             android:maxLines="3"
@@ -22,8 +22,9 @@
             android:layout_below="@id/materialImage"
             android:textStyle="bold"
             android:text="@string/three_dot"
-            android:maxLength="60"
+            android:maxLength="30"
             android:textSize="12sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:textAlignment="viewStart"/>
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"/>
 </LinearLayout>

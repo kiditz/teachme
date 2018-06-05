@@ -16,16 +16,12 @@ public class IntentUtils {
     public static void moveTo(Context src, Class<? extends Activity> destination, Bundle bundle){
         Intent i = new Intent(src, destination);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if(bundle != null)
             i.putExtras(bundle);
         src.startActivity(i);
     }
     public static void moveTo(Context src, Intent intent){
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         src.startActivity(intent);
     }
 
