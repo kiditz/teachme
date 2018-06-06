@@ -34,22 +34,23 @@ public class MaterialDetailActivity extends AppCompatActivity {
     SharedPreferences preferences;
 
     Domain material = new Domain();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_detail);
         ButterKnife.bind(this);
-        ((App)getApplication()).getNetOauthComponent().inject(this);
+        ((App) getApplication()).getNetOauthComponent().inject(this);
         Bundle bundle = getIntent().getExtras();
 
-        if(bundle == null){
+        if (bundle == null) {
             IntentUtils.moveTo(this, MainActivity.class);
             finish();
             return;
         }
 
         this.material = new Domain(bundle.getString("material"));
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle(material.getString("title"));
@@ -57,7 +58,7 @@ public class MaterialDetailActivity extends AppCompatActivity {
         this.clock.setText(format.format(new Date(material.getLong("created_at"))));
         this.materialDescription.setText(material.getString("description"));
         this.fullName.setText(material.getDomain("user").getString("fullname"));
-        String url = getString(R.string.teach_me_url) + "teachme/get_document?id=" +material.getLong("document_id");
+        String url = getString(R.string.teach_me_url) + "teachme/get_document?id=" + material.getLong("document_id");
         Map<String, String> header = new HashMap<>();
         header.put("Authorization", "Bearer " + preferences.getString("token", ""));
         webView.loadUrl(url, header);
