@@ -19,6 +19,7 @@ import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_WRITE;
 import static com.slerpio.teachme.helper.GlobalConstant.MATERIAL_TYPE_VIDEO;
 
 import com.slerpio.teachme.helper.IntentUtils;
+import com.slerpio.teachme.helper.picker.EasyImage;
 import com.slerpio.teachme.model.Domain;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class MaterialTypeAdapter extends RecyclerView.Adapter<MaterialTypeAdapte
             }else if(type.getString("type").equals(MATERIAL_TYPE_VIDEO)){
                 //TODO Handle type video
             }else if(type.getString("type").equals(MATERIAL_TYPE_PDF)){
-                //TODO Handle type pdf
+                EasyImage.openPDFDocuments(context, 1);
             }
         });
 

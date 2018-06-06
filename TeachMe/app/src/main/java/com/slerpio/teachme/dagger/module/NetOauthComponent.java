@@ -23,4 +23,5 @@ public interface NetOauthComponent {
     void inject(MaterialTypeWriteActivity activity);
     void inject(AddMaterialActivity activity);
     void inject(MaterialDetailActivity activity);
+    void inject(MaterialTypeActivity activity);
 }

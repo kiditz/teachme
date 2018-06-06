@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.slerpio.teachme.MaterialDetailActivity;
 import com.slerpio.teachme.R;
+import com.slerpio.teachme.helper.GlobalConstant;
 import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.model.Domain;
 import com.slerpio.teachme.service.ImageService;
@@ -43,11 +44,12 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.Materi
     public void onBindViewHolder(MaterialViewHolder holder, int position) {
         Domain material = materialList.get(position);
         holder.title.setText(material.getString("title"));
-        if(material.getString("type").equals("write")){
+        if(material.getString("type").equals(GlobalConstant.MATERIAL_TYPE_WRITE)){
             imageService.loadMaterialImage(holder.image, material.getLong("id"));
         }else{
             imageService.loadThumbnails(holder.image, material.getLong("document_id"));
         }
+
     }
 
     @Override
@@ -63,10 +65,16 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.Materi
         public MaterialViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
             itemView.setOnClickListener(v -> {
+                Domain material = materialList.get(getAdapterPosition());
                 Bundle bundle = new Bundle();
-                bundle.putString("material", materialList.get(getAdapterPosition()).toString());
-                IntentUtils.moveTo(context, MaterialDetailActivity.class, bundle);
+                bundle.putString("material", material.toString());
+                if(material.getString("type").equals(GlobalConstant.MATERIAL_TYPE_WRITE)) {
+                    IntentUtils.moveTo(context, MaterialDetailActivity.class, bundle);
+                }else if (material.getString("type").equals(GlobalConstant.MATERIAL_TYPE_PDF)){
+                    //TODO: Render PdfRenderer 
+                }
             });
         }
     }

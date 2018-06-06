@@ -5,8 +5,9 @@ from slerp.app import app
 from slerp.exception import ValidationException, CoreException
 from service.document_service import DocumentService
 from werkzeug.utils import secure_filename
-from constant.api_constant import allowed_image, UPLOAD_FAIL
+from constant.api_constant import allowed_file, UPLOAD_FAIL
 from utils.thumbsnail import video_thumbnails
+from utils.pdfutils import save_pdf_image
 from datetime import datetime
 
 log = logging.getLogger(__name__)
@@ -35,9 +36,9 @@ def add_document():
 	if not os.path.exists(directory):
 		os.makedirs(directory)
 	
-	if file and allowed_image(file.filename):
+	if file and allowed_file(file.filename):
 		# setting file upload
-		mimetype = file.content_type
+		mimetype = str(file.content_type)
 		file_time = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
 		original_filename = secure_filename(file.filename)
 		filename = file_time + '_' + original_filename
@@ -48,10 +49,16 @@ def add_document():
 			domain['secure'] = data['secure']
 		final_file_path = os.path.join(directory, filename)
 		file.save(final_file_path)
+		# video/mp4
 		if mimetype.startswith('video'):
 			domain['thumbnails'] = video_thumbnails(final_file_path)
-		return document_service.add_document(domain)
-	raise CoreException(UPLOAD_FAIL)
+			return document_service.add_document(domain)
+		# application/pdf
+		elif mimetype.endswith('pdf'):
+			domain['thumbnails'] = save_pdf_image(final_file_path, directory)
+			return document_service.add_document(domain)
+		log.info('domain: %s', domain)
+		raise CoreException(UPLOAD_FAIL)
 
 
 @api.route('/get_document', methods=['GET'])

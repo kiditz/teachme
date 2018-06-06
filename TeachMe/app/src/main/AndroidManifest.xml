@@ -66,7 +66,8 @@
         </activity>
         <activity
                 android:name=".MaterialTypeActivity"
-                android:label="@string/title_choose_type">
+                android:label="@string/title_choose_type"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".MaterialTypeWriteActivity"

@@ -183,7 +183,7 @@ public class MaterialTypeWriteActivity extends AppCompatActivity{
                 Domain payload = TeachmeApi.payload(response);
                 documentRepository.add(payload);
                 Bundle bundle = new Bundle();
-                bundle.putString("type", "write");
+                bundle.putString("type", GlobalConstant.MATERIAL_TYPE_WRITE);
                 bundle.putString("document", payload.toString());
                 IntentUtils.moveTo(MaterialTypeWriteActivity.this, AddMaterialActivity.class, bundle);
             }else{
