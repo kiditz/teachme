@@ -58,7 +58,7 @@ class MaterialService(object):
 	def get_material_by_topic_id(self, domain):
 		page = int(domain['page'])
 		size = int(domain['size'])
-		material_q = Material.query.filter_by(topic_id=domain['topic_id']).order_by(Material.id.desc()) \
+		material_q = Material.query.filter_by(topic_id=domain['topic_id']).order_by(Material.title.asc()) \
 			.paginate(page, size, error_out=False)
 		material_list = list(map(lambda x: x.to_dict(), material_q.items))
 		return {'payload': material_list, 'total': material_q.total, 'total_pages': material_q.pages}
@@ -78,9 +78,9 @@ class MaterialService(object):
 		# Checking if the image has been saved from place hold
 		# if yes read from path if not call image from network then save it into profile folder
 		if not os.path.exists(path):
-			image = requests.get('https://place-hold.it/80x80/' + random_colors(
+			image = requests.get('https://place-hold.it/256x256/' + random_colors(
 				use_hastag=False) + '/fff.png&text=' + get_name_abbreviations(
-				name=title) + '&bold&fontsize=24', stream=True)
+				name=title) + '&bold&fontsize=32', stream=True)
 			if image.status_code == 200:
 				with open(path, 'wb') as f:
 					for chunk in image:
