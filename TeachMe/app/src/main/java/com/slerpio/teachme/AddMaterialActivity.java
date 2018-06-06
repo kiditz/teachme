@@ -68,7 +68,8 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
         ((App)getApplication()).getNetOauthComponent().inject(this);
         Bundle bundle = getIntent().getExtras();
         this.type = bundle.getString("type");
-        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         Domain document = new Domain(bundle.getString("document"));
         this.documentId = document.getLong("id");
         this.adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
@@ -119,7 +120,7 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
             input.put("topic_id", topicId);
         }
         input.put("title", title.getText().toString());
-        input.put("description", title.getText().toString());
+        input.put("description", description.getText().toString());
         User user = userRepository.findUser();
         if(user != null){
             input.put("user_id", user.getUser_id());

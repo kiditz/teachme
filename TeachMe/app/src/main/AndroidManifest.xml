@@ -92,6 +92,10 @@
                 android:name=".AddMaterialActivity"
                 android:label="@string/title_add_material">
         </activity>
+        <activity
+                android:name=".MaterialDetailActivity"
+                android:label="@string/title_add_material">
+        </activity>
     </application>
 
 </manifest>

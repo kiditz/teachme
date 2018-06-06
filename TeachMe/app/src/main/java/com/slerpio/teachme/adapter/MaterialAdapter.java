@@ -1,6 +1,7 @@
 package com.slerpio.teachme.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.slerpio.teachme.MaterialDetailActivity;
 import com.slerpio.teachme.R;
+import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.model.Domain;
 import com.slerpio.teachme.service.ImageService;
 
@@ -60,6 +63,11 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.Materi
         public MaterialViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(v -> {
+                Bundle bundle = new Bundle();
+                bundle.putString("material", materialList.get(getAdapterPosition()).toString());
+                IntentUtils.moveTo(context, MaterialDetailActivity.class, bundle);
+            });
         }
     }
 }

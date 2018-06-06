@@ -2,6 +2,7 @@ package com.slerpio.teachme.fragment;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.slerpio.teachme.App;
 import com.slerpio.teachme.MaterialTypeActivity;
 import com.slerpio.teachme.R;
@@ -42,7 +44,8 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
 
     @BindView(R.id.recycler)
     protected RecyclerView recycler;
-
+    @BindView(R.id.createMaterial)
+    protected FloatingActionButton createMaterial;
     @Inject
     protected Retrofit retrofit;
     @Inject
@@ -65,7 +68,6 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         ((App)getActivity().getApplication()).getNetOauthComponent().inject(this);
         this.disposable  = new CompositeDisposable();
         this.adapter = new LearnAdapter(getContext(), topics);
@@ -88,7 +90,8 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         pagination.setPageHandler(this);
 
         recycler.addOnScrollListener(pagination);
-
+        RxView.clicks(createMaterial).subscribe(view -> IntentUtils.moveTo(getActivity(), MaterialTypeActivity.class));
+        RxView.longClicks(createMaterial).subscribe(view -> Snackbar.make(v, R.string.title_add_material, Snackbar.LENGTH_LONG).show());
         return v;
     }
 
@@ -137,18 +140,4 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         disposable.add(getData(page).subscribe(pagination::showResponse, error -> NetworkUtils.errorHandle(userRepository, translations, getActivity(), error)));
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.learn_fragment_menu, menu);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_create_material){
-            IntentUtils.moveTo(getActivity(), MaterialTypeActivity.class);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
