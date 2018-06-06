@@ -37,9 +37,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
-public class MaterialWriteActivity extends AppCompatActivity{
+public class MaterialTypeWriteActivity extends AppCompatActivity{
     private static final int RESULT_CODE_IMAGE = 1;
-    private static final String TAG = MaterialWriteActivity.class.getName();
+    private static final String TAG = MaterialTypeWriteActivity.class.getName();
     @BindView(R.id.editor)
     RichEditor editor;
     @BindView(R.id.toolbar)
@@ -185,13 +185,13 @@ public class MaterialWriteActivity extends AppCompatActivity{
                 Bundle bundle = new Bundle();
                 bundle.putString("type", "write");
                 bundle.putString("document", payload.toString());
-                IntentUtils.moveTo(MaterialWriteActivity.this, AddMaterialActivity.class, bundle);
+                IntentUtils.moveTo(MaterialTypeWriteActivity.this, AddMaterialActivity.class, bundle);
             }else{
                 Snackbar.make(findViewById(android.R.id.content), TeachmeApi.getError(response), Snackbar.LENGTH_LONG).show();
             }
         }, error -> {
             progressBar.setVisibility(View.GONE);
-            NetworkUtils.errorHandle(userRepository, translation, MaterialWriteActivity.this, error);
+            NetworkUtils.errorHandle(userRepository, translation, MaterialTypeWriteActivity.this, error);
         }));
         return false;
     }

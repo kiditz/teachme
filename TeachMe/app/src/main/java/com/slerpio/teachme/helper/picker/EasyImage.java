@@ -1,11 +1,7 @@
 package com.slerpio.teachme.helper.picker;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -18,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import com.slerpio.teachme.helper.MimeUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,7 +65,13 @@ public class EasyImage implements Constants {
         intent.setType("image/*");
         return intent;
     }
-
+    private static Intent createPDFDocumentsIntent(@NonNull Context context, int type) {
+        storeType(context, type);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType(MimeUtils.guessMimeTypeFromExtension("pdf"));
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        return intent;
+    }
 
     private static Intent createGalleryIntent(@NonNull Context context, int type) {
         storeType(context, type);
@@ -217,6 +220,11 @@ public class EasyImage implements Constants {
     public static void openDocuments(android.app.Fragment fragment, int type) {
         Intent intent = createDocumentsIntent(fragment.getActivity(), type);
         fragment.startActivityForResult(intent, RequestCodes.PICK_PICTURE_FROM_DOCUMENTS);
+    }
+
+    public static void openPDFDocuments(Activity activity, int type) {
+        Intent intent = createPDFDocumentsIntent(activity, type);
+        activity.startActivityForResult(intent, RequestCodes.PICK_PDF_FROM_DOCUMENTS);
     }
 
     /**
