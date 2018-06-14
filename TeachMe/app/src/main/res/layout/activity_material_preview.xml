@@ -14,7 +14,18 @@
                 android:layout_gravity="fill"
                 android:gravity="fill"
                 android:orientation="vertical">
+            <TextView
+                    android:padding="10dp"
+                    android:background="@android:color/white"
+
+                    android:id="@+id/title"
+                    android:textSize="24sp"
+                    android:text="@string/three_dot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"/>
             <android.support.v7.widget.CardView
+                    android:layout_below="@id/title"
                     android:id="@+id/cardView"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardElevation="1dp"
@@ -43,7 +54,8 @@
                                 android:text="@string/three_dot"
                                 android:layout_marginEnd="@dimen/ten_dp"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" android:textStyle="bold"/>
+                                android:layout_height="wrap_content" android:textStyle="bold"
+                                android:layout_marginRight="@dimen/ten_dp"/>
                         <ImageView
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
@@ -59,72 +71,15 @@
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
             <com.slerpio.view.TouchyWebView
                     android:layout_below="@id/cardView"
                     android:background="@android:color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/documentWeb"/>
-            <LinearLayout
-                    android:id="@+id/horizontalDescription"
-                    android:layout_below="@id/documentWeb"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/ten_dp">
-                <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="70 Komentar"
-                        android:textStyle="bold|italic" android:textSize="16sp"/>
-                <TextView
-                        android:layout_gravity="right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Lihat Deskripsi"
-                        android:textStyle="bold" android:textSize="16sp"
-                        android:id="@+id/viewDescription"/>
-            </LinearLayout>
 
 
         </RelativeLayout>
     </ScrollView>
-    <LinearLayout
-            android:id="@+id/descriptionView"
-            android:orientation="vertical"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:visibility="invisible"
-            android:layout_height="200dp">
-        <TextView
-                android:background="@drawable/gradientbackground"
-                android:padding="@dimen/ten_dp"
-                android:textColor="@android:color/white"
-                android:id="@+id/descriptionButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/description"
-                android:textStyle="bold"
-                android:textSize="14sp"/>
-        <include layout="@layout/line_vert"/>
-        <ScrollView
-                android:background="@android:color/white"
-                android:padding="@dimen/ten_dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/rootLayout">
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                <TextView
-                        android:id="@+id/description"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/three_dot"
-                        android:textSize="12sp"/>
-
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
 </RelativeLayout>

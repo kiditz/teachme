@@ -1,11 +1,9 @@
 package com.slerpio.teachme;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +14,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.slerpio.teachme.helper.*;
 import com.slerpio.teachme.model.Domain;
-import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
-import com.slerpio.teachme.service.DocumentService;
 import com.slerpio.teachme.service.MaterialService;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -32,20 +28,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddMaterialActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private static final String TAG = AddMaterialActivity.class.getName();
-    private String type;
+    //private static final String TAG = AddMaterialActivity.class.getName();
     @BindView(R.id.titleWrapper)
     TextInputLayout titleWrapper;
-    @BindView(R.id.descriptionWrapper)
-    TextInputLayout descriptionWrapper;
+    @BindView(R.id.topicWrapper)
+    TextInputLayout topicWrapper;
     @BindView(R.id.title)
     EditText title;
-    @BindView(R.id.description)
-    EditText description;
     @BindView(R.id.topic)
     AutoCompleteTextView topic;
     @BindView(R.id.doneButton)
-    Button doneButton;
+    Button nextButton;
     @Inject
     Retrofit retrofit;
     @Inject
@@ -53,47 +46,54 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
     @Inject
     Translations translations;
     private MaterialService materialService;
-    private DocumentService documentService;
+
     private ArrayAdapter<String> adapter;
     @NonNull
     private CompositeDisposable disposable = new CompositeDisposable();
     private List<Domain> topicList = new ArrayList<>();
-    private long topicId = -1L;
-    private long documentId = -1L;
+    private Domain topicDomain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_material);
         ButterKnife.bind(this);
         ((App)getApplication()).getNetOauthComponent().inject(this);
-        Bundle bundle = getIntent().getExtras();
-        this.type = bundle.getString("type");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        Domain document = new Domain(bundle.getString("document"));
-        this.documentId = document.getLong("id");
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         this.adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         this.topic.setThreshold(1);
         this.topic.setAdapter(adapter);
         this.materialService = retrofit.create(MaterialService.class);
-        this.documentService = retrofit.create(DocumentService.class);
+        fillTopic("");
         this.topic.setOnKeyListener((v, keyCode, event) -> {
             if(event.getAction() == KeyEvent.ACTION_UP){
-                fillTopic();
+                fillTopic(topic.getText().toString());
             }
             return false;
         });
         this.topic.setOnItemClickListener(this);
         validateInput();
-        RxView.clicks(doneButton).subscribe(view -> doAddMaterial());
+        RxView.clicks(nextButton).subscribe(view -> {
+            if (TextUtils.isEmpty(topic.getText().toString())) {
+                topicWrapper.setError(getString(R.string.required_value_topic));
+                topicWrapper.setErrorEnabled(true);
+                return;
+            }
+            pushTopic();
+            Bundle bundle = new Bundle();
+            bundle.putString("topic", topicDomain.toString());
+            bundle.putString("title", title.getText().toString());
+            IntentUtils.moveTo(this, MaterialWriteActivity.class, bundle);
+        });
     }
 
-    private void fillTopic() {
-        Log.i(TAG, "fillTopic: " + topic.getText().toString());
+    private void fillTopic(String text) {
         Domain input = new Domain();
         input.put("page", 1);
         input.put("size", 10);
-        input.put("name", topic.getText().toString());
+        input.put("name", text);
         disposable.add(materialService.getMaterialTopicByName(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response->{
             if(TeachmeApi.ok(response)){
                 List<Domain> payloads = TeachmeApi.payloads(response);
@@ -108,62 +108,38 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
         }, error-> NetworkUtils.errorHandle(userRepository, translations, this, error)));
     }
 
-    private void doAddMaterial(){
-        if(TextUtils.isEmpty(topic.getText().toString())){
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.required_value_topic), Snackbar.LENGTH_LONG).show();
-            return;
-        }
-        Domain input = new Domain();
-        if(topicId == -1){
-            input.put("name", topic.getText().toString());
-        }else{
-            input.put("topic_id", topicId);
-        }
-        input.put("title", title.getText().toString());
-        input.put("description", description.getText().toString());
-        User user = userRepository.findUser();
-        if(user != null){
-            input.put("user_id", user.getUser_id());
-        }
-        input.put("price", 0L);
-        input.put("type", type);
-        input.put("document_id", documentId);
-        disposable.add(materialService.addMaterial(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response ->{
-            if(TeachmeApi.ok(response)){
-                Snackbar.make(findViewById(android.R.id.content), String.format(getString(R.string.add_material_success), title.getText().toString()), Snackbar.LENGTH_LONG).setAction(android.R.string.ok, v -> {
-                    IntentUtils.moveTo(AddMaterialActivity.this, MainActivity.class);
-                    finish();
-                }).show();
-            }else{
-                Snackbar.make(findViewById(android.R.id.content), TeachmeApi.getError(response), Snackbar.LENGTH_LONG).show();
-            }
-        }, error -> NetworkUtils.errorHandle(userRepository, translations, this, error)));
-    }
+
 
     private void validateInput() {
         Observable<Boolean> titleObservable =  RxTextView.textChanges(title).map(text -> text.length() == 0).distinctUntilChanged();
-        Observable<Boolean> descriptionObservable =  RxTextView.textChanges(description).map(text -> text.length() == 0).distinctUntilChanged();
-        titleObservable.subscribe(isValid -> {
+
+        titleObservable.subscribe(isInvalid -> {
             titleWrapper.setError(getString(R.string.required_value_title));
-            titleWrapper.setErrorEnabled(isValid);
+            titleWrapper.setErrorEnabled(isInvalid);
         });
 
-        descriptionObservable.subscribe(isValid -> {
-            descriptionWrapper.setError(getString(R.string.required_value_description));
-            descriptionWrapper.setErrorEnabled(isValid);
+        Observable<Boolean> topicObservable =  RxTextView.textChanges(topic).map(text -> text.length() == 0).distinctUntilChanged();
+
+        topicObservable.subscribe(isInvalid -> {
+            topicWrapper.setError(getString(R.string.required_value_topic));
+            topicWrapper.setErrorEnabled(isInvalid);
         });
 
-        Observable.combineLatest(titleObservable, descriptionObservable, (titleInvalid, descriptionInvalid) -> !titleInvalid && !descriptionInvalid).subscribe(valid -> doneButton.setEnabled(valid));
-
+        Observable.combineLatest(titleObservable, topicObservable, (titleInvalid, topicInvalid) -> !titleInvalid && !topicInvalid).subscribe(valid -> nextButton.setEnabled(valid));
 
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String name = adapter.getItem(position);
-        Domain topic = getTopicByName(name);
-        if(topic != null){
-            this.topicId = topic.getLong("id");
+        this.topicDomain = getTopicByName(name);
+        pushTopic();
+    }
+
+    private void pushTopic(){
+        if(this.topicDomain == null){
+            this.topicDomain = new Domain();
+            this.topicDomain.put("name", topic.getText().toString());
         }
     }
 
@@ -179,9 +155,6 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onBackPressed() {
-        disposable.add(documentService.deleteDocument(documentId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response ->{
-            Log.d(TAG, "onBackPressed: "+ response.toString());
-        }, error -> NetworkUtils.errorHandle(userRepository, translations, this, error)));
         super.onBackPressed();
     }
 

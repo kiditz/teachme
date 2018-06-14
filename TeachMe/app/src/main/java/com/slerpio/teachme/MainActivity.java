@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.slerpio.teachme.fragment.ActivityFragment;
@@ -80,6 +82,13 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PermissionChecker.checkAndRequestPermissions(this);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            if(bundle.containsKey("message")){
+                Snackbar.make(findViewById(android.R.id.content), bundle.getString("message"), Snackbar.LENGTH_LONG).show();
+            }
+        }
         adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager());
         ButterKnife.bind(this);
         ((App) getApplication()).getNetOauthComponent().inject(this);

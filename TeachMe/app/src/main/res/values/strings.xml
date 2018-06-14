@@ -8,6 +8,7 @@
     <string name="action_settings">Settings</string>
     <string name="app_name">TeachMe</string>
     <!--B-->
+    <string name="blockquote">"</string>
     <!--C-->
     <string name="challenge">Tantangan</string>
     <string name="change_profile">Ubah Profile</string>
@@ -26,6 +27,7 @@
     <string name="edit_user_success">Perubahan data sudah berhasil dilakukan.</string>
     <!--F-->
     <string name="failed_while_choosing_file">Gagal saat memilih gambar.</string>
+    <string name="failed_to_open_pdf_file">Tidak dapat menemukan aplikasi pembuka file pdf.</string>
     <string name="fullname">Nama Lengkap</string>
     <!--G-->
     <string name="gender">Jenis Kelamin</string>
@@ -53,13 +55,17 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="notification">Pemberitahuan</string>
     <string name="no_material">Belum ada materi.</string>
+    <string name="next">Selanjutnya</string>
     <!--P-->
     <string name="password">Password</string>
     <string name="phone_number">No Handphone</string>
+    <string name="preview">Tinjau</string>
     <string name="profile">Profile</string>
+
     <!--Q-->
     <string name="question_and_answer">Tanya Jawab</string>
     <!--R-->
+    <string name="read_file_via">Baca Materi Melalui...</string>
     <string name="register">Daftar</string>
     <string name="registration_success">Pendaftaran sudah berhasil dilakukan.</string>
     <string name="report_group">Laporan</string>
@@ -74,7 +80,7 @@
     <string name="required_value_school_name">Nama Sekolah harus di isi.</string>
     <string name="required_value_school_address">Alamat Sekolah harus di isi.</string>
     <string name="required_value_title">Judul harus di isi.</string>
-    <string name="required_value_topic">Topic harus di isi.</string>
+    <string name="required_value_topic">Topik harus di isi.</string>
     <string name="required_value_username">Username harus di isi.</string>
     <string name="retype_password_fail">Password harus sama.</string>
     <string name="retype_password">Ketik ulang password</string>

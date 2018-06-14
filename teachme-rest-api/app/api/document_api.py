@@ -49,16 +49,18 @@ def add_document():
 			domain['secure'] = data['secure']
 		final_file_path = os.path.join(directory, filename)
 		file.save(final_file_path)
+		extension = str(os.path.splitext(filename)[1][1:]).strip().lower()
 		# video/mp4
-		if mimetype.startswith('video'):
+		if extension.endswith('mp4'):
 			domain['thumbnails'] = video_thumbnails(final_file_path)
 			return document_service.add_document(domain)
 		# application/pdf
-		elif mimetype.endswith('pdf'):
+		elif extension.endswith('pdf'):
 			domain['thumbnails'] = save_pdf_image(final_file_path, directory)
 			return document_service.add_document(domain)
-		log.info('domain: %s', domain)
-		raise CoreException(UPLOAD_FAIL)
+		else:
+			return document_service.add_document(domain)
+	raise CoreException(UPLOAD_FAIL)
 
 
 @api.route('/get_document', methods=['GET'])

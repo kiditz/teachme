@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="4dp"
             style="?android:attr/progressBarStyleHorizontal"
-            android:visibility="visible"
+            android:visibility="gone"
             android:indeterminate="true"/>
     <android.support.design.widget.AppBarLayout
             android:id="@+id/appBar"

@@ -97,19 +97,19 @@ public class RichEditor extends WebView {
         init(context, attrs);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     private void init(Context context, AttributeSet attrs){
         setVerticalScrollBarEnabled(false);
         setHorizontalScrollBarEnabled(false);
+
         try {
-            getSettings().setJavaScriptEnabled(true);
-            setWebChromeClient(new WebChromeClient(){
-                @Override
-                public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                    Log.d("WebView", consoleMessage.message());
-                    return super.onConsoleMessage(consoleMessage);
-                    }
-            });
+//            getSettings().setJavaScriptEnabled(true);
+//            setWebChromeClient(new WebChromeClient(){
+//                @Override
+//                public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+//                    Log.d("WebView", consoleMessage.message());
+//                    return super.onConsoleMessage(consoleMessage);
+//                    }
+//            });
             setWebViewClient(createWebviewClient());
             loadUrl(SETUP_HTML);
         }catch (Exception ignore){

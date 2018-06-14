@@ -174,7 +174,7 @@ RE.setJustifyRight = function() {
 }
 
 RE.setBlockquote = function() {
-    document.execCommand('formatBlock', false, '<blockquote>');
+    document.execCommand('formatBlock', false, 'blockquote');
 }
 
 RE.insertImageBase64 = function(mimeType, data) {

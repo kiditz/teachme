@@ -73,7 +73,7 @@ public class MaterialTypeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         adapter = new MaterialTypeAdapter(this, typeList);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recycler.setLayoutManager(gridLayoutManager);
         recycler.setItemAnimator(new DefaultItemAnimator());
         recycler.setAdapter(adapter);
@@ -86,7 +86,7 @@ public class MaterialTypeActivity extends AppCompatActivity {
         // Add new material type
         typeList.add(new Domain().put("name", getString(R.string.material_type_write)).put("resourceId", R.mipmap.material_type_write).put("type", MATERIAL_TYPE_WRITE));
         typeList.add(new Domain().put("name", getString(R.string.material_type_video)).put("resourceId", R.mipmap.material_type_video).put("type", MATERIAL_TYPE_VIDEO));
-        typeList.add(new Domain().put("name", getString(R.string.material_type_pdf)).put("resourceId", R.mipmap.material_type_pdf).put("type", MATERIAL_TYPE_PDF));
+        //typeList.add(new Domain().put("name", getString(R.string.material_type_pdf)).put("resourceId", R.mipmap.material_type_pdf).put("type", MATERIAL_TYPE_PDF));
         adapter.notifyDataSetChanged();
     }
 
@@ -132,7 +132,7 @@ public class MaterialTypeActivity extends AppCompatActivity {
                 if(TeachmeApi.ok(response)){
                     Domain payload = TeachmeApi.payload(response);
                     documentRepository.add(payload);
-                    bundle.putString("type", GlobalConstant.MATERIAL_TYPE_VIDEO);
+                    bundle.putString("type", GlobalConstant.MATERIAL_TYPE_PDF);
                     bundle.putString("document", payload.toString());
                     this.actionCheck.setVisible(true);
                 }else{

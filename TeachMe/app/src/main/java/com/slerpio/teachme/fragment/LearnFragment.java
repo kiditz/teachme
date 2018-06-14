@@ -8,12 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.slerpio.teachme.AddMaterialActivity;
 import com.slerpio.teachme.App;
-import com.slerpio.teachme.MaterialTypeActivity;
 import com.slerpio.teachme.R;
 import com.slerpio.teachme.adapter.LearnAdapter;
 import com.slerpio.teachme.adapter.PaginationOnScrollListener;
@@ -23,6 +25,7 @@ import com.slerpio.teachme.helper.TeachmeApi;
 import com.slerpio.teachme.helper.Translations;
 import com.slerpio.teachme.model.Domain;
 import com.slerpio.teachme.realm.service.UserRepository;
+import com.slerpio.teachme.service.DocumentService;
 import com.slerpio.teachme.service.ImageService;
 import com.slerpio.teachme.service.MaterialService;
 import io.reactivex.Single;
@@ -58,7 +61,7 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
     private MaterialService materialService;
     private List<Domain> topics = new ArrayList<>();
     private LearnAdapter adapter;
-
+    private DocumentService documentService;
     @NonNull
     private CompositeDisposable disposable;
     private PaginationOnScrollListener pagination;
@@ -70,12 +73,14 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         super.onCreate(savedInstanceState);
         ((App)getActivity().getApplication()).getNetOauthComponent().inject(this);
         this.disposable  = new CompositeDisposable();
-        this.adapter = new LearnAdapter(getContext(), topics);
+        this.adapter = new LearnAdapter(getActivity(), topics);
         this.materialService = retrofit.create(MaterialService.class);
+        this.documentService = retrofit.create(DocumentService.class);
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@android.support.annotation.NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_learn, container, false);
         ButterKnife.bind(this, v);
@@ -84,13 +89,14 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         recycler.setNestedScrollingEnabled(false);
         recycler.setItemAnimator(new DefaultItemAnimator());
         adapter.set(userRepository, translations, materialService, disposable, imageService);
+        adapter.setDocumentService(documentService);
         recycler.setAdapter(adapter);
 
         pagination = new PaginationOnScrollListener(manager, adapter, topics);
         pagination.setPageHandler(this);
 
         recycler.addOnScrollListener(pagination);
-        RxView.clicks(createMaterial).subscribe(view -> IntentUtils.moveTo(getActivity(), MaterialTypeActivity.class));
+        RxView.clicks(createMaterial).subscribe(view -> IntentUtils.moveTo(getActivity(), AddMaterialActivity.class));
         RxView.longClicks(createMaterial).subscribe(view -> Snackbar.make(v, R.string.title_add_material, Snackbar.LENGTH_LONG).show());
         return v;
     }

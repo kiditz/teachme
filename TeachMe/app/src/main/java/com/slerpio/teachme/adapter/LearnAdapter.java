@@ -15,6 +15,7 @@ import com.slerpio.teachme.helper.NetworkUtils;
 import com.slerpio.teachme.helper.Translations;
 import com.slerpio.teachme.model.Domain;
 import com.slerpio.teachme.realm.service.UserRepository;
+import com.slerpio.teachme.service.DocumentService;
 import com.slerpio.teachme.service.ImageService;
 import com.slerpio.teachme.service.MaterialService;
 import io.reactivex.Single;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHolder>{
-    private final Context context;
+    private final Activity context;
     private List<Domain> topics;
     RecyclerView.RecycledViewPool viewPool;
     private Translations translations;
@@ -35,7 +36,8 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
     private UserRepository userRepository;
     private ImageService imageService;
     private PaginationOnScrollListener pagination;
-    public LearnAdapter(final Context context, List<Domain> topics) {
+    private DocumentService documentService;
+    public LearnAdapter(final Activity context, List<Domain> topics) {
         this.context = context;
         this.topics = topics;
         this.viewPool = new RecyclerView.RecycledViewPool();
@@ -48,6 +50,10 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
         this.userRepository = repository;
         this.materialService = materialService;
         this.disposable = disposable;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
     @Override
@@ -111,6 +117,8 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
             ButterKnife.bind(this, itemView);
             adapter = new MaterialAdapter(context, materialList);
             adapter.setImageService(imageService);
+            adapter.setDocumentService(documentService);
+            adapter.setDisposable(disposable);
         }
     }
 }

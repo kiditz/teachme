@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        app:cardBackgroundColor="#e6e6e6"
+        app:contentPadding="10dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/ten_dp"
+        android:layout_marginBottom="40dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/ten_dp"
->
-    <AutoCompleteTextView
-            android:id="@+id/topic"
-            android:hint="@string/topic"
+        android:layout_height="wrap_content">
+    <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    <android.support.design.widget.TextInputLayout
-            android:id="@+id/titleWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <EditText
-                android:id="@+id/title"
-                android:hint="@string/title"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/ten_dp"
+    >
+        <android.support.design.widget.TextInputLayout
+                android:id="@+id/topicWrapper"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:inputType="text"
-        />
-
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-            android:id="@+id/webAddressWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-
-            android:id="@+id/descriptionWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <EditText
-                android:id="@+id/description"
-                android:hint="@string/description"
+                android:layout_height="wrap_content">
+        <AutoCompleteTextView
+                android:id="@+id/topic"
+                android:hint="@string/topic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top|left"
-                android:lines="3"
-                android:inputType="textMultiLine"/>
-    </android.support.design.widget.TextInputLayout>
-    <Button
-            android:layout_marginTop="20dp"
-            android:id="@+id/doneButton"
-            android:enabled="false"
-            android:text="@string/done"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/sixteen_sp"
-            android:background="@drawable/btn_primary_selector"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-</LinearLayout>
+                android:layout_height="wrap_content"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+                android:id="@+id/titleWrapper"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/title"
+                    android:hint="@string/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:inputType="text"
+            />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp"
+                android:id="@+id/doneButton"
+                android:enabled="false"
+                android:text="@string/next"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sixteen_sp"
+                android:background="@drawable/btn_primary_selector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" tools:ignore="RtlHardcoded"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

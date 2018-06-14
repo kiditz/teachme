@@ -189,8 +189,7 @@ class MaterialTopic(db.Model, Entity):
 class Material(db.Model, Entity):
 	__tablename__ = 'tm_material'
 	id = db.Column('material_id', db.BigInteger, db.Sequence('tm_material_material_id_seq'), primary_key=True)	
-	title = db.Column(db.String(140), nullable=False)
-	description = db.Column(db.Text, nullable=False)
+	title = db.Column(db.String(140), nullable=False)	
 	type = db.Column(db.String(20), nullable=False, default='video')
 	document_id = db.Column(db.ForeignKey(u'tm_document.document_id'), nullable=False, index=True)
 	price = db.Column(db.Numeric, nullable=False)

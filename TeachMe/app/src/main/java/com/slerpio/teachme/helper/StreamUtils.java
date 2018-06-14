@@ -31,19 +31,15 @@ public class StreamUtils {
 		}
 	}
 
-	public static void copyStream(InputStream input, OutputStream output, int size) {
+	public static void copyStream(InputStream input, OutputStream output, int size) throws IOException {
 		byte[] bytes = new byte[size];
 		int read;
-		try {
-			while (((read = input.read(bytes)) != -1)) {
-				output.write(bytes, 0, read);
-			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		while (((read = input.read(bytes)) != -1)) {
+			output.write(bytes, 0, read);
 		}
 	}
 
-	public static void copyStream(InputStream input, OutputStream output) {
+	public static void copyStream(InputStream input, OutputStream output) throws IOException {
 		copyStream(input, output, DEFAULT_SIZE);
 	}
 
@@ -55,7 +51,7 @@ public class StreamUtils {
 		return copyStreamToBytes(input, input.available());
 	}
 
-	public static byte[] copyStreamToBytes(InputStream input, int length) {
+	public static byte[] copyStreamToBytes(InputStream input, int length) throws IOException {
 		ByteArrayOutputStream output = new ByteArrayOutputStream(Math.max(0, length));
 		copyStream(input, output);
 		return output.toByteArray();

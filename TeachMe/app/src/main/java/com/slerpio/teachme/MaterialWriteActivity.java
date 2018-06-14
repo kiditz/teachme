@@ -1,8 +1,8 @@
 package com.slerpio.teachme;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,15 +39,19 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
-public class MaterialTypeWriteActivity extends AppCompatActivity{
+public class MaterialWriteActivity extends AppCompatActivity{
     private static final int RESULT_CODE_IMAGE = 1;
-    private static final String TAG = MaterialTypeWriteActivity.class.getName();
+    private static final String TAG = MaterialWriteActivity.class.getName();
     @BindView(R.id.editor)
     RichEditor editor;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.topic)
+    TextView topic;
     @Inject
     Retrofit retrofit;
     @Inject
@@ -55,13 +61,15 @@ public class MaterialTypeWriteActivity extends AppCompatActivity{
     @Inject
     DocumentRepository documentRepository;
     private DocumentService documentService;
-    private long documentId = -1;
+
     @NonNull
     private CompositeDisposable disposable = new CompositeDisposable();
+    private Domain topicDomain;
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_material_write);
+        setContentView(R.layout.activity_material_type_write);
         ButterKnife.bind(this);
         ((App)getApplication()).getNetOauthComponent().inject(this);
         this.documentService  = retrofit.create(DocumentService.class);
@@ -69,90 +77,105 @@ public class MaterialTypeWriteActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        editor.setPadding(10, 10, 10, 10);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            title.setText(bundle.getString("title"));
+            this.topicDomain = new Domain(getIntent().getStringExtra("topic"));
+            this.topic.setText(topicDomain.getString("name"));
+        }
+        editor.getSettings().setJavaScriptEnabled(true);
+        editor.setWebChromeClient(new WebChromeClient());
         editor.setPlaceholder(getString(R.string.write_material_placeholder));
+
+
+        editor.setPadding(20, 20, 20, 20);
+        editor.setOnTextChangeListener(text -> Log.d(TAG, text));
     }
 
     @OnClick(R.id.action_undo)
-    public void undo(){
+    void undo(){
         editor.undo();
     }
 
     @OnClick(R.id.action_redo)
-    public void redo(){
+    void redo(){
         editor.redo();
     }
 
     @OnClick(R.id.action_align_left)
-    public void alignLeft(){
+    void alignLeft(){
         editor.setAlignLeft();
     }
 
     @OnClick(R.id.action_align_center)
-    public void alignCenter(){
+    void alignCenter(){
         editor.setAlignCenter();
     }
 
     @OnClick(R.id.action_align_right)
-    public void alignRight(){
+    void alignRight(){
         editor.setAlignRight();
     }
 
     @OnClick(R.id.action_h1)
-    public void h1(){
+    void h1(){
         editor.setHeading(1);
     }
 
     @OnClick(R.id.action_h2)
-    public void h2(){
+    void h2(){
         editor.setHeading(2);
     }
 
     @OnClick(R.id.action_h3)
-    public void h3(){
+    void h3(){
         editor.setHeading(3);
     }
 
     @OnClick(R.id.action_bold)
-    public void bold(){
+    void bold(){
         editor.setBold();
     }
 
     @OnClick(R.id.action_Italic)
-    public void italic(){
+    void italic(){
         editor.setItalic();
     }
 
     @OnClick(R.id.action_indent)
-    public void indent(){
+    void indent(){
         editor.setIndent();
     }
 
     @OnClick(R.id.action_outdent)
-    public void outdent(){
+    void outdent(){
         editor.setOutdent();
     }
 
     @OnClick(R.id.action_bulleted)
-    public void bullets(){
+    void bullets(){
         editor.setBullets();
     }
 
     @OnClick(R.id.action_unordered_numbered)
-    public void numbers(){
+    void numbers(){
         editor.setNumbers();
     }
 
     @OnClick(R.id.action_insert_image)
-    public void insertImage(){
-        EasyImage.openChooserWithGallery(this, "Pilih Gambar", RESULT_CODE_IMAGE);
+    void insertImage(){
+        EasyImage.openChooserWithDocuments(this, "Pilih Gambar", RESULT_CODE_IMAGE);
     }
 
     @OnClick(R.id.action_erase)
-    public void erase(){
+    void erase(){
         editor.setHtml("");
     }
 
+    @OnClick(R.id.action_block_quote)
+    void blockquote(){
+        editor.setBlockquote();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -175,6 +198,7 @@ public class MaterialTypeWriteActivity extends AppCompatActivity{
             Snackbar.make(findViewById(android.R.id.content), getString(R.string.required_value_material), Snackbar.LENGTH_LONG).show();
             return false;
         }
+
         MultipartBody.Part part = MultipartUtils.createFileHtml("file", editor.getHtml());
         progressBar.setVisibility(View.VISIBLE);
         disposable.add(documentService.addDocument(directory, part).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response ->{
@@ -183,15 +207,17 @@ public class MaterialTypeWriteActivity extends AppCompatActivity{
                 Domain payload = TeachmeApi.payload(response);
                 documentRepository.add(payload);
                 Bundle bundle = new Bundle();
+                bundle.putString("title", title.getText().toString());
+                bundle.putString("topic", topicDomain.toString());
                 bundle.putString("type", GlobalConstant.MATERIAL_TYPE_WRITE);
                 bundle.putString("document", payload.toString());
-                IntentUtils.moveTo(MaterialTypeWriteActivity.this, AddMaterialActivity.class, bundle);
+                IntentUtils.moveTo(MaterialWriteActivity.this, MaterialPreviewActivity.class, bundle);
             }else{
                 Snackbar.make(findViewById(android.R.id.content), TeachmeApi.getError(response), Snackbar.LENGTH_LONG).show();
             }
         }, error -> {
             progressBar.setVisibility(View.GONE);
-            NetworkUtils.errorHandle(userRepository, translation, MaterialTypeWriteActivity.this, error);
+            NetworkUtils.errorHandle(userRepository, translation, MaterialWriteActivity.this, error);
         }));
         return false;
     }
@@ -223,7 +249,7 @@ public class MaterialTypeWriteActivity extends AppCompatActivity{
             }
 
             @Override
-            public void onImagesPicked(List<File> imagesFiles, EasyImage.ImageSource source, int type) {
+            public void onImagesPicked(@android.support.annotation.NonNull List<File> imagesFiles, EasyImage.ImageSource source, int type) {
                 try {
                     doUploadImage(data);
                 } catch (IOException e) {
