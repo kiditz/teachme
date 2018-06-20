@@ -19,6 +19,7 @@
 
 html {
   height: 100%;
+
 }
 
 body {
@@ -31,6 +32,8 @@ body {
 
 #editor {
   display: table-cell;
+  border:1px solid #dee2e6;
+  border-radius: 5px;
   outline: 0px solid transparent;
   background-repeat: no-repeat;
   background-position: center;

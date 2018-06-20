@@ -9,9 +9,9 @@ from slerp.string_utils import is_blank, random_colors, get_name_abbreviations
 from slerp.validator import Number, Blank, Key, ValidationException
 from werkzeug.utils import secure_filename
 from api.teacher_api import teacher_service
+from api.activity_api import activity_service
 from constant.api_constant import MATERIAL_NOT_FOUND, CONNECTION_ERROR
 from entity.models import Material, MaterialTopic
-
 log = logging.getLogger(__name__)
 
 
@@ -36,7 +36,8 @@ class MaterialService(object):
 			topic = MaterialTopic.query.get(domain['topic_id'])
 			domain.pop('topic_id')
 		pass
-		
+		activity_domain = {'user_id': domain['user_id'], 'message': teacher['user']['fullname'] + ' membuat materi ' + domain['title']}
+		activity_service.add_activity(activity_domain)
 		material = Material(domain)
 		material.topic_id = topic.id
 		material.save()

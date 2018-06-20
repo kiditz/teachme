@@ -196,6 +196,7 @@ class Material(db.Model, Entity):
 	user_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False, index=True)
 	topic_id = db.Column(db.ForeignKey(u'tm_material_topic.topic_id'), index=True)
 	user = db.relationship(u'UserPrincipal')
+	active = db.Column(db.Boolean, nullable=False, server_default='f')
 	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
 	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
 	# Hiding the json key in http get
@@ -204,7 +205,35 @@ class Material(db.Model, Entity):
 	def __init__(self, obj=None):
 		Entity.__init__(self, obj)
 	
+
+class Activity(db.Model, Entity):
+	__tablename__ = 'tm_activity'
+	id = db.Column('activity_id', db.BigInteger, db.Sequence('tm_activity_activity_id_seq'), primary_key=True)
+	message = db.Column(db.Text, nullable=False)
+	user_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False, index=True)
+	raw = db.Column(db.Text, nullable=False, server_default='-', default='')
+	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
+	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
+	user = db.relationship(u'UserPrincipal')
+	__json_hidden__ = ['user.hash_password', 'user.account_non_expired', 'user.credentials_non_expired',
+	                   'user.account_non_locked']
 	
+	def __init__(self, obj=None):
+		Entity.__init__(self, obj)
+	
+
+class Friend(db.Model, Entity):
+	__tablename__ = 'tm_friend'
+	user_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False, primary_key=True)
+	friend_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False, primary_key=True)
+	status = db.Column(db.String(10), nullable=False, server_default='')
+	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
+	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
+	
+	def __init__(self, obj=None):
+		Entity.__init__(self, obj)
+	
+
 if __name__ == '__main__':
 	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://kiditz:rioters7@172.17.0.1:2070/teachme'
 	migrate = Migrate(app, db)
