@@ -17,18 +17,16 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.slerpio.teachme.AddMaterialActivity;
 import com.slerpio.teachme.App;
 import com.slerpio.teachme.R;
+import com.slerpio.teachme.adapter.AbstractRecyclerPagination;
 import com.slerpio.teachme.adapter.LearnAdapter;
-import com.slerpio.teachme.adapter.PaginationOnScrollListener;
 import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.helper.NetworkUtils;
 import com.slerpio.teachme.helper.TeachmeApi;
 import com.slerpio.teachme.helper.Translations;
 import com.slerpio.teachme.model.Domain;
 import com.slerpio.teachme.realm.service.UserRepository;
-import com.slerpio.teachme.service.DocumentService;
 import com.slerpio.teachme.service.ImageService;
 import com.slerpio.teachme.service.MaterialService;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -42,7 +40,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LearnFragment extends Fragment implements PaginationOnScrollListener.PageHandler{
+public class LearnFragment extends Fragment {
 
 
     @BindView(R.id.recycler)
@@ -61,10 +59,11 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
     private MaterialService materialService;
     private List<Domain> topics = new ArrayList<>();
     private LearnAdapter adapter;
-    private DocumentService documentService;
     @NonNull
     private CompositeDisposable disposable;
-    private PaginationOnScrollListener pagination;
+    boolean isLoading = false;
+    boolean isLastPage = false;
+    int currentPage = 1;
 
     public LearnFragment() {
     }
@@ -75,8 +74,6 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         this.disposable  = new CompositeDisposable();
         this.adapter = new LearnAdapter(getActivity(), topics);
         this.materialService = retrofit.create(MaterialService.class);
-        this.documentService = retrofit.create(DocumentService.class);
-
     }
 
     @Override
@@ -89,13 +86,32 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
         recycler.setNestedScrollingEnabled(false);
         recycler.setItemAnimator(new DefaultItemAnimator());
         adapter.set(userRepository, translations, materialService, disposable, imageService);
-        adapter.setDocumentService(documentService);
         recycler.setAdapter(adapter);
 
-        pagination = new PaginationOnScrollListener(manager, adapter, topics);
-        pagination.setPageHandler(this);
+        this.topics.clear();
+        getData(currentPage);
+        recycler.addOnScrollListener(new AbstractRecyclerPagination(manager) {
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
 
-        recycler.addOnScrollListener(pagination);
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public int getTotalItemCount() {
+                return 10;
+            }
+
+            @Override
+            public void loadMoreItems() {
+                currentPage = currentPage + 1;
+                getData(currentPage);
+            }
+        });
         RxView.clicks(createMaterial).subscribe(view -> IntentUtils.moveTo(getActivity(), AddMaterialActivity.class));
         RxView.longClicks(createMaterial).subscribe(view -> Snackbar.make(v, R.string.title_add_material, Snackbar.LENGTH_LONG).show());
         return v;
@@ -104,46 +120,32 @@ public class LearnFragment extends Fragment implements PaginationOnScrollListene
     @Override
     public void onResume() {
         super.onResume();
-        this.topics.clear();
-        pagination.loadItems(1);
     }
 
-    private Single<Domain> getData(int page){
+    private void getData(int page) {
         Domain input = new Domain();
         input.put("page", page);
-        input.put("size", pagination.getTotalItemCount());
-        try {
-            input.put("level_id", userRepository.findUser().getLevel_id());
-            return materialService.getMaterialTopicByLevel(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
-        }catch (Exception ignore){
-            return Single.just(new Domain().put("payload", new ArrayList<>()).put("total", 0).put("total_pages", 0));
-        }
+        input.put("size", 10);
+        input.put("level_id", userRepository.findUser().getLevel_id());
+        isLoading = true;
+        isLastPage = false;
+        disposable.add(materialService.getMaterialTopicByLevel(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
+            if (TeachmeApi.ok(response)) {
+                if (response.containsKey("total_pages")) {
+                    int total = response.getInt("total_pages");
+                    if (currentPage == total) {
+                        isLastPage = true;
+                    }
+                }
+                topics.addAll(TeachmeApi.payloads(response));
+                isLoading = false;
+                adapter.notifyDataSetChanged();
+            }
+        }, error-> NetworkUtils.errorHandle(userRepository, translations, getActivity(), error)));
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         disposable.clear();
     }
-
-    @Override
-    public void onEmpty(Domain response) {
-
-    }
-
-    @Override
-    public void onSuccess(Domain response) {
-        //TODO: Save response realm into realm
-    }
-
-    @Override
-    public void onFail(Domain response) {
-        Snackbar.make(getView(), TeachmeApi.getError(response),Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onLoad(int page) {
-        disposable.add(getData(page).subscribe(pagination::showResponse, error -> NetworkUtils.errorHandle(userRepository, translations, getActivity(), error)));
-    }
-
 }

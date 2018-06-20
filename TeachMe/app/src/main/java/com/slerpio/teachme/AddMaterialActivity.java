@@ -111,14 +111,14 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
 
 
     private void validateInput() {
-        Observable<Boolean> titleObservable =  RxTextView.textChanges(title).map(text -> text.length() == 0).distinctUntilChanged();
+        Observable<Boolean> titleObservable =  RxTextView.textChanges(title).skip(1).map(text -> text.length() == 0).distinctUntilChanged();
 
         titleObservable.subscribe(isInvalid -> {
             titleWrapper.setError(getString(R.string.required_value_title));
             titleWrapper.setErrorEnabled(isInvalid);
         });
 
-        Observable<Boolean> topicObservable =  RxTextView.textChanges(topic).map(text -> text.length() == 0).distinctUntilChanged();
+        Observable<Boolean> topicObservable =  RxTextView.textChanges(topic).skip(1).map(text -> text.length() == 0).distinctUntilChanged();
 
         topicObservable.subscribe(isInvalid -> {
             topicWrapper.setError(getString(R.string.required_value_topic));

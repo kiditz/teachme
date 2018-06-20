@@ -105,7 +105,7 @@ public class MaterialPreviewActivity extends AppCompatActivity {
         disposable.add(materialService.addMaterial(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response ->{
             if(TeachmeApi.ok(response)){
                 Bundle bundle = new Bundle();
-                bundle.putString("message", getString(R.string.add_material_success));
+                bundle.putString("message", String.format(getString(R.string.add_material_success), TeachmeApi.payload(response).getString("title")));
                 IntentUtils.moveTo(MaterialPreviewActivity.this, MainActivity.class, bundle);
                 finish();
             }else{
@@ -113,6 +113,7 @@ public class MaterialPreviewActivity extends AppCompatActivity {
             }
         }, error -> NetworkUtils.errorHandle(userRepository, translations, this, error)));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_send){

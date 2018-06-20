@@ -2,6 +2,7 @@ package com.slerpio.teachme.adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import com.slerpio.teachme.helper.TeachmeApi;
 import com.slerpio.teachme.model.Domain;
 import io.reactivex.Single;
@@ -9,8 +10,8 @@ import io.reactivex.Single;
 import java.util.List;
 
 public  class PaginationOnScrollListener extends AbstractRecyclerPagination{
-    private boolean isLoading = false;
-    private boolean isLastPage = false;
+    private boolean isLoading;
+    private boolean isLastPage;
     private int currentPage = 1;
     private int totalPage;
     private final List<Domain> items;
@@ -29,6 +30,14 @@ public  class PaginationOnScrollListener extends AbstractRecyclerPagination{
         this.adapter = adapter;
     }
 
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
+    public void setLastPage(boolean lastPage) {
+        isLastPage = lastPage;
+    }
 
     @Override
     public boolean isLoading() {
@@ -53,45 +62,41 @@ public  class PaginationOnScrollListener extends AbstractRecyclerPagination{
         this.pageHandler = pageHandler;
     }
 
-    public void setData(Single<Domain> data) {
-        this.data = data;
-        loadItems(currentPage);
-    }
-
     @Override
     public void loadMoreItems() {
-        this.currentPage = currentPage + 1;
-        loadItems(this.currentPage);
+        if(!isLastPage){
+            currentPage = currentPage + 1;
+            Log.d(getClass().getName(), "loadMoreItems: " + currentPage);
+            loadItems(currentPage);
+        }
     }
 
     public void loadItems(int page){
-        this.isLoading = true;
-
         pageHandler.onLoad(page);
-
     }
 
     public void showResponse(Domain response){
-        this.isLoading = false;
         if (TeachmeApi.ok(response)) {
-            if(pageHandler != null){
-                pageHandler.onSuccess(response);
-            }
             if(response.containsKey("total_pages")){
                 int total = response.getInt("total_pages");
+                Log.d(getClass().getName(), "showResponse: " + total);
                 if (this.currentPage == total) {
-                    isLastPage = true;
+                    this.isLastPage = true;
+                    this.currentPage = 1;
                 }
             }
             this.items.addAll(TeachmeApi.payloads(response));
-            if(items.size() < 0 || items.isEmpty()){
+            adapter.notifyDataSetChanged();
+            if(items.isEmpty()){
                 if(pageHandler != null){
                     pageHandler.onEmpty(response);
                 }
                 //Make sure notifyDataSetChange is not called if empty
-                return;
             }
-            adapter.notifyDataSetChanged();
+            if(pageHandler != null){
+                pageHandler.onSuccess(response);
+            }
+            this.isLoading = false;
         }else{
             if(pageHandler != null){
                 pageHandler.onFail(response);

@@ -2,6 +2,7 @@ package com.slerpio.teachme.adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 /**
  * Created by kiditz on 12/12/17.
