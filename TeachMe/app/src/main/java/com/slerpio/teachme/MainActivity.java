@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity
     protected ViewPagerFragmentAdapter adapter;
     private UserUpdater updateUser;
     private int[] icons = new int[]{
-            R.drawable.ic_graduation_cap, R.drawable.ic_archive, R.drawable.ic_task
+            R.drawable.ic_graduation_cap, R.drawable.ic_dashboard, R.drawable.ic_task
     };
 
 
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         container.setAdapter(adapter);
         adapter.clear();
         adapter.addFragment(new LearnFragment(), getString(R.string.learn));
-        adapter.addFragment(new ActivityFragment(), getString(R.string.material));
+        adapter.addFragment(new ActivityFragment(), getString(R.string.activity));
         adapter.addFragment(new BlankFragment(), getString(R.string.task));
         adapter.notifyDataSetChanged();
         setupCustomTabView();
