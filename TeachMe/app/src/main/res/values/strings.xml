@@ -90,6 +90,7 @@
     <string name="school">Sekolah / Kursus</string>
     <string name="school_address">Alamat</string>
     <string name="school_level_and_class">Tingkatan &amp; Kelas</string>
+
     <string name="setting">Pengaturan</string>
     <string name="send">Kirim</string>
     <string name="system_error">Terjadi kesalahan pada system</string>
@@ -97,6 +98,7 @@
     <string name="task">Tugas</string>
     <string name="task_report">Laporan Nilai</string>
     <string name="teach_me_url">http://192.168.1.126:5000/</string>
+    <string name="teaching_at">Dimana anda mengajar?</string>
     <string name="three_dot">...</string>
     <string name="title">Judul</string>
     <string name="title_add_school">Buat Sekolah</string>

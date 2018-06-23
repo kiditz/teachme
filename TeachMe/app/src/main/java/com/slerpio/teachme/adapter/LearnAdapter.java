@@ -28,7 +28,6 @@ import java.util.List;
 public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHolder> {
     private final Activity context;
     private List<Domain> topics;
-    private static final int MAX_DATA = 10;
     RecyclerView.RecycledViewPool viewPool;
     private Translations translations;
     private MaterialService materialService;
@@ -85,7 +84,7 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
 
             @Override
             public int getTotalItemCount() {
-                return MAX_DATA;
+                return TeachmeApi.SIZE;
             }
 
             @Override
@@ -102,14 +101,14 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
         Domain input = new Domain();
         input.put("topic_id", topic.getLong("id"));
         input.put("page", page);
-        input.put("size", MAX_DATA);
+        input.put("size", TeachmeApi.SIZE);
         holder.isLoading = true;
         holder.isLastPage = false;
         disposable.add(materialService.getMaterialByTopicId(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
             if (TeachmeApi.ok(response)) {
                 if (response.containsKey("total_pages")) {
                     int total = response.getInt("total_pages");
-                    if (holder.currentPage == total) {
+                    if (page == total) {
                         holder.isLastPage = true;
                     }
                 }

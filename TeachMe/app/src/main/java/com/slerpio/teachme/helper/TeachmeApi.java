@@ -5,7 +5,7 @@ import com.slerpio.teachme.model.Domain;
 import java.util.List;
 
 public class TeachmeApi {
-
+    static public final int SIZE = 10;
     public static boolean ok(Domain domain) {
         return domain.getString("status") != null && domain.getString("status").equals("OK");
     }

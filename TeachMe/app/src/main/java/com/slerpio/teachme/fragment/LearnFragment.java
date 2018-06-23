@@ -24,6 +24,7 @@ import com.slerpio.teachme.helper.NetworkUtils;
 import com.slerpio.teachme.helper.TeachmeApi;
 import com.slerpio.teachme.helper.Translations;
 import com.slerpio.teachme.model.Domain;
+import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.ImageService;
 import com.slerpio.teachme.service.MaterialService;
@@ -123,13 +124,18 @@ public class LearnFragment extends Fragment {
     }
 
     private void getData(int page) {
+        User user = userRepository.findUser();
+        if(user == null)
+            return;
         Domain input = new Domain();
         input.put("page", page);
         input.put("size", 10);
-        input.put("level_id", userRepository.findUser().getLevel_id());
+        input.put("level_id", user.getLevel_id());
+        input.put("user_id", user.getUser_id());
+        input.put("name", "");
         isLoading = true;
         isLastPage = false;
-        disposable.add(materialService.getMaterialTopicByLevel(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
+        disposable.add(materialService.getMaterialTopic(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
             if (TeachmeApi.ok(response)) {
                 if (response.containsKey("total_pages")) {
                     int total = response.getInt("total_pages");

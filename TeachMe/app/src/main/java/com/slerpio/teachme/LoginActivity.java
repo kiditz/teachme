@@ -33,7 +33,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
-    private final String TAG = getClass().getName();
+
     @BindView(R.id.username)
     protected EditText username;
 

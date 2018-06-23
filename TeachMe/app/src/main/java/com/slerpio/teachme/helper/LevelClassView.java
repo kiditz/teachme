@@ -73,7 +73,7 @@ public class LevelClassView {
                                 Observable.fromIterable(classPayloads).map(item -> item.getString("name")).toList().subscribe(items -> {
                                     classList.clear();
                                     classList.addAll(items);
-                                    classList.add("Lainnya");
+                                    classList.add("Banyak Kelas");
                                     classAdapter.notifyDataSetChanged();
                                 });
                                 spinnerClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

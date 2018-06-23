@@ -14,6 +14,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.slerpio.teachme.helper.*;
 import com.slerpio.teachme.model.Domain;
+import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.MaterialService;
 import io.reactivex.Observable;
@@ -45,6 +46,7 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
     UserRepository userRepository;
     @Inject
     Translations translations;
+    User user;
     private MaterialService materialService;
 
     private ArrayAdapter<String> adapter;
@@ -61,6 +63,10 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        this.user = userRepository.findUser();
+        if(user == null){
+            return;
         }
         this.adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         this.topic.setThreshold(1);
@@ -94,7 +100,8 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
         input.put("page", 1);
         input.put("size", 10);
         input.put("name", text);
-        disposable.add(materialService.getMaterialTopicByName(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response->{
+        input.put("level_id", user.getLevel_id());
+        disposable.add(materialService.getMaterialTopic(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response->{
             if(TeachmeApi.ok(response)){
                 List<Domain> payloads = TeachmeApi.payloads(response);
                 Observable.fromIterable(payloads).map(item -> item.getString("name")).toList().subscribe(items -> {
@@ -166,7 +173,6 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         return BackPressed.home(item, this);
     }
 }

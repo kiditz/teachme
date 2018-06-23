@@ -3,16 +3,10 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.slerpio.teachme.fragment.BlankFragment">
-
-    <com.slerpio.view.SchoolView
-            android:id="@+id/schoolView"
+                tools:context="com.slerpio.teachme.fragment.ActivityFragment">
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:schoolName="Test"
-            app:schoolImage="@drawable/gradientbackground"
-    >
-
-    </com.slerpio.view.SchoolView>
-
+            android:layout_height="wrap_content"    >
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>

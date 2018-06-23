@@ -24,9 +24,10 @@ public class NetworkUtils {
                 Domain errorBody = new Domain(errString);
                 if (ex.response().code() == 401 || ex.response().code() == 400) {
                     if (errorBody.getString("error").equals("invalid_token")) {
-                        userService.removeUser();
                         IntentUtils.moveTo(activity, LoginActivity.class);
                         activity.finish();
+                        userService.removeUser();
+                        return;
                     }
                     String errorMessage = translations.get(errorBody.getString("error_description"));
                     Snackbar.make(activity.findViewById(android.R.id.content), errorMessage, Snackbar.LENGTH_LONG).show();
