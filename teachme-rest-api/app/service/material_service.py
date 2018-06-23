@@ -2,16 +2,18 @@ import io
 import os
 
 import requests
-from flask import send_file
+from flask import send_file, json
 from slerp.app import app
 from slerp.logger import logging
 from slerp.string_utils import is_blank, random_colors, get_name_abbreviations
 from slerp.validator import Number, Blank, Key, ValidationException
 from werkzeug.utils import secure_filename
-from api.teacher_api import teacher_service
+
 from api.activity_api import activity_service
-from constant.api_constant import MATERIAL_NOT_FOUND, CONNECTION_ERROR
+from api.teacher_api import teacher_service
+from constant.api_constant import MATERIAL_NOT_FOUND, CONNECTION_ERROR, ACTIVITY_TYPE_MATERIAL
 from entity.models import Material, MaterialTopic
+
 log = logging.getLogger(__name__)
 
 
@@ -29,18 +31,21 @@ class MaterialService(object):
 			if is_blank(domain['name']):
 				raise ValidationException('required.value.name')
 			topic.name = domain['name']
-			topic.class_id = teacher['class_id']
+			topic.class_id = teacher['class_id'] if 'class_id' in teacher else None
 			topic.level_id = teacher['level_id']
 			topic.save()
 		else:
 			topic = MaterialTopic.query.get(domain['topic_id'])
 			domain.pop('topic_id')
 		pass
-		activity_domain = {'user_id': domain['user_id'], 'message': teacher['user']['fullname'] + ' membuat materi ' + domain['title']}
-		activity_service.add_activity(activity_domain)
 		material = Material(domain)
 		material.topic_id = topic.id
 		material.save()
+		activity_domain = {'user_id': domain['user_id'],
+		                   'message': 'membuat materi',
+		                   'raw': json.dumps(material.to_dict()),
+		                   'doc_type': ACTIVITY_TYPE_MATERIAL}
+		activity_service.add_activity(activity_domain)
 		return {'payload': material.to_dict()}
 	
 	@Key(['title'])

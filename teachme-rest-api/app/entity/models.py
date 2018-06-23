@@ -215,6 +215,7 @@ class Activity(db.Model, Entity):
 	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
 	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
 	user = db.relationship(u'UserPrincipal')
+	doc_type = db.Column(db.String(20))
 	__json_hidden__ = ['user.hash_password', 'user.account_non_expired', 'user.credentials_non_expired',
 	                   'user.account_non_locked']
 	

@@ -19,7 +19,6 @@ document_service = DocumentService()
 
 @api.route('/add_document', methods=['POST'])
 def add_document():
-	"""Fixme: i want to be tested to"""
 	if 'file' not in request.files:
 		raise ValidationException('file.not.found')
 	file = request.files['file']

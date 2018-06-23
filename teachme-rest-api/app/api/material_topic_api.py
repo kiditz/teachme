@@ -12,50 +12,25 @@ material_topic_service = MaterialTopicService()
 
 @api.route('/add_material_topic', methods=['POST'])
 def add_material_topic():
-    """
-    {
-    "user_id": 1,
-    "name": "String"
-    }
-    """
-    domain = request.get_json()
-    return material_topic_service.add_material_topic(domain)
+	"""
+	{
+	"user_id": 1,
+	"name": "String"
+	}
+	"""
+	domain = request.get_json()
+	return material_topic_service.add_material_topic(domain)
 
 
 @api.route('/get_material_topic', methods=['GET'])
 def get_material_topic():
-    """
-    {
-        "page": 1,
-        "size": 10
-    }
-    """
-    domain = request.args.to_dict()
-    return material_topic_service.get_material_topic(domain)
-
-
-@api.route('/get_material_topic_by_level_id', methods=['GET'])
-def get_material_topic_by_level_id():
-    """
-    {
-        "page": 1,
-        "size": 10,
-        "level_id": 4
-    }
-    """
-    domain = request.args.to_dict()
-    return material_topic_service.get_material_topic_by_level_id(domain)
-
-
-@api.route('/get_material_topic_by_name', methods=['GET'])
-def get_material_topic_by_name():
-
-    """
-    {
-        "page": 1,
-        "size": 10,
-        "name": "Matematika"
-    }
-    """
-    domain = request.args.to_dict()
-    return material_topic_service.get_material_topic_by_name(domain)
+	"""
+	{
+		"page": 1,
+		"size": 10,
+		"name": "Matematika",
+		"level_id": 4
+	}
+	"""
+	domain = request.args.to_dict()
+	return material_topic_service.get_material_topic(domain)

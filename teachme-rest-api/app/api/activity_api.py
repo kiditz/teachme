@@ -12,25 +12,38 @@ activity_service = ActivityService()
 
 @api.route('/add_activity', methods=['POST'])
 def add_activity():
-    """
-    {
-    "message": "String",
-    "user_id": 1,
-    }
-    """
-    domain = request.get_json()
-    return activity_service.add_activity(domain)
+	"""
+	{
+	"message": "String",
+	"user_id": 1,
+	}
+	"""
+	domain = request.get_json()
+	return activity_service.add_activity(domain)
 
 
 @api.route('/get_activity_by_user_id', methods=['GET'])
 def get_activity_by_user_id():
+	"""
+	{
+		"page": 1,
+		"size": 10,
+		"user_id": 1
+	}
+	"""
+	domain = request.args.to_dict()
+	return activity_service.get_activity_by_user_id(domain)
 
-    """
-    {
-        "page": 1,
-        "size": 10,
-        "user_id": 1
-    }
-    """
-    domain = request.args.to_dict()
-    return activity_service.get_activity_by_user_id(domain)
+
+# Getting activity from friend
+@api.route('/get_activity', methods=['GET'])
+def get_activity():
+	"""
+	{
+		"page": 1,
+		"size": 10,
+		"user_id": 1
+	}
+	"""
+	domain = request.args.to_dict()
+	return activity_service.get_activity(domain)

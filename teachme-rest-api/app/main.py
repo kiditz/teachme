@@ -11,6 +11,7 @@ from api.teacher_api import teacher_api_blue_print
 from api.school_class_api import school_class_api_blue_print
 from api.school_level_api import school_level_api_blue_print
 from api.activity_api import activity_api_blue_print
+from api.friend_api import friend_api_blue_print
 # Set Custom json encoder for Date And Byte array
 app.json_encoder = TeachmeJsonEncoder
 
@@ -25,6 +26,7 @@ app.register_blueprint(teacher_api_blue_print)
 app.register_blueprint(school_class_api_blue_print)
 app.register_blueprint(school_level_api_blue_print)
 app.register_blueprint(activity_api_blue_print)
+app.register_blueprint(friend_api_blue_print)
 
 if __name__ == '__main__':
     run()

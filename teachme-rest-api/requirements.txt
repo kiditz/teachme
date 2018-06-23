@@ -13,6 +13,6 @@ python-dateutil==2.6.1
 python-editor==1.0.3
 requests==2.18.4
 slerp-py==0.0.19
-Pillow==5.0.0
-PyPDF2==1.26.0
+#Pillow==5.0.0
+#PyPDF2==1.26.0
 opencv-python==3.4.1.15
