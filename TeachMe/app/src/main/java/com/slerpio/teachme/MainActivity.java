@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new FragmentActivity(), getString(R.string.activity));
         adapter.addFragment(new BlankFragment(), getString(R.string.task));
         adapter.notifyDataSetChanged();
+        container.setCurrentItem(1);
         setupCustomTabView();
         toolbar.setTitle(getString(R.string.learn));
         container.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
