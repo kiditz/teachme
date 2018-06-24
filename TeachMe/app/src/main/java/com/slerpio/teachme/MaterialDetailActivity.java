@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -15,12 +17,15 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.slerpio.teachme.helper.BackPressed;
 import com.slerpio.teachme.helper.DateUtils;
 import com.slerpio.teachme.helper.IntentUtils;
+import com.slerpio.teachme.helper.ViewUtils;
 import com.slerpio.teachme.model.Domain;
 import com.slerpio.view.AnimationUtils;
 import com.slerpio.view.TouchyWebView;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -29,6 +34,8 @@ import java.util.Map;
 public class MaterialDetailActivity extends AppCompatActivity {
     @BindView(R.id.clock)
     TextView clock;
+    @BindView(R.id.title)
+    TextView title;
     @BindView(R.id.fullname)
     TextView fullName;
     @BindView(R.id.cardView)
@@ -41,9 +48,12 @@ public class MaterialDetailActivity extends AppCompatActivity {
     ScrollView scrollView;
     @BindView(R.id.description)
     TextView description;
+    @BindView(R.id.searchView)
+    MaterialSearchView searchView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @Inject
     SharedPreferences preferences;
-
     Domain material = new Domain();
     private boolean isDescriptionShowUp = false;
     ViewGroup.LayoutParams tempParams;
@@ -63,12 +73,13 @@ public class MaterialDetailActivity extends AppCompatActivity {
         }
 
         this.material = new Domain(bundle.getString("material"));
-        description.setText(material.getString("description"));
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(material.getString("title"));
+            getSupportActionBar().setTitle(StringUtils.EMPTY);
         }
+        this.title.setText(material.getString("title"));
         this.clock.setText(DateUtils.printDate(material.getLong("created_at")));
         this.fullName.setText(material.getDomain("user").getString("fullname"));
         String url = getString(R.string.teach_me_url) + "teachme/get_document?id=" + material.getLong("document_id");
@@ -76,6 +87,31 @@ public class MaterialDetailActivity extends AppCompatActivity {
         header.put("Authorization", "Bearer " + preferences.getString("token", ""));
         webView.loadUrl(url, header);
         webView.setWebChromeClient(new WebChromeClient());
+        searchView.setHint(getString(R.string.search_hint_words));
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                webView.findAllAsync(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+            }
+        });
 
     }
 
@@ -115,7 +151,14 @@ public class MaterialDetailActivity extends AppCompatActivity {
         isDescriptionShowUp = !isDescriptionShowUp;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_material_detail, menu);
+        ViewUtils.setViewDrawableColor(menu, getResources().getColor(R.color.colorAccent));
+        searchView.setMenuItem(menu.findItem(R.id.action_search));
 
+        return true;
+    }
 
     @Override
     public void onBackPressed() {
@@ -127,6 +170,7 @@ public class MaterialDetailActivity extends AppCompatActivity {
         }
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

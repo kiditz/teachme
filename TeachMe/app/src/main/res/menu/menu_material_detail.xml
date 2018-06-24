@@ -2,14 +2,23 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.slerpio.teachme.ScrollingActivity">
-
-    <item
-            android:id="@+id/action_search"
-            android:icon="@drawable/ic_search"
-            android:title="@string/abc_search_hint"
-            app:showAsAction="always"/>
-    <item android:id="@+id/action_add_school"
-          android:title="@string/title_add_school"
-          android:icon="@drawable/ic_plus"
+    <item android:id="@+id/action_text_height"
+          android:title="@string/title_font_size"
+          android:icon="@drawable/ic_text_height"
+          tools:targetApi="o"
+          android:iconTint="@color/colorAccent"
           app:showAsAction="always"/>
+    <item android:id="@+id/action_share"
+          android:title="@string/title_font_size"
+          android:icon="@drawable/ic_share_alt"
+          tools:targetApi="o"
+          android:iconTint="@color/colorAccent"
+          app:showAsAction="always"/>
+    <item android:id="@+id/action_search"
+          android:icon="@drawable/ic_search"
+          android:iconTint="@color/colorAccent"
+          android:title="@string/abc_search_hint"
+          app:showAsAction="always"
+          tools:targetApi="o"/>
+
 </menu>

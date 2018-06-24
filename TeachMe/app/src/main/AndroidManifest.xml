@@ -97,13 +97,10 @@
                 android:label="@string/title_add_material">
         </activity>
         <activity
-                android:name=".MaterialDetailActivity"
-                android:label="@string/three_dot">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:name=".MaterialDetailActivity">
         </activity>
-        <activity
-                android:name=".MaterialDetailTypePdfActivity"
-                android:label="@string/three_dot">
-        </activity>
+
         <activity
                 android:name=".MaterialPreviewActivity"
                 android:label="@string/preview">

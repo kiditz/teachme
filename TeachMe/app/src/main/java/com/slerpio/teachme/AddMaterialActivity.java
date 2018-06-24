@@ -101,6 +101,7 @@ public class AddMaterialActivity extends AppCompatActivity implements AdapterVie
         input.put("size", 10);
         input.put("name", text);
         input.put("level_id", user.getLevel_id());
+        input.put("user_id", user.getUser_id());
         disposable.add(materialService.getMaterialTopic(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response->{
             if(TeachmeApi.ok(response)){
                 List<Domain> payloads = TeachmeApi.payloads(response);

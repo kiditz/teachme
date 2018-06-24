@@ -87,13 +87,16 @@
     <string name="retype_password">Ketik ulang password</string>
 
     <!--S-->
+    <string name="search_hint_words">Cari Kata</string>
+    <string name="send">Kirim</string>
+    <string name="setting">Pengaturan</string>
+
     <string name="school_name">Nama Sekolah / Tempat Kursus</string>
     <string name="school">Sekolah / Kursus</string>
     <string name="school_address">Alamat</string>
     <string name="school_level_and_class">Tingkatan &amp; Kelas</string>
 
-    <string name="setting">Pengaturan</string>
-    <string name="send">Kirim</string>
+
     <string name="system_error">Terjadi kesalahan pada system</string>
     <!--T-->
     <string name="task">Tugas</string>
@@ -103,6 +106,7 @@
     <string name="three_dot">...</string>
     <string name="title">Judul</string>
     <string name="title_add_school">Buat Sekolah</string>
+    <string name="title_font_size">Ukuran</string>
     <string name="title_edit_profile">Ubah Profile</string>
     <string name="title_choose_type">Tipe Materi</string>
     <string name="title_write_material">Tulis Materi</string>
