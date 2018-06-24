@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.slerpio.teachme.fragment.ActivityFragment;
+import com.slerpio.teachme.fragment.FragmentActivity;
 import com.slerpio.teachme.fragment.BlankFragment;
 import com.slerpio.teachme.fragment.LearnFragment;
 import com.slerpio.teachme.fragment.ViewPagerFragmentAdapter;
@@ -114,11 +114,37 @@ public class MainActivity extends AppCompatActivity
         container.setAdapter(adapter);
         adapter.clear();
         adapter.addFragment(new LearnFragment(), getString(R.string.learn));
-        adapter.addFragment(new ActivityFragment(), getString(R.string.activity));
+        adapter.addFragment(new FragmentActivity(), getString(R.string.activity));
         adapter.addFragment(new BlankFragment(), getString(R.string.task));
         adapter.notifyDataSetChanged();
         setupCustomTabView();
-        toolbar.setTitle(getString(R.string.dashboard));
+        toolbar.setTitle(getString(R.string.learn));
+        container.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                switch (i){
+                    case 0:
+                        getSupportActionBar().setTitle(R.string.learn);
+                        break;
+                    case 1:
+                        getSupportActionBar().setTitle(R.string.activity);
+                        break;
+                    case 2:
+                        getSupportActionBar().setTitle(R.string.task);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
 
@@ -224,6 +250,9 @@ public class MainActivity extends AppCompatActivity
                 return true;
             case R.id.nav_profile:
                 IntentUtils.moveTo(this, ProfileActivity.class);
+                return true;
+            case R.id.nav_submission:
+                IntentUtils.moveTo(this, MySubmissionActivity.class);
                 return true;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

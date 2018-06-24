@@ -61,3 +61,29 @@ def get_material_image():
     """
 	domain = request.args.to_dict()
 	return material_service.get_material_image(domain)
+
+
+@api.route('/get_material_by_user_id', methods=['GET'])
+def get_material_by_user_id():
+
+    """
+    {
+        "page": "Long",
+        "size": "Long",
+        "user_id": "Long"
+    }
+    """
+    domain = request.args.to_dict()
+    return material_service.get_material_by_user_id(domain)
+
+
+@api.route('/find_material_by_id', methods=['GET'])
+def find_material_by_id():
+
+    """
+    {
+        "id": "Long"
+    }
+    """
+    domain = request.args.to_dict()
+    return material_service.find_material_by_id(domain)

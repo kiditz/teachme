@@ -124,7 +124,6 @@ public class LoginActivity extends AppCompatActivity {
     protected  void validateLogin() {
         Observable<Boolean> usernameObserve =  RxTextView.textChanges(username).skip(1).map(text -> (text.length() == 0)).distinctUntilChanged();
         Observable<Boolean> passwordObserve =  RxTextView.textChanges(password).skip(1).map(text -> (text.length() < 6)).distinctUntilChanged();
-
         usernameObserve.subscribe(isValid -> {
             usernameWrapper.setError(getString(R.string.required_value_username));
             usernameWrapper.setErrorEnabled(isValid);

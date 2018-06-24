@@ -2,6 +2,7 @@ package com.slerpio.teachme;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -52,6 +54,9 @@ public class MaterialDetailActivity extends AppCompatActivity {
     MaterialSearchView searchView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private static final CharSequence[] TEXT_SIZE = new CharSequence[]{
+            "Sangat Kecil", "Kecil", "Normal","Besar", "Sangat Besar"
+    };
     @Inject
     SharedPreferences preferences;
     Domain material = new Domain();
@@ -104,14 +109,13 @@ public class MaterialDetailActivity extends AppCompatActivity {
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-
             }
 
             @Override
             public void onSearchViewClosed() {
-
             }
         });
+
 
     }
 
@@ -174,6 +178,36 @@ public class MaterialDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.action_text_height:
+                doSetFontSize();
+                return true;
+        }
         return BackPressed.home(item, this);
+    }
+
+    private void doSetFontSize(){
+        final WebSettings webSettings = webView.getSettings();
+        AlertDialog dialog = new AlertDialog.Builder(this).setItems(TEXT_SIZE, (dialog1, which) -> {
+            switch (which){
+                case 0:
+                    webSettings.setTextSize(WebSettings.TextSize.SMALLEST);
+                    break;
+                case 1:
+                    webSettings.setTextSize(WebSettings.TextSize.SMALLER);
+                    break;
+                case 2:
+                    webSettings.setTextSize(WebSettings.TextSize.NORMAL);
+                    break;
+                case 3:
+                    webSettings.setTextSize(WebSettings.TextSize.LARGER);
+                    break;
+                case 4:
+                    webSettings.setTextSize(WebSettings.TextSize.LARGEST);
+                    break;
+            }
+        }).create();
+        dialog.show();
     }
 }

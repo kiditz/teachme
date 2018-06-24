@@ -57,7 +57,8 @@
                         android:minWidth="0dp"
                         android:text="Edit Profile"
                         android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                        android:fontFamily="sans-serif" android:layout_marginTop="@dimen/ten_dp"
+                        android:fontFamily="sans-serif"
+                        android:layout_marginTop="@dimen/ten_dp"
                         android:id="@+id/editProfile"/>
 
             </LinearLayout>

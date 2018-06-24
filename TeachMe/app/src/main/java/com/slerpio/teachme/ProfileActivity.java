@@ -27,6 +27,7 @@ import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.ActivityService;
 import com.slerpio.teachme.service.ImageService;
+import com.slerpio.teachme.service.MaterialService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -54,11 +55,12 @@ public class ProfileActivity extends AppCompatActivity {
     @Inject
     Translations translations;
     ActivityAdapter adapter;
+
     @BindView(R.id.profileImage)
     CircleImageView profileImage;
     @BindView(R.id.editProfile)
     Button editProfile;
-
+    private MaterialService materialService;
     private ActivityService activityService;
     private CompositeDisposable disposable = new CompositeDisposable();
     private List<Domain> activities = new ArrayList<>();
@@ -76,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         this.activityService = retrofit.create(ActivityService.class);
-
+        this.materialService = retrofit.create(MaterialService.class);
         user = userService.findUser();
         if(user == null)
             return;
@@ -88,6 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new ActivityAdapter(this, activities);
         adapter.setImageService(imageService);
+        adapter.setMaterialService(materialService);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
         imageService.loadUserImage(profileImage, user.getUsername());

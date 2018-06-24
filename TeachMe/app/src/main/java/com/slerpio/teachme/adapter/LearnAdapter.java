@@ -1,5 +1,6 @@
 package com.slerpio.teachme.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,14 +53,14 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
 
     @NonNull
     @Override
-    public LearnViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LearnViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.learn_adapter, parent, false);
 
         return new LearnViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LearnViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull LearnViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final Domain topic = topics.get(position);
         final MaterialAdapter adapter = new MaterialAdapter(context, holder.materialList);
         final LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
@@ -70,7 +71,7 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
         holder.containerBody.setAdapter(adapter);
         holder.noMaterial.setVisibility(View.GONE);
         holder.materialList.clear();
-        getData(holder.currentPage, topic, holder, adapter);
+        getData(holder.currentPage, topic, holder, adapter, position);
         holder.containerBody.addOnScrollListener(new AbstractRecyclerPagination(manager) {
             @Override
             public boolean isLoading() {
@@ -90,21 +91,21 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
             @Override
             public void loadMoreItems() {
                 holder.currentPage = holder.currentPage + 1;
-                getData(holder.currentPage, topic, holder, adapter);
+                getData(holder.currentPage, topic, holder, adapter, position);
             }
         });
 
 
     }
 
-    private void getData(int page, Domain topic, LearnViewHolder holder, MaterialAdapter adapter) {
+    private void getData(int page, Domain topic, LearnViewHolder holder, MaterialAdapter adapter, final int position) {
         Domain input = new Domain();
         input.put("topic_id", topic.getLong("id"));
         input.put("page", page);
         input.put("size", TeachmeApi.SIZE);
         holder.isLoading = true;
         holder.isLastPage = false;
-        disposable.add(materialService.getMaterialByTopicId(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
+        disposable.add(materialService.getMaterialByTopic(input).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(response -> {
             if (TeachmeApi.ok(response)) {
                 if (response.containsKey("total_pages")) {
                     int total = response.getInt("total_pages");
@@ -113,6 +114,10 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
                     }
                 }
                 holder.materialList.addAll(TeachmeApi.payloads(response));
+                if(holder.materialList.isEmpty()){
+                    topics.remove(position);
+                    notifyItemRemoved(position);
+                }
                 holder.isLoading = false;
                 adapter.notifyDataSetChanged();
             }
@@ -141,7 +146,6 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
         public LearnViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
     }
 }

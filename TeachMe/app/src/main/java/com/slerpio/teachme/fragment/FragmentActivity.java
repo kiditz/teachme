@@ -25,6 +25,7 @@ import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.ActivityService;
 import com.slerpio.teachme.service.ImageService;
+import com.slerpio.teachme.service.MaterialService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -38,16 +39,17 @@ import java.util.List;
  * Fragment for showing all activity
  * @author kiditz
  */
-public class ActivityFragment extends Fragment {
-    //private static final String TAG = ActivityFragment.class.getName();
+public class FragmentActivity extends Fragment {
+    //private static final String TAG = FragmentActivity.class.getName();
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
     @Inject
     UserRepository userRepository;
     @Inject
-    Retrofit retrofit;
-    @Inject
     Translations translations;
+    @Inject
+    Retrofit retrofit;
+
     @Inject
     ImageService imageService;
     ActivityAdapter adapter;
@@ -57,11 +59,11 @@ public class ActivityFragment extends Fragment {
     private CompositeDisposable disposable = new CompositeDisposable();
     private List<Domain> activities = new ArrayList<>();
     private User user;
-
+    private MaterialService materialService;
     private boolean isLoading;
     private boolean isLastPage;
     private int currentPage = 1;
-    public ActivityFragment() {
+    public FragmentActivity() {
     }
 
 
@@ -70,6 +72,7 @@ public class ActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         ((App)getActivity().getApplication()).getNetOauthComponent().inject(this);
         this.activityService = retrofit.create(ActivityService.class);
+        this.materialService = retrofit.create(MaterialService.class);
 
     }
 
@@ -86,6 +89,7 @@ public class ActivityFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new ActivityAdapter(getActivity(), activities);
         adapter.setImageService(imageService);
+        adapter.setMaterialService(materialService);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
         this.activities.clear();

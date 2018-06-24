@@ -1,7 +1,7 @@
 package com.slerpio.teachme.dagger.module;
 
 import com.slerpio.teachme.*;
-import com.slerpio.teachme.fragment.ActivityFragment;
+import com.slerpio.teachme.fragment.FragmentActivity;
 import com.slerpio.teachme.fragment.LearnFragment;
 import com.slerpio.teachme.fragment.VideoFragment;
 import dagger.Component;
@@ -18,11 +18,11 @@ public interface NetOauthComponent {
     void inject(SchoolActivity activity);
     void inject(SchoolDetailActivity activity);
     void inject(VideoFragment fragment);
-    void inject(ActivityFragment fragment);
+    void inject(FragmentActivity fragment);
     void inject(LearnFragment fragment);
     void inject(MaterialWriteActivity activity);
     void inject(AddMaterialActivity activity);
     void inject(MaterialDetailActivity activity);
-
+    void inject(MySubmissionActivity activity);
     void inject(MaterialPreviewActivity activity);
 }

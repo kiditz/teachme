@@ -43,7 +43,7 @@ class MaterialService(object):
 		material.save()
 		activity_domain = {'user_id': domain['user_id'],
 		                   'message': 'membuat materi',
-		                   'raw': json.dumps(material.to_dict()),
+		                   'raw': json.dumps({'id', material.id}),
 		                   'doc_type': ACTIVITY_TYPE_MATERIAL}
 		activity_service.add_activity(activity_domain)
 		return {'payload': material.to_dict()}
@@ -65,7 +65,7 @@ class MaterialService(object):
 		page = int(domain['page'])
 		size = int(domain['size'])
 		material_q = Material.query.filter_by(topic_id=domain['topic_id']).order_by(Material.title.asc()) \
-			.paginate(page, size, error_out=False)
+			.filter_by(active=True).paginate(page, size, error_out=False)
 		material_list = list(map(lambda x: x.to_dict(), material_q.items))
 		return {'payload': material_list, 'total': material_q.total, 'total_pages': material_q.pages}
 	
@@ -98,3 +98,19 @@ class MaterialService(object):
 		else:
 			with open(path, 'rb') as f:
 				return send_file(io.BytesIO(f.read()), attachment_filename=title, mimetype='image/png')
+	
+	@Key(['title'])
+	@Number(['page', 'size', 'user_id'])
+	def get_material_by_user_id(self, domain):
+		title = domain['title']
+		page = int(domain['page'])
+		size = int(domain['size'])
+		material_q = Material.query.filter_by(user_id=domain['user_id']).filter(Material.title.ilike('%' + title + '%'))\
+			.order_by(Material.id.desc()).paginate(page, size, error_out=False)
+		material_list = list(map(lambda x: x.to_dict(), material_q.items))
+		return {'payload': material_list, 'total': material_q.total, 'total_pages': material_q.pages}
+	
+	@Key(['id'])
+	def find_material_by_id(self, domain):
+		material = Material.query.filter_by(id=domain['id']).first()
+		return {'payload': material.to_dict()}

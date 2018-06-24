@@ -67,11 +67,7 @@
                 android:name=".EditProfileActivity"
                 android:label="@string/title_edit_profile">
         </activity>
-        <activity
-                android:name=".MaterialTypeActivity"
-                android:label="@string/title_choose_type"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+
         <activity
                 android:name=".MaterialWriteActivity"
                 android:label="@string/title_write_material"
@@ -106,6 +102,10 @@
                 android:label="@string/preview">
 
         </activity>
+        <activity
+                android:label="@string/title_submit_material"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:name=".MySubmissionActivity"/>
     </application>
 
 </manifest>

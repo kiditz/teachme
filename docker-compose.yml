@@ -22,7 +22,7 @@ services:
         max_attempts: 3
         window: 120s
     ports:
-      - 3000:3000/tcp
+      - 5002:5002/tcp
 
 
 networks:

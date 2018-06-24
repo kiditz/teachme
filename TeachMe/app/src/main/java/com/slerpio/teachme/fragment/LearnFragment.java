@@ -46,8 +46,7 @@ public class LearnFragment extends Fragment {
 
     @BindView(R.id.recycler)
     protected RecyclerView recycler;
-    @BindView(R.id.createMaterial)
-    protected FloatingActionButton createMaterial;
+
     @Inject
     protected Retrofit retrofit;
     @Inject
@@ -113,8 +112,6 @@ public class LearnFragment extends Fragment {
                 getData(currentPage);
             }
         });
-        RxView.clicks(createMaterial).subscribe(view -> IntentUtils.moveTo(getActivity(), AddMaterialActivity.class));
-        RxView.longClicks(createMaterial).subscribe(view -> Snackbar.make(v, R.string.title_add_material, Snackbar.LENGTH_LONG).show());
         return v;
     }
 

@@ -90,7 +90,7 @@
     <string name="search_hint_words">Cari Kata</string>
     <string name="send">Kirim</string>
     <string name="setting">Pengaturan</string>
-
+    <string name="share">Bagikan</string>
     <string name="school_name">Nama Sekolah / Tempat Kursus</string>
     <string name="school">Sekolah / Kursus</string>
     <string name="school_address">Alamat</string>
@@ -111,6 +111,7 @@
     <string name="title_choose_type">Tipe Materi</string>
     <string name="title_write_material">Tulis Materi</string>
     <string name="title_add_material">Tambah Materi</string>
+    <string name="title_submit_material">Ajukan Materi</string>
     <string name="title_profile">Profile</string>
     <string name="title_school_and_course">Sekolah / Kursus</string>
     <string name="topic">Topik</string>
@@ -123,6 +124,7 @@
     <string name="web_address">Alamat Web</string>
     <string name="woman">Perempuan</string>
     <string name="write_material_placeholder">Tulis materi disini...</string>
+
 
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
