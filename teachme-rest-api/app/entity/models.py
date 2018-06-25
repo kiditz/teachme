@@ -196,7 +196,7 @@ class Material(db.Model, Entity):
 	user_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False, index=True)
 	topic_id = db.Column(db.ForeignKey(u'tm_material_topic.topic_id'), index=True)
 	user = db.relationship(u'UserPrincipal')
-	active = db.Column(db.Boolean, nullable=False, server_default='f')
+	active = db.Column(db.String, nullable=False, server_default='I')
 	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
 	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
 	# Hiding the json key in http get
@@ -233,7 +233,19 @@ class Friend(db.Model, Entity):
 	
 	def __init__(self, obj=None):
 		Entity.__init__(self, obj)
+
+
+class MaterialViewer(db.Model, Entity):
+	__tablename__ = 'tm_material_viewer'
+	user_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False, primary_key=True)
+	material_id = db.Column(db.ForeignKey(u'tm_material.material_id'), nullable=False, primary_key=True)
 	
+	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
+	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
+	
+	def __init__(self, obj=None):
+		Entity.__init__(self, obj)
+
 
 if __name__ == '__main__':
 	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://kiditz:rioters7@172.17.0.1:2070/teachme'

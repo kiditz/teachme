@@ -65,7 +65,7 @@ class MaterialService(object):
 		page = int(domain['page'])
 		size = int(domain['size'])
 		material_q = Material.query.filter_by(topic_id=domain['topic_id']).order_by(Material.title.asc()) \
-			.filter_by(active=True).paginate(page, size, error_out=False)
+			.filter_by(active='A').paginate(page, size, error_out=False)
 		material_list = list(map(lambda x: x.to_dict(), material_q.items))
 		return {'payload': material_list, 'total': material_q.total, 'total_pages': material_q.pages}
 	
@@ -113,4 +113,12 @@ class MaterialService(object):
 	@Key(['id'])
 	def find_material_by_id(self, domain):
 		material = Material.query.filter_by(id=domain['id']).first()
+		return {'payload': material.to_dict()}
+	
+	@Key(['id'])
+	def edit_material_by_id(self, domain):
+		material = Material.query.filter_by(id=domain['id']).first()
+		if material is None:
+			raise ValidationException(MATERIAL_NOT_FOUND)
+		
 		return {'payload': material.to_dict()}
