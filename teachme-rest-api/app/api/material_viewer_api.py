@@ -20,3 +20,15 @@ def add_material_viewer():
     """
     domain = request.get_json()
     return material_viewer_service.add_material_viewer(domain)
+
+
+@api.route('/count_material_viewer_by_material_id', methods=['GET'])
+def count_material_viewer_by_material_id():
+
+    """
+    {
+        "material_id": "Long"
+    }
+    """
+    domain = request.args.to_dict()
+    return material_viewer_service.count_material_viewer_by_material_id(domain)

@@ -113,6 +113,9 @@ public class MySubmissionActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new MySubmissionAdapter(this, this.materials);
         adapter.setImageService(imageService);
+        adapter.setMaterialService(materialService);
+        adapter.setUser(user);
+        adapter.setDisposable(disposable);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
 

@@ -19,4 +19,11 @@ public interface MaterialService {
 
     @GET("teachme/find_material_by_id")
     Single<Domain> findMaterial(@QueryMap  Domain input);
+
+    @Headers({"Content-Type:application/json"})
+    @POST("teachme/add_material_viewer")
+    Single<Domain> addMaterialViewer(@Body  Domain input);
+
+    @GET("teachme/count_material_viewer_by_material_id")
+    Single<Domain> countMaterialViewer(@Query("material_id") Long materialId);
 }

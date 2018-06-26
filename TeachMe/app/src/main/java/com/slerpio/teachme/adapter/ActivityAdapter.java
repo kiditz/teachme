@@ -19,9 +19,11 @@ import com.slerpio.teachme.R;
 import com.slerpio.teachme.helper.*;
 import com.slerpio.teachme.helper.image.CircleImageView;
 import com.slerpio.teachme.model.Domain;
+import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.service.ImageService;
 import com.slerpio.teachme.service.MaterialService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,6 +34,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
     private final Activity activity;
     private ImageService imageService;
     private MaterialService materialService;
+    private User user;
+    private CompositeDisposable disposable;
     public ActivityAdapter(Activity activity, List<Domain> activities) {
         this.activity = activity;
         this.activities = activities;
@@ -43,6 +47,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
 
     public void setMaterialService(MaterialService materialService) {
         this.materialService = materialService;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setDisposable(CompositeDisposable disposable) {
+        this.disposable = disposable;
     }
 
     @Override
@@ -69,27 +81,46 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
             if(activity.containsKey("doc_type")){
                 if(activity.getString("doc_type").equals(GlobalConstant.ACTIVITY_TYPE_MATERIAL)){
                     imageService.loadMaterialImage(holder.viewImage, raw.getLong("id"));
-                    materialService.findMaterial(raw).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(response->{
+                    disposable.add(materialService.findMaterial(raw).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(response->{
                         if(TeachmeApi.ok(response)){
                             Domain payload = TeachmeApi.payload(response);
                             holder.title.setText(payload.getString("title"));
                             holder.view.setGravity(Gravity.CENTER_VERTICAL);
-                            boolean active = payload.getBoolean("active");
-                            holder.view.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_check,0 , 0, 0);
+
+                            holder.view.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_eye,0 , 0, 0);
                             ViewUtils.setViewDrawableColor(holder.view, ActivityAdapter.this.activity.getResources().getColor(R.color.colorAccent));
-                            if(active){
-                                holder.view.setText("Di setujui");
-                            }else{
-                                holder.view.setText("Dalam Proses");
-                            }
+                            //String active = payload.getString("active");
                             holder.rawView.setOnClickListener(v -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("material", payload.toString());
-                                IntentUtils.moveTo(ActivityAdapter.this.activity, MaterialDetailActivity.class, bundle);
+                                if(materialService != null && user != null){
+                                    Domain input = new Domain();
+                                    input.put("user_id", ActivityAdapter.this.user.getUser_id());
+                                    input.put("material_id", payload.getLong("id"));
+                                    disposable.add(materialService.addMaterialViewer(input)
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe(r -> IntentUtils.moveTo(ActivityAdapter.this.activity, MaterialDetailActivity.class, bundle), error -> {}));
+                                }else{
+                                    IntentUtils.moveTo(ActivityAdapter.this.activity, MaterialDetailActivity.class, bundle);
+                                }
                             });
+                            disposable.add(materialService.countMaterialViewer(payload.getLong("id")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(resp ->{
+                                if(TeachmeApi.ok(resp)){
+                                    Domain countDomain = TeachmeApi.payload(resp);
+                                    Long count = countDomain.getLong("count");
+                                    if(count > 0){
+                                        holder.view.setText(" " + count);
+                                    }else{
+                                        holder.view.setText(" 0");
+                                    }
+                                }else{
+                                    holder.view.setText(" 0");
+                                }
+                            }, error -> holder.view.setVisibility(View.GONE)));
 
                         }
-                    });
+                    }));
                 }
             }
         }else{

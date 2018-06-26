@@ -88,21 +88,15 @@ def find_material_by_id():
     domain = request.args.to_dict()
     return material_service.find_material_by_id(domain)
 
-@api.route('/edit_material_by_id', methods=['PUT'])
-def edit_material_by_id():
+
+@api.route('/activate_material', methods=['PUT'])
+def activate_material():
 
     """
     {
-    "id": "Long",
-    "title": "String",
-    "type": "String",
-    "document_id": "Long",
-    "price": "Double",
-    "user_id": "Long",
-    "topic_id": "Long",
-    "user": "?",
-    "active": "String"
+    "id": 51,
+    "active": "A"
     }
     """
     domain = request.get_json()
-    return material_service.edit_material_by_id(domain)
+    return material_service.activate_material(domain)

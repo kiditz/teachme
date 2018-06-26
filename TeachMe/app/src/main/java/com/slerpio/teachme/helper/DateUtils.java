@@ -1,81 +1,71 @@
 package com.slerpio.teachme.helper;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
+import static java.util.concurrent.TimeUnit.*;
 public class DateUtils {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
     public static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss", Locale.getDefault());
 
+    public static final List<Long> times =
+            Arrays.asList(
+                    DAYS.toMillis(365), DAYS.toMillis(30), DAYS.toMillis(7),
+                    DAYS.toMillis(1), HOURS.toMillis(1), MINUTES.toMillis(1),
+                    SECONDS.toMillis(1));
+
+    public static final List<String> timesString = Arrays.asList("tahun", "bulan", "minggu", "hari", "jam", "menit", "detik");
+
+    /**
+     * Get relative time ago for date
+     *
+     * NOTE: if (duration > WEEK_IN_MILLIS) getRelativeTimeSpanString prints the
+     * date.
+     *
+     * ALT: return getRelativeTimeSpanString(date, now, SECOND_IN_MILLIS,
+     * FORMAT_ABBREV_RELATIVE);
+     *
+     * @param date
+     *            String.valueOf(TimeUtils.getRelativeTime(1000L * Date/Time in
+     *            Millis)
+     * @return relative time
+     */
+    public static CharSequence getTimeAgo(final long date) {
+        return toDuration(Math.abs(System.currentTimeMillis() - date));
+    }
+
+    private static String toDuration(long duration) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < times.size(); i++) {
+            Long current = times.get(i);
+            long temp = duration / current;
+            if (temp > 0) {
+                sb.append(temp).append(" ").append(timesString.get(i)).append(" lalu");
+                break;
+            }
+        }
+        return sb.toString().isEmpty() ? "b" : sb.toString();
+    }
+
     public static String printDate(long dateLong){
         return printDate(new Date(dateLong));
     }
+
     public static String printDate(Date date){
         return DATE_FORMAT.format(date);
     }
 
-    public static String getTimeAgo(long duration) {
-        long currentTime = System.currentTimeMillis();
-        long timeElapsed = (currentTime - duration) / 1000;
-        long minutes = Math.round(timeElapsed / 60);
-        long hours = Math.round(timeElapsed / 3600);
-        long days = Math.round(timeElapsed / 86400);
-        long weeks = Math.round(timeElapsed / 604800);
-        long months = Math.round(timeElapsed / 2600640);
-        long years = Math.round(timeElapsed / 31207680);
-
-        // Seconds
-        if (timeElapsed <= 60) {
-            return "just now";
-        }
-        //Minutes
-        else if (minutes <= 60) {
-            if (minutes == 1) {
-                return "one minute ago";
-            } else {
-                return minutes + " minutes ago";
-            }
-        }
-        //Hours
-        else if (hours <= 24) {
-            if (hours == 1) {
-                return "an hour ago";
-            } else {
-                return hours + " hrs ago";
-            }
-        }
-        //Days
-        else if (days <= 7) {
-            if (days == 1) {
-                return "yesterday";
-            } else {
-                return days + " days ago";
-            }
-        }
-        //Weeks
-        else if (weeks <= 4.3) {
-            if (weeks == 1) {
-                return "a week ago";
-            } else {
-                return weeks + " weeks ago";
-            }
-        }
-        //Months
-        else if (months <= 12) {
-            if (months == 1) {
-                return "a month ago";
-            } else {
-                return months + " months ago";
-            }
-        }
-        //Years
-        else {
-            if (years == 1) {
-                return "one year ago";
-            } else {
-                return years + " years ago";
-            }
-        }
+    public static String printDateTime(long dateLong){
+        return printDateTime(new Date(dateLong));
     }
+
+    public static String printDateTime(Date date){
+        return DATETIME_FORMAT.format(date);
+    }
+
+//    public static void main(String[] args) {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.MONTH, 3);
+//        System.out.println(getTimeAgo(calendar.getTimeInMillis()));
+//    }
 }

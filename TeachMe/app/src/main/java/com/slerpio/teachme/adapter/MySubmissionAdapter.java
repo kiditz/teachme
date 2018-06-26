@@ -16,10 +16,16 @@ import butterknife.ButterKnife;
 import com.slerpio.teachme.MaterialDetailActivity;
 import com.slerpio.teachme.R;
 import com.slerpio.teachme.helper.DateUtils;
+import com.slerpio.teachme.helper.GlobalConstant;
 import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.helper.ViewUtils;
 import com.slerpio.teachme.model.Domain;
+import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.service.ImageService;
+import com.slerpio.teachme.service.MaterialService;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.List;
 
@@ -27,9 +33,24 @@ public class MySubmissionAdapter extends RecyclerView.Adapter<MySubmissionAdapte
     private final List<Domain> materials;
     private final Activity activity;
     private ImageService imageService;
+    private MaterialService materialService;
+    private User user;
+    private CompositeDisposable disposable;
     public MySubmissionAdapter(Activity activity, List<Domain> materials) {
         this.activity = activity;
         this.materials = materials;
+    }
+
+    public void setDisposable(CompositeDisposable disposable) {
+        this.disposable = disposable;
+    }
+
+    public void setMaterialService(MaterialService materialService) {
+        this.materialService = materialService;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setImageService(ImageService imageService) {
@@ -52,20 +73,39 @@ public class MySubmissionAdapter extends RecyclerView.Adapter<MySubmissionAdapte
         holder.title.setText(material.getString("title"));
 
         holder.active.setGravity(Gravity.CENTER_VERTICAL);
-        holder.active.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_check,0 , 0, 0);
-        ViewUtils.setViewDrawableColor(holder.active, activity.getResources().getColor(R.color.colorAccent));
-        boolean active = material.getBoolean("active");
-        if(active){
 
+        String active = material.getString("active");
+        if(active.equals(GlobalConstant.MATERIAL_STATUS_ACCEPT)){
+            holder.active.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_check,0 , 0, 0);
+            ViewUtils.setViewDrawableColor(holder.active, activity.getResources().getColor(R.color.colorAccent));
             holder.active.setText("Di setujui");
-        }else{
+        }else if(active.equals(GlobalConstant.MATERIAL_STATUS_IN_PROGRESS)){
+            holder.active.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_check,0 , 0, 0);
+            ViewUtils.setViewDrawableColor(holder.active, activity.getResources().getColor(android.R.color.tab_indicator_text));
             holder.active.setText("Dalam Proses");
+        } else {
+            holder.active.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_remove,0 , 0, 0);
+            ViewUtils.setViewDrawableColor(holder.active, activity.getResources().getColor(android.R.color.tab_indicator_text));
+            holder.active.setText("Di tolak");
         }
 
         holder.timeAgo.setText(DateUtils.getTimeAgo(material.getLong("created_at")));
         Bundle bundle = new Bundle();
         bundle.putString("material", material.toString());
-        holder.rawView.setOnClickListener(v -> IntentUtils.moveTo(activity, MaterialDetailActivity.class, bundle));
+
+        holder.rawView.setOnClickListener(v -> {
+            if(materialService != null && user != null){
+                Domain input = new Domain();
+                input.put("user_id", user.getUser_id());
+                input.put("material_id", material.getLong("id"));
+                disposable.add(materialService.addMaterialViewer(input)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(r -> IntentUtils.moveTo(activity, MaterialDetailActivity.class, bundle), error -> {}));
+            }else{
+                IntentUtils.moveTo(activity, MaterialDetailActivity.class, bundle);
+            }
+        });
     }
 
     @Override

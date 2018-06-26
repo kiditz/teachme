@@ -9,5 +9,6 @@ public class GlobalConstant {
     public static final String ACTIVITY_TYPE_TASK = "TASK";
 
     public static final String MATERIAL_STATUS_IN_PROGRESS = "I";
-    public static final String MATERIAL_STATUS_IN_ACCEPT = "A";
+    public static final String MATERIAL_STATUS_ACCEPT = "A";
+    public static final String MATERIAL_STATUS_DECLINE = "A";
 }

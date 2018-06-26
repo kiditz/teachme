@@ -90,6 +90,8 @@ public class FragmentActivity extends Fragment {
         adapter = new ActivityAdapter(getActivity(), activities);
         adapter.setImageService(imageService);
         adapter.setMaterialService(materialService);
+        adapter.setDisposable(disposable);
+        adapter.setUser(user);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
         this.activities.clear();

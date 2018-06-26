@@ -63,6 +63,9 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
     public void onBindViewHolder(@NonNull LearnViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final Domain topic = topics.get(position);
         final MaterialAdapter adapter = new MaterialAdapter(context, holder.materialList);
+        adapter.setMaterialService(materialService);
+        adapter.setDisposable(disposable);
+        adapter.setUser(userRepository.findUser());
         final LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         adapter.setImageService(this.imageService);
         holder.topicName.setText(topic.getString("name"));
@@ -115,8 +118,12 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
                 }
                 holder.materialList.addAll(TeachmeApi.payloads(response));
                 if(holder.materialList.isEmpty()){
-                    topics.remove(position);
-                    notifyItemRemoved(position);
+                    try {
+                        topics.remove(position);
+                        notifyItemRemoved(position);
+                    }catch (Exception ignore){
+
+                    }
                 }
                 holder.isLoading = false;
                 adapter.notifyDataSetChanged();

@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 
 from api.activity_api import activity_service
 from api.teacher_api import teacher_service
-from constant.api_constant import MATERIAL_NOT_FOUND, CONNECTION_ERROR, ACTIVITY_TYPE_MATERIAL
+from constant.api_constant import MATERIAL_NOT_FOUND, CONNECTION_ERROR, ACTIVITY_TYPE_MATERIAL, ONLY_IN_PROGRESS_CAN_BE_ACTIVATED
 from entity.models import Material, MaterialTopic
 
 log = logging.getLogger(__name__)
@@ -41,11 +41,6 @@ class MaterialService(object):
 		material = Material(domain)
 		material.topic_id = topic.id
 		material.save()
-		activity_domain = {'user_id': domain['user_id'],
-		                   'message': 'membuat materi',
-		                   'raw': json.dumps({'id', material.id}),
-		                   'doc_type': ACTIVITY_TYPE_MATERIAL}
-		activity_service.add_activity(activity_domain)
 		return {'payload': material.to_dict()}
 	
 	@Key(['title'])
@@ -115,10 +110,18 @@ class MaterialService(object):
 		material = Material.query.filter_by(id=domain['id']).first()
 		return {'payload': material.to_dict()}
 	
-	@Key(['id'])
-	def edit_material_by_id(self, domain):
+	@Number(['id'])
+	def activate_material(self, domain):
 		material = Material.query.filter_by(id=domain['id']).first()
 		if material is None:
 			raise ValidationException(MATERIAL_NOT_FOUND)
-		
+		if material.active != 'I':
+			raise ValidationException(ONLY_IN_PROGRESS_CAN_BE_ACTIVATED)
+		material.update(domain)
+		if material.active == 'A':
+			activity_domain = {'user_id': material.user_id,
+			                   'message': 'membuat materi',
+			                   'raw': json.dumps({'id': material.id}),
+			                   'doc_type': ACTIVITY_TYPE_MATERIAL}
+			activity_service.add_activity(activity_domain)
 		return {'payload': material.to_dict()}
