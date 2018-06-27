@@ -25,8 +25,8 @@ import com.slerpio.teachme.helper.DateUtils;
 import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.helper.ViewUtils;
 import com.slerpio.teachme.model.Domain;
-import com.slerpio.view.AnimationUtils;
-import com.slerpio.view.TouchyWebView;
+import com.slerpio.lib.AnimationUtils;
+import com.slerpio.lib.TouchyWebView;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;

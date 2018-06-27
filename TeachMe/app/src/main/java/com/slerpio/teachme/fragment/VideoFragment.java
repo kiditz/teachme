@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import com.slerpio.teachme.App;
 import com.slerpio.teachme.R;
 import com.slerpio.teachme.adapter.VideoAdapter;
-import com.slerpio.view.CustomRecyclerView;
+import com.slerpio.lib.CustomRecyclerView;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

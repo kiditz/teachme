@@ -1,1 +1,1 @@
-include ':app', ':teachmeview'
+include ':app', ':slerplib'

@@ -15,7 +15,7 @@ import com.slerpio.teachme.model.Domain;
 import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.MaterialService;
-import com.slerpio.view.TouchyWebView;
+import com.slerpio.lib.TouchyWebView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;

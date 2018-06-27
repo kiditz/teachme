@@ -56,7 +56,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile project(":teachmeview")
+    compile project(":slerplib")
     //compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
     compile 'com.google.dagger:dagger:2.10'
     compile 'com.android.support:appcompat-v7:27.1.1'

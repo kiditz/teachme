@@ -5,7 +5,7 @@
               android:orientation="vertical"
              tools:context="com.slerpio.teachme.fragment.VideoFragment">
 
-    <com.slerpio.view.CustomRecyclerView
+    <com.slerpio.lib.CustomRecyclerView
             android:id="@+id/rv_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

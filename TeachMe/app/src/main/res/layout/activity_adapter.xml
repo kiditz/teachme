@@ -15,7 +15,7 @@
            android:orientation="vertical"
            android:layout_width="match_parent"
            android:layout_height="match_parent">
-       <com.slerpio.view.FlowLayout
+       <com.slerpio.lib.FlowLayout
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:orientation="horizontal">
@@ -43,7 +43,7 @@
                    android:textSize="15sp"
                    android:layout_marginStart="@dimen/five_dp"/>
 
-       </com.slerpio.view.FlowLayout>
+       </com.slerpio.lib.FlowLayout>
        <LinearLayout
                android:clickable="true"
                android:background="?attr/selectableItemBackground"

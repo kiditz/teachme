@@ -2,7 +2,6 @@ package com.slerpio.teachme;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +23,7 @@ import com.slerpio.teachme.model.Domain;
 import com.slerpio.teachme.realm.service.DocumentRepository;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.DocumentService;
-import com.slerpio.view.editor.RichEditor;
+import com.slerpio.lib.editor.RichEditor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;

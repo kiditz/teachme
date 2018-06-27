@@ -8,8 +8,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.slerpio.teachme.R;
 import com.slerpio.teachme.model.Domain;
-import com.slerpio.view.CustomViewHolder;
-import com.slerpio.view.VideosAdapter;
+import com.slerpio.lib.CustomViewHolder;
+import com.slerpio.lib.VideosAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
