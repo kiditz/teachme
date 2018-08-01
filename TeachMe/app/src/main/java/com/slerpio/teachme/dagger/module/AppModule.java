@@ -3,6 +3,9 @@ package com.slerpio.teachme.dagger.module;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import com.slerpio.lib.messaging.Stomp;
+import com.slerpio.lib.messaging.Subscription;
+import com.slerpio.teachme.R;
 import com.slerpio.teachme.helper.Translations;
 import com.slerpio.teachme.realm.service.DocumentRepository;
 import com.slerpio.teachme.realm.service.SchoolRepository;
@@ -67,5 +70,12 @@ public class AppModule {
         return new ImageService(application.getBaseContext(), preferences);
     }
 
-
+    @Provides
+    public Stomp provideStomp(){
+        Stomp stomp = new Stomp(application.getBaseContext(), application.getBaseContext().getString(R.string.teachme_messaging_url), state -> {
+        });
+        stomp.disconnect();
+        stomp.connect();
+        return stomp;
+    }
 }

@@ -15,7 +15,7 @@ import com.slerpio.teachme.R;
 import com.slerpio.teachme.helper.NetworkUtils;
 import com.slerpio.teachme.helper.TeachmeApi;
 import com.slerpio.teachme.helper.Translations;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.ImageService;
 import com.slerpio.teachme.service.MaterialService;

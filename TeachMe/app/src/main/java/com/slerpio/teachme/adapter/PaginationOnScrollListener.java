@@ -4,7 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import com.slerpio.teachme.helper.TeachmeApi;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import io.reactivex.Single;
 
 import java.util.List;

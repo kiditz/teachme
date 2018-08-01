@@ -18,7 +18,7 @@ import com.slerpio.teachme.R;
 import com.slerpio.teachme.helper.GlobalConstant;
 import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.helper.MimeUtils;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.service.ImageService;
 import com.slerpio.teachme.service.MaterialService;

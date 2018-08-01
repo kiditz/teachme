@@ -3,6 +3,9 @@ package org.slerpio.gateway;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +14,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -23,6 +27,7 @@ import org.springframework.util.StreamUtils;
 @Configuration
 @EnableResourceServer
 public class Oauth2ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+	static private final Logger log = LoggerFactory.getLogger(Oauth2ResourceServerConfiguration.class);
 	private String resourceId = "slerp";
 	@Value("${ignores}")
 	private String[] ignores;
@@ -47,12 +52,14 @@ public class Oauth2ResourceServerConfiguration extends ResourceServerConfigurerA
 	}
 
 	@Bean
+	@Qualifier("tokenStore")
 	public TokenStore tokenStore() {
-		return new JwtTokenStore(accessTokenConverter());
+		return new JwtTokenStore(jwtAccessTokenConverter());
 	}
 
 	@Bean
-	public JwtAccessTokenConverter accessTokenConverter() {
+	@Qualifier("jwtAccessTokenConverter")
+	public JwtAccessTokenConverter jwtAccessTokenConverter() {
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 		Resource resource = new ClassPathResource("public.txt");
 		String publicKey;
@@ -61,7 +68,8 @@ public class Oauth2ResourceServerConfiguration extends ResourceServerConfigurerA
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-		converter.setVerifierKey(publicKey);
+		converter.setVerifier(new RsaVerifier(publicKey));
+		log.info("Set JWT signing key to: {}", converter.getKey());
 		return converter;
 	}
 

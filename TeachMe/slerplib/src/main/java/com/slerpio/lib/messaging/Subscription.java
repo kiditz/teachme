@@ -1,4 +1,6 @@
-package org.slerp.cloud.messaging;
+package com.slerpio.lib.messaging;
+
+import com.slerpio.lib.core.Domain;
 
 import java.util.Map;
 
@@ -36,6 +38,13 @@ public class Subscription {
     }
 
     public interface ListenerSubscription {
-        public void onMessage(Map<String, String> headers, String body);
+        void onMessage(Map<String, String> headers, String body);
+        void onMessage(Map<String, String> headers, Domain body);
+    }
+
+    public abstract static class ListenerSubscriptionAdapter implements ListenerSubscription{
+        @Override
+        public void onMessage(Map<String, String> headers, String body) {
+        }
     }
 }

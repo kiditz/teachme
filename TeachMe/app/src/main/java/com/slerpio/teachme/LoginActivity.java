@@ -18,7 +18,7 @@ import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.helper.MetaData;
 import com.slerpio.teachme.helper.OauthCredentialGenerator;
 import com.slerpio.teachme.helper.Translations;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.AccountService;
 import io.reactivex.Observable;

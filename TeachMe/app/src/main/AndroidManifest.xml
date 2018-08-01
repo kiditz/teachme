@@ -3,15 +3,17 @@
           package="com.slerpio.teachme">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.RECORD_VIDEO" />
+    <uses-permission android:name="android.permission.RECORD_VIDEO"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.front" />
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.front"/>
+
     <application
             android:name=".App"
             android:allowBackup="true"
@@ -67,7 +69,6 @@
                 android:name=".EditProfileActivity"
                 android:label="@string/title_edit_profile">
         </activity>
-
         <activity
                 android:name=".MaterialWriteActivity"
                 android:label="@string/title_write_material"
@@ -93,19 +94,19 @@
                 android:label="@string/title_add_material">
         </activity>
         <activity
-                android:theme="@style/AppTheme.NoActionBar"
-                android:name=".MaterialDetailActivity">
+                android:name=".MaterialDetailActivity"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
         <activity
                 android:name=".MaterialPreviewActivity"
                 android:label="@string/preview">
-
         </activity>
         <activity
+                android:name=".MySubmissionActivity"
                 android:label="@string/title_submit_material"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:name=".MySubmissionActivity"/>
+                android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".CommentMaterialActivity">
+        </activity>
     </application>
 
 </manifest>

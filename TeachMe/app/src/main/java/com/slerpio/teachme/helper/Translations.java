@@ -3,7 +3,7 @@ package com.slerpio.teachme.helper;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 
 import java.io.IOException;
 import java.io.InputStream;

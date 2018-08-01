@@ -41,7 +41,7 @@ public class CORSFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) resp;
 		HttpServletRequest request = (HttpServletRequest) req;
 		//Seperate By Comma http://0.0.0.0:8020, http://0.0.0.0:8021, http://0.0.0.0:8022, http://0.0.0.0:8090
-		response.setHeader("Access-Control-Allow-Origin", "http://0.0.0.0:8020, http://0.0.0.0:8021, http://0.0.0.0:8022, http://0.0.0.0:8090");
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "PATCH,POST,GET,OPTIONS,DELETE");
 		response.setHeader("Access-Control-Max-Age", "3600");
 		response.setHeader("Access-Control-Allow-Headers",

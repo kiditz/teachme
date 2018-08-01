@@ -1,4 +1,4 @@
-package com.slerpio.teachme.helper;
+package com.slerpio.lib.core;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

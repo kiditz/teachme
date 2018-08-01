@@ -12,21 +12,20 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import com.slerpio.teachme.helper.BackPressed;
-import com.slerpio.teachme.helper.DateUtils;
-import com.slerpio.teachme.helper.IntentUtils;
-import com.slerpio.teachme.helper.ViewUtils;
-import com.slerpio.teachme.model.Domain;
 import com.slerpio.lib.AnimationUtils;
 import com.slerpio.lib.TouchyWebView;
+import com.slerpio.lib.core.Domain;
+import com.slerpio.lib.messaging.Stomp;
+import com.slerpio.lib.messaging.Subscription;
+import com.slerpio.teachme.helper.BackPressed;
+import com.slerpio.lib.core.DateUtils;
+import com.slerpio.teachme.helper.IntentUtils;
+import com.slerpio.teachme.helper.ViewUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
@@ -34,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MaterialDetailActivity extends AppCompatActivity {
+    private static final String TAG = MaterialDetailActivity.class.getName();
     @BindView(R.id.clock)
     TextView clock;
     @BindView(R.id.title)
@@ -55,13 +55,15 @@ public class MaterialDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private static final CharSequence[] TEXT_SIZE = new CharSequence[]{
-            "Sangat Kecil", "Kecil", "Normal","Besar", "Sangat Besar"
+            "Sangat Kecil", "Kecil", "Normal", "Besar", "Sangat Besar"
     };
     @Inject
     SharedPreferences preferences;
+
     Domain material = new Domain();
     private boolean isDescriptionShowUp = false;
     ViewGroup.LayoutParams tempParams;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +80,15 @@ public class MaterialDetailActivity extends AppCompatActivity {
         }
 
         this.material = new Domain(bundle.getString("material"));
+
         setSupportActionBar(toolbar);
+        /*stomp.subscribe(new Subscription("/app/comment.material/get_comment/51/0/10", new Subscription.ListenerSubscriptionAdapter() {
+            @Override
+            public void onMessage(Map<String, String> headers, Domain body) {
+                Toast.makeText(MaterialDetailActivity.this, body.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }));*/
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -119,17 +129,26 @@ public class MaterialDetailActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.comment)
+    public void onCommentClick() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null)
+            return;
+        IntentUtils.moveTo(this, CommentMaterialActivity.class, bundle);
+    }
+
     @OnClick(R.id.descriptionButton)
-    public void onDescriptionButtonClicked(){
-        if(isDescriptionShowUp){
+    public void onDescriptionButtonClicked() {
+        if (isDescriptionShowUp) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             descriptionView.setLayoutParams(params);
             isDescriptionShowUp = false;
-        }else {
+        } else {
             AnimationUtils.slideDown(descriptionView, 500).setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
                 }
+
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     descriptionView.setLayoutParams(tempParams);
@@ -146,10 +165,10 @@ public class MaterialDetailActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.viewDescription)
-    public void onDescriptionViewClicked(){
-        if(isDescriptionShowUp){
+    public void onDescriptionViewClicked() {
+        if (isDescriptionShowUp) {
             AnimationUtils.slideDown(descriptionView, 500);
-        }else{
+        } else {
             AnimationUtils.slideUp(descriptionView, 500);
         }
         isDescriptionShowUp = !isDescriptionShowUp;
@@ -166,10 +185,10 @@ public class MaterialDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(isDescriptionShowUp){
+        if (isDescriptionShowUp) {
             AnimationUtils.slideDown(descriptionView, 500);
             isDescriptionShowUp = !isDescriptionShowUp;
-        }else{
+        } else {
             super.onBackPressed();
         }
 
@@ -179,7 +198,7 @@ public class MaterialDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case R.id.action_text_height:
                 doSetFontSize();
                 return true;
@@ -187,10 +206,10 @@ public class MaterialDetailActivity extends AppCompatActivity {
         return BackPressed.home(item, this);
     }
 
-    private void doSetFontSize(){
+    private void doSetFontSize() {
         final WebSettings webSettings = webView.getSettings();
         AlertDialog dialog = new AlertDialog.Builder(this).setItems(TEXT_SIZE, (dialog1, which) -> {
-            switch (which){
+            switch (which) {
                 case 0:
                     webSettings.setTextSize(WebSettings.TextSize.SMALLEST);
                     break;
@@ -209,5 +228,10 @@ public class MaterialDetailActivity extends AppCompatActivity {
             }
         }).create();
         dialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

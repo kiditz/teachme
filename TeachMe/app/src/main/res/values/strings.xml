@@ -102,6 +102,7 @@
     <string name="task">Tugas</string>
     <string name="task_report">Laporan Nilai</string>
     <string name="teach_me_url">http://192.168.1.126:5000/</string>
+    <string name="teachme_messaging_url">ws://192.168.1.126:5004/messaging</string>
     <string name="teaching_at">Dimana anda mengajar?</string>
     <string name="three_dot">...</string>
     <string name="title">Judul</string>

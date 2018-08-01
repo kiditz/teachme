@@ -7,7 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.service.SchoolService;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

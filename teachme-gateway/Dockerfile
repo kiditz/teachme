@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk-alpine
 MAINTAINER kiditz <kiditzbastara@gmail.com>
 
-ADD ./target/api-gateway.jar /app/
-CMD ["java", "-Xmx200m", "-jar", "/app/api-gateway.jar"]
-EXPOSE 38289
+ADD ./target/teachme-gateway.jar /app/
+CMD ["java", "-Xmx200m", "-jar", "/app/teachme-gateway.jar"]
+EXPOSE 5000

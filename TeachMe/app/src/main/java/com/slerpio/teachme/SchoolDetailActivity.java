@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 import com.slerpio.teachme.fragment.SchoolDetailFragment;
 import com.slerpio.teachme.fragment.ViewPagerFragmentAdapter;
 import com.slerpio.teachme.helper.BackPressed;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.service.ImageService;
 
 import javax.inject.Inject;

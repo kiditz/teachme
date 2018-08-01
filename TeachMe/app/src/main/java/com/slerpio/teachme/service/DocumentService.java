@@ -1,6 +1,6 @@
 package com.slerpio.teachme.service;
 
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;

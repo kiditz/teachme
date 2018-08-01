@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import com.slerpio.teachme.R;
 import com.slerpio.teachme.SchoolDetailActivity;
 import com.slerpio.teachme.helper.IntentUtils;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.service.ImageService;
 import org.apache.commons.lang3.StringUtils;
 

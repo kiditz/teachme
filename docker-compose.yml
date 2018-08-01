@@ -1,17 +1,41 @@
 version: '3.1'
 services:
-  teachme-rest-api:
-    image: teachme-rest-api
-    build: teachme-rest-api
+  # teachme-rest-api:
+  #   image: teachme-rest-api
+  #   build: teachme-rest-api
+  #   environment:
+  #     - "CONSUL_HOST=172.17.0.1"
+  #     - "CONSUL_PORT=8500"
+  #     - "SERVICE_NAME=teachme-rest-api-service"
+  #     - "SERVICE_TAGS=service"      
+  #   networks:
+  #     - teachme_overlay_net
+  #   volumes:
+  #     - teachme_data_vol:/teachmeio/teachme-rest-api/
+  #   deploy:
+  #     mode: global      
+  #     placement:
+  #       constraints: [node.role == worker]
+  #     restart_policy:
+  #       condition: on-failure
+  #       delay: 5s
+  #       max_attempts: 3
+  #       window: 120s
+  #   ports:
+  #     - 5002:5002/tcp
+  teachme-oauth-api:
     environment:
-      - "CONSUL_HOST=172.17.0.1"
-      - "CONSUL_PORT=8500"
-      - "SERVICE_NAME=teachme-rest-api-service"
-      - "SERVICE_TAGS=service"      
+      CONSUL_HOST: 172.17.0.1
+      CONSUL_PORT: 8500
+      SPRING_PROFILES_ACTIVE: dev
+    ports:      
+      - "5001:5001"
+    image: teachme-oauth-api
+    build: teachme-oauth-api
     networks:
       - teachme_overlay_net
     volumes:
-      - teachme_data_vol:/teachmeio/teachme-rest-api/
+      - teachme_data_vol:/teachme-oauth-api
     deploy:
       mode: global      
       placement:
@@ -21,10 +45,63 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    ports:
-      - 5002:5002/tcp
-
-
+    logging:
+      options:
+        max-size: 10m
+        max-file: '10'
+  teachme-gateway:
+    environment:
+      CONSUL_HOST: 172.17.0.1
+      CONSUL_PORT: 8500
+      SPRING_PROFILES_ACTIVE: dev
+    ports:      
+      - "5000:5000"
+    image: teachme-gateway
+    build: teachme-gateway
+    networks:
+      - teachme_overlay_net
+    volumes:
+      - teachme_data_vol:/teachme-gateway
+    deploy:
+      mode: global      
+      placement:
+        constraints: [node.role == worker]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    logging:
+      options:
+        max-size: 10m
+        max-file: '10'  
+  
+  teachme-messaging:
+    environment:
+      CONSUL_HOST: 172.17.0.1
+      CONSUL_PORT: 8500
+      SPRING_PROFILES_ACTIVE: dev
+    ports:      
+      - "5004:5004"
+    image: teachme-messaging
+    build: teachme-messaging
+    networks:
+      - teachme_overlay_net
+    volumes:
+      - teachme_data_vol:/teachme-messaging
+    deploy:
+      mode: global      
+      placement:
+        constraints: [node.role == worker]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    logging:
+      options:
+        max-size: 10m
+        max-file: '10'  
 networks:
     teachme_overlay_net:
       external: true

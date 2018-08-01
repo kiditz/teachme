@@ -1,7 +1,7 @@
 package com.slerpio.teachme.realm.service;
 
 import com.slerpio.teachme.model.Document;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import io.realm.Realm;
 
 public class DocumentRepository {

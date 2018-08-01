@@ -23,6 +23,7 @@ public interface NetOauthComponent {
     void inject(MaterialWriteActivity activity);
     void inject(AddMaterialActivity activity);
     void inject(MaterialDetailActivity activity);
-    void inject(MySubmissionActivity activity);
     void inject(MaterialPreviewActivity activity);
+    void inject(CommentMaterialActivity activity);
+    void inject(MySubmissionActivity activity);
 }

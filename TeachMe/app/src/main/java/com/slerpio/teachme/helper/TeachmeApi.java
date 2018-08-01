@@ -1,6 +1,6 @@
 package com.slerpio.teachme.helper;
 
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 
 import java.util.List;
 

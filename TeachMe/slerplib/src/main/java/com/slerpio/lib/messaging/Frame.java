@@ -1,4 +1,4 @@
-package org.slerp.cloud.messaging;
+package com.slerpio.lib.messaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;

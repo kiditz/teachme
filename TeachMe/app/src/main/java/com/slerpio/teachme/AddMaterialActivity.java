@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.slerpio.teachme.helper.*;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.MaterialService;

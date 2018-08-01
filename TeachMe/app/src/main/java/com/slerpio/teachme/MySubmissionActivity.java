@@ -19,7 +19,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.slerpio.teachme.adapter.AbstractRecyclerPagination;
 import com.slerpio.teachme.adapter.MySubmissionAdapter;
 import com.slerpio.teachme.helper.*;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.ImageService;

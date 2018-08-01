@@ -1,6 +1,7 @@
-package com.slerpio.teachme.model;
+package com.slerpio.lib.core;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -11,20 +12,15 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.slerpio.teachme.helper.CoreException;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+@SuppressWarnings("unused")
 public class Domain implements Map<String, Object>, Serializable{
     // Use Concurrent HashMap for thread safe
     private Map<String, Object> map = new LinkedHashMap<>();
@@ -36,18 +32,14 @@ public class Domain implements Map<String, Object>, Serializable{
         jsonMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
         jsonMapper.configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
         jsonMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-        jsonMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+        jsonMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US));
     }
-    static public final Domain instances = new Domain();
+
     public Domain() {
     }
 
     public Domain(Object object) {
         this(writeTo(object));
-    }
-
-    public Domain(Domain other) {
-        this(other.toString());
     }
 
     @SuppressWarnings("unchecked")
@@ -84,18 +76,38 @@ public class Domain implements Map<String, Object>, Serializable{
         return map.get(key);
     }
 
+    /**
+     * Method to get boolean value
+     * @param key is the key of data
+     * @return boolean value
+     */
     public Boolean getBoolean(String key) {
         return Boolean.valueOf(getString(key));
     }
-
+    
+    /**
+     * Method to get long value
+     * @param key is the key of data
+     * @return long value
+     */
     public Long getLong(String key) {
         return Long.valueOf(getString(key));
     }
 
+    /**
+     * Method to get int value
+     * @param key is the key of data
+     * @return int value
+     */
     public Integer getInt(String key) {
         return Integer.valueOf(getString(key));
     }
-
+   
+    /**
+     * Method to get short value
+     * @param key is the key of data
+     * @return short value
+     */
     public Short getShort(String key) {
         return Short.valueOf(getString(key));
     }
@@ -122,10 +134,6 @@ public class Domain implements Map<String, Object>, Serializable{
         return null;
     }
 
-    public Object putIfAbsent(String key, Object value) {
-        return map.putIfAbsent(key, value);
-    }
-
     public Domain put(String key, Object value) {
         map.put(key, value);
         return this;
@@ -135,22 +143,25 @@ public class Domain implements Map<String, Object>, Serializable{
         return map.remove(key);
     }
 
-    public void putAll(Map<? extends String, ? extends Object> m) {
+    public void putAll(@NonNull Map<? extends String, ?> m) {
         map.putAll(m);
     }
 
     public void clear() {
         map.clear();
     }
+    @NonNull
     @Override
     public Set<String> keySet() {
         return map.keySet();
     }
+    @NonNull
     @Override
     public Collection<Object> values() {
         return map.values();
     }
 
+    @NonNull
     @Override
     public Set<java.util.Map.Entry<String, Object>> entrySet() {
         return this.map.entrySet();
@@ -159,9 +170,8 @@ public class Domain implements Map<String, Object>, Serializable{
     public List<Domain> getList(String key) {
         try {
             String result = jsonMapper.writeValueAsString(this.map.get(key));
-            List<Domain> dtoList = jsonMapper.readValue(result, new TypeReference<List<Domain>>() {
+            return jsonMapper.readValue(result, new TypeReference<List<Domain>>() {
             });
-            return dtoList;
         } catch (JsonProcessingException e) {
             throw new CoreException("the.value.should.be.json.list." + key, e);
         } catch (IOException e) {
@@ -171,9 +181,8 @@ public class Domain implements Map<String, Object>, Serializable{
     public List<Map<Object, Object>> getListAsMap(String key) {
         try {
             String result = jsonMapper.writeValueAsString(this.map.get(key));
-            List<Map<Object, Object>> dtoList = jsonMapper.readValue(result, new TypeReference<List<Map<Object, Object>>>() {
+            return jsonMapper.readValue(result, new TypeReference<List<Map<Object, Object>>>() {
             });
-            return dtoList;
         } catch (JsonProcessingException e) {
             throw new CoreException("the.value.should.be.json.list." + key, e);
         } catch (IOException e) {
@@ -184,8 +193,7 @@ public class Domain implements Map<String, Object>, Serializable{
     public List<String> getListString(String key) {
         try {
             String result = jsonMapper.writeValueAsString(this.map.get(key));
-            List<String> dtoList = jsonMapper.readValue(result, new TypeReference<List<String>>() {});
-            return dtoList;
+            return jsonMapper.readValue(result, new TypeReference<List<String>>() {});
         } catch (JsonProcessingException e) {
             throw new CoreException("the.value.should.be.json.list." + key, e);
         } catch (IOException e) {
@@ -195,9 +203,8 @@ public class Domain implements Map<String, Object>, Serializable{
     public Set<Domain> getSet(String key) {
         try {
             String result = jsonMapper.writeValueAsString(this.map.get(key));
-            Set<Domain> dtoList = jsonMapper.readValue(result, new TypeReference<Set<Domain>>() {
+            return jsonMapper.readValue(result, new TypeReference<Set<Domain>>() {
             });
-            return dtoList;
         } catch (JsonProcessingException e) {
             throw new CoreException("the.value.should.be.json.set." + key, e);
         } catch (IOException e) {
@@ -208,8 +215,7 @@ public class Domain implements Map<String, Object>, Serializable{
     public Domain getDomain(String key) {
         try {
             String result = jsonMapper.writeValueAsString(this.map.get(key));
-            Domain dto = jsonMapper.readValue(result.getBytes(), Domain.class);
-            return dto;
+            return jsonMapper.readValue(result.getBytes(), Domain.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             throw new CoreException("the.value.should.be.json.object." + key, e);
@@ -229,8 +235,7 @@ public class Domain implements Map<String, Object>, Serializable{
 
     public static String writeTo(Object object) {
         try {
-            String result = jsonMapper.writeValueAsString(object);
-            return result;
+            return jsonMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new CoreException(e);
         }
@@ -238,8 +243,7 @@ public class Domain implements Map<String, Object>, Serializable{
 
     public String toString() {
         try {
-            String result = jsonMapper.writeValueAsString(this.map);
-            return result;
+            return jsonMapper.writeValueAsString(this.map);
         } catch (JsonProcessingException e) {
             throw new CoreException(e);
         }

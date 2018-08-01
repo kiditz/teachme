@@ -1,7 +1,7 @@
 package com.slerpio.teachme.helper;
 
 import android.util.Base64;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 
 import java.nio.charset.Charset;
 

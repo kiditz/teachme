@@ -1,6 +1,6 @@
 package com.slerpio.teachme.service;
 
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import io.reactivex.Single;
 import retrofit2.http.*;
 
@@ -26,4 +26,7 @@ public interface MaterialService {
 
     @GET("teachme/count_material_viewer_by_material_id")
     Single<Domain> countMaterialViewer(@Query("material_id") Long materialId);
+
+    @GET("teachme/get_material_comment_by_material_id")
+    Single<Domain> getMaterialComment(@QueryMap Domain input);
 }

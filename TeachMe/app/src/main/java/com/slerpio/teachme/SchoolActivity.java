@@ -14,7 +14,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.slerpio.teachme.adapter.PaginationOnScrollListener;
 import com.slerpio.teachme.adapter.SchoolAdapter;
 import com.slerpio.teachme.helper.*;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.realm.service.SchoolRepository;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.ImageService;

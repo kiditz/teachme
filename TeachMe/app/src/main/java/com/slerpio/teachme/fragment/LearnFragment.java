@@ -2,8 +2,6 @@ package com.slerpio.teachme.fragment;
 
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,17 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.jakewharton.rxbinding2.view.RxView;
-import com.slerpio.teachme.AddMaterialActivity;
 import com.slerpio.teachme.App;
 import com.slerpio.teachme.R;
 import com.slerpio.teachme.adapter.AbstractRecyclerPagination;
 import com.slerpio.teachme.adapter.LearnAdapter;
-import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.helper.NetworkUtils;
 import com.slerpio.teachme.helper.TeachmeApi;
 import com.slerpio.teachme.helper.Translations;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.model.User;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.ImageService;

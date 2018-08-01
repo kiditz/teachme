@@ -21,7 +21,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.slerpio.teachme.helper.*;
 import com.slerpio.teachme.helper.picker.DefaultCallback;
 import com.slerpio.teachme.helper.picker.EasyImage;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.realm.service.UserRepository;
 import com.slerpio.teachme.service.DocumentService;
 import com.slerpio.teachme.service.ImageService;

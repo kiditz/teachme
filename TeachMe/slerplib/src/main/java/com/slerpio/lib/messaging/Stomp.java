@@ -1,9 +1,11 @@
-package org.slerp.cloud.messaging;
+package com.slerpio.lib.messaging;
 
+import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
+import com.slerpio.lib.core.Domain;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-import org.slerp.cloud.messaging.Subscription.ListenerSubscription;
-import org.slerp.cloud.messaging.Subscription.ListenerWSNetwork;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -56,7 +58,7 @@ public class Stomp {
 
     private Map<String, Subscription> subscriptions;
 
-    private ListenerWSNetwork networkListener;
+    private Subscription.ListenerWSNetwork networkListener;
 
     /**
      * Constructor of a stomp object. Only url used to set up a connection with a server can be instantiate
@@ -64,16 +66,18 @@ public class Stomp {
      * @param url
      *      the url of the server to connect with
      */
-    public Stomp(String url, ListenerWSNetwork stompStates){
+
+    public Stomp(final Context context, String url, Subscription.ListenerWSNetwork stompStates){
+        final Handler handler = new Handler(context.getMainLooper());
         try {
             this.counter = 0;
 
-            this.headers = new HashMap<String, String>();
+            this.headers = new HashMap<>();
             this.maxWebSocketFrameSize = 16 * 1024;
             this.connection = NOT_AGAIN_CONNECTED;
             this.networkListener = stompStates;
             this.networkListener.onState(NOT_AGAIN_CONNECTED);
-            this.subscriptions = new HashMap<String, Subscription>();
+            this.subscriptions = new HashMap<>();
             this.socket = new WebSocketClient(URI.create(url)) {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
@@ -86,24 +90,34 @@ public class Stomp {
 
                 @Override
                 public void onMessage(String message) {
-                    Frame frame = Frame.fromString(message);
+                    final Frame frame = Frame.fromString(message);
                     boolean isMessageConnected = false;
 
                     if(frame.getCommand().equals(COMMAND_CONNECTED)){
                         Stomp.this.connection = CONNECTED;
                         Stomp.this.networkListener.onState(CONNECTED);
 
-                        System.out.println( "connected to server : " + frame.getHeaders().get("server"));
+                        Log.d(TAG, "connected to server : " + frame.getHeaders().get("server"));
                         isMessageConnected = true;
 
                     } else if(frame.getCommand().equals(COMMAND_MESSAGE)){
                         String subscription = frame.getHeaders().get(SUBSCRIPTION_SUBSCRIPTION);
-                        ListenerSubscription onReceive = Stomp.this.subscriptions.get(subscription).getCallback();
-
+                        final Subscription.ListenerSubscription onReceive = Stomp.this.subscriptions.get(subscription).getCallback();
+                        Log.d(TAG, "body : "+ frame.getBody());
                         if(onReceive != null){
-                            onReceive.onMessage(frame.getHeaders(), frame.getBody());
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    onReceive.onMessage(frame.getHeaders(), frame.getBody());
+                                    try {
+                                        onReceive.onMessage(frame.getHeaders(), new Domain(frame.getBody()));
+                                    }catch (Exception ignore){
+                                        Log.e(TAG, "run: ", ignore);
+                                    }
+                                }
+                            });
                         } else{
-                            System.out.println(TAG + "Error : Subscription with id = " + subscription + " had not been subscribed");
+                            Log.d(TAG,"Error : Subscription with id = " + subscription + " had not been subscribed");
                             //ACTION TO DETERMINE TO MANAGE SUBCRIPTION ERROR
                         }
 
@@ -111,10 +125,7 @@ public class Stomp {
                         //I DON'T KNOW WHAT A RECEIPT STOMP MESSAGE IS
 
                     } else if(frame.getCommand().equals(COMMAND_ERROR)){
-                        System.out.println(TAG + "Error : Headers = " + frame.getHeaders() + ", Body = " + frame.getBody());
-                        //ACTION TO DETERMINE TO MANAGE ERROR MESSAGE
-
-                    } else {
+                        Log.d(TAG, "Error : Headers = " + frame.getHeaders() + ", Body = " + frame.getBody());
 
                     }
 
@@ -149,7 +160,7 @@ public class Stomp {
      */
     private void transmit(String command, Map<String, String> headers, String body){
         String out = Frame.marshall(command, headers, body);
-        System.out.println(TAG + ">>> " + out);
+        Log.d(TAG, ">>> " + out);
         while (true) {
             if (out.length() > this.maxWebSocketFrameSize) {
                 this.socket.send(out.substring(0, this.maxWebSocketFrameSize));
@@ -205,7 +216,44 @@ public class Stomp {
             transmit(COMMAND_DISCONNECT, null, null);
         }
     }
-
+    /**
+     * Send a simple message to the server thanks to the body parameter
+     *
+     *
+     * @param destination
+     *      The destination through a Stomp message will be send to the server
+     * @param body
+     *      body of a message
+     */
+    public void send(String destination, Domain body){
+        send(destination, null, body.toString());
+    }
+    /**
+     * Send a simple message to the server thanks to the body parameter
+     *
+     *
+     * @param destination
+     *      The destination through a Stomp message will be send to the server
+     * @param body
+     *      body of a message
+     */
+    public void send(String destination, String body){
+        send(destination, null, body);
+    }
+    /**
+     * Send a simple message to the server thanks to the body parameter
+     *
+     *
+     * @param destination
+     *      The destination through a Stomp message will be send to the server
+     * @param headers
+     *      headers of the message
+     * @param body
+     *      body of a message
+     */
+    public void send(String destination, Map<String,String> headers, Domain body){
+        send(destination, headers, body.toString());
+    }
     /**
      * Send a simple message to the server thanks to the body parameter
      *
@@ -220,7 +268,7 @@ public class Stomp {
     public void send(String destination, Map<String,String> headers, String body){
         if(this.connection == CONNECTED){
             if(headers == null)
-                headers = new HashMap<String, String>();
+                headers = new HashMap<>();
 
             if(body == null)
                 body = "";
@@ -268,7 +316,7 @@ public class Stomp {
         }
     }
 
-    /**
+    /*
      * Send the subscribe to the server with an header
      * @param headers
      *      header of a subscribe STOMP message

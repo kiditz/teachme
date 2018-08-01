@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import com.slerpio.teachme.LoginActivity;
 import com.slerpio.teachme.R;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.realm.service.UserRepository;
 import retrofit2.HttpException;
 

@@ -16,7 +16,7 @@ import com.slerpio.teachme.MaterialWriteActivity;
 import com.slerpio.teachme.R;
 import com.slerpio.teachme.helper.IntentUtils;
 import com.slerpio.teachme.helper.picker.EasyImage;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 
 import java.util.List;
 

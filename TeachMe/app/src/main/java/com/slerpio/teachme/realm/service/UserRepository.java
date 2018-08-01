@@ -1,7 +1,7 @@
 package com.slerpio.teachme.realm.service;
 
 import com.slerpio.teachme.model.Authority;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.model.User;
 import io.realm.Realm;
 import io.realm.RealmList;

@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.slerpio.teachme.R;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.lib.CustomViewHolder;
 import com.slerpio.lib.VideosAdapter;
 

@@ -15,7 +15,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxRadioGroup;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.slerpio.teachme.helper.*;
-import com.slerpio.teachme.model.Domain;
+import com.slerpio.lib.core.Domain;
 import com.slerpio.teachme.service.AccountService;
 import com.slerpio.teachme.service.SchoolService;
 import io.reactivex.Observable;

@@ -1,0 +1,2 @@
+curl -XPOST -vu kiditz:rioters7 localhost:5000/uua/oauth/token -d "username=kiditz&password
+=rioters7&grant_type=password"
