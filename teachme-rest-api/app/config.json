@@ -4,6 +4,6 @@
   "httpcheck": "http://0.0.0.0:5002/health",
   "namespace": "config/teachme-rest-api/dev",
   "log_file":"teachme-rest-api.log",
-  "address": "0.0.0.0",
+  "address": "172.17.0.1",
   "port":5002
 }

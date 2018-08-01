@@ -36,8 +36,8 @@ def get_activity_by_user_id():
 
 
 # Getting activity from friend
-@api.route('/get_activity', methods=['GET'])
-def get_activity():
+@api.route('/get_all_activity', methods=['GET'])
+def get_all_activity():
 	"""
 	{
 		"page": 1,
@@ -46,4 +46,4 @@ def get_activity():
 	}
 	"""
 	domain = request.args.to_dict()
-	return activity_service.get_activity(domain)
+	return activity_service.get_all_activity(domain)

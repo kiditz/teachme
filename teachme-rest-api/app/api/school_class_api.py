@@ -14,8 +14,20 @@ school_class_service = SchoolClassService()
 def get_school_class_by_level_id():
     """
     {
-        "level_id": "Long"
-    }
+        "level_id": 2
+    },
     """
     domain = request.args.to_dict()
     return school_class_service.get_school_class_by_level_id(domain)
+
+
+@api.route('/add_school_class', methods=['POST'])
+def add_school_class():
+    """
+    {
+    "name": "TK A",
+    "level_id": 2
+    }
+    """
+    domain = request.get_json()
+    return school_class_service.add_school_class(domain)

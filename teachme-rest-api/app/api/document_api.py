@@ -5,7 +5,7 @@ from slerp.app import app
 from slerp.exception import ValidationException, CoreException
 from service.document_service import DocumentService
 from werkzeug.utils import secure_filename
-from constant.api_constant import allowed_file, UPLOAD_FAIL
+from constant.api_constant import allowed_file, ErrorCode
 from utils.thumbsnail import video_thumbnails
 from utils.pdfutils import save_pdf_image
 from datetime import datetime
@@ -59,7 +59,7 @@ def add_document():
 			return document_service.add_document(domain)
 		else:
 			return document_service.add_document(domain)
-	raise CoreException(UPLOAD_FAIL)
+	raise CoreException(ErrorCode.UPLOAD_FAIL)
 
 
 @api.route('/get_document', methods=['GET'])

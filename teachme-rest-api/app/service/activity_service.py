@@ -26,7 +26,7 @@ class ActivityService(object):
 		return {'payload': activity_list, 'total': activity_q.total, 'total_pages': activity_q.pages}
 	
 	@Number(['page', 'size', 'user_id'])
-	def get_activity(self, domain):
+	def get_all_activity(self, domain):
 		page = int(domain['page'])
 		size = int(domain['size'])
 		# Get activity from friend

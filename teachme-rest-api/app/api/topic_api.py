@@ -5,13 +5,13 @@ from service.material_topic_service import MaterialTopicService
 
 log = logging.getLogger(__name__)
 
-material_topic_api_blue_print = Blueprint('material_topic_api_blue_print', __name__)
-api = material_topic_api_blue_print
+topic_api_blue_print = Blueprint('topic_api_blue_print', __name__)
+api = topic_api_blue_print
 material_topic_service = MaterialTopicService()
 
 
-@api.route('/add_material_topic', methods=['POST'])
-def add_material_topic():
+@api.route('/add_lesson_topic', methods=['POST'])
+def add_lesson_topic():
 	"""
 	{
 	"user_id": 1,
@@ -19,11 +19,11 @@ def add_material_topic():
 	}
 	"""
 	domain = request.get_json()
-	return material_topic_service.add_material_topic(domain)
+	return material_topic_service.add_lesson_topic(domain)
 
 
-@api.route('/get_material_topic', methods=['GET'])
-def get_material_topic():
+@api.route('/get_lesson_topic', methods=['GET'])
+def get_lesson_topic():
 	"""
 	{
 		"page": 1,
@@ -33,4 +33,4 @@ def get_material_topic():
 	}
 	"""
 	domain = request.args.to_dict()
-	return material_topic_service.get_material_topic(domain)
+	return material_topic_service.get_lesson_topic(domain)
