@@ -27,6 +27,8 @@ class ErrorCode(object):
 	FRIEND_NOT_FOUND = 'friend.not.found'
 	FRIEND_ALREADY_EXIST = 'friend.already.exist'
 	LESSON_NOT_FOUND = 'lesson.not.found'
+	TASK_NOT_FOUND = 'task.not.found'
+	GROUP_NOT_FOUND = 'group.not.found'
 	LESSON_IS_NOT_ACTIVE = 'lesson.is.not.active'
 	LESSON_VIEWER_MUST_NOT_CREATOR = 'lesson.viewer.must.not.creator'
 	ONLY_IN_PROGRESS_CAN_BE_ACTIVATED = 'only.in.progress.can.be.activated'

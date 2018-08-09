@@ -2,6 +2,7 @@ import calendar
 from datetime import datetime
 from decimal import Decimal
 from flask.json import JSONEncoder
+import time
 
 
 class TeachmeJsonEncoder(JSONEncoder):
@@ -13,12 +14,7 @@ class TeachmeJsonEncoder(JSONEncoder):
 			elif isinstance(obj, Decimal):
 				return float(obj)
 			elif isinstance(obj, datetime):
-				if obj.utcoffset() is not None:
-					obj = obj - obj.utcoffset()
-				millis = int(
-					calendar.timegm(obj.timetuple()) * 1000 +
-					obj.microsecond / 1000
-				)
+				millis = int(time.mktime(obj.timetuple()) * 1000)
 				return millis
 		except TypeError:
 			raise

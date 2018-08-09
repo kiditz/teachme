@@ -9,7 +9,7 @@ from constant.api_constant import allowed_file, ErrorCode
 from utils.thumbsnail import video_thumbnails
 from utils.pdfutils import save_pdf_image
 from datetime import datetime
-
+import cv2
 log = logging.getLogger(__name__)
 
 document_api_blue_print = Blueprint('document_api_blue_print', __name__)
@@ -56,6 +56,10 @@ def add_document():
 		# application/pdf
 		elif extension.endswith('pdf'):
 			domain['thumbnails'] = save_pdf_image(final_file_path, directory)
+			return document_service.add_document(domain)
+		elif extension.endswith('jpg') or extension.endswith('jpeg'):
+			img = cv2.imread(final_file_path, cv2.IMREAD_UNCHANGED) 
+			cv2.imwrite(final_file_path, img,   [int(cv2.IMWRITE_JPEG_QUALITY), 50])
 			return document_service.add_document(domain)
 		else:
 			return document_service.add_document(domain)

@@ -1,11 +1,9 @@
-import io
 import os
 import re
 
-import requests
+from entity.models import UserPrincipal, UserAuthority, Address, SchoolClass, SchoolLevel, Friend, Document
 from flask import send_file
 from flask_bcrypt import Bcrypt
-from slerp import get_name_abbreviations, random_colors
 from slerp.app import app
 from slerp.exception import ValidationException
 from slerp.logger import logging
@@ -13,7 +11,6 @@ from slerp.validator import Key
 
 from constant.api_constant import ErrorCode
 from constant.auth_constant import TEACHER_AUTHORITIES, STUDENT_AUTHORITIES
-from entity.models import UserPrincipal, UserAuthority, Address, SchoolClass, SchoolLevel, Friend
 
 log = logging.getLogger(__name__)
 bcrypt = Bcrypt(app=app)
@@ -78,47 +75,32 @@ class UserPrincipalService(object):
 	
 	@Key(['username'])
 	def get_user_image(self, domain):
-		profile = UserPrincipal.query.filter_by(username=domain['username']).first()
-		if profile is None:
-			raise ValidationException(ErrorCode.USER_NOT_FOUND)
-		username = domain['username'] + '.png'
-		base_dir = app.config['UPLOAD_FOLDER']
-		path = os.path.join(base_dir, 'profile', username)
-		log.info('Saved in >>> %s', path)
-		# Checking directory must be exists if not just make dirs
-		if not os.path.exists(os.path.dirname(path)):
-			os.makedirs(os.path.dirname(path))
-		# Checking if the image has been saved from place hold
-		# if yes read from path if not call image from network then save it into profile folder
-		if not os.path.exists(path):
-			image = requests.get('https://place-hold.it/80x80/' + random_colors(
-				use_hastag=False) + '/fff.png&text=' + get_name_abbreviations(
-				name=username) + '&bold&fontsize=24', stream=True)
-			if image.status_code == 200:
-				with open(path, 'wb') as f:
-					for chunk in image:
-						f.write(chunk)
-				with open(path, 'rb') as f:
-					return send_file(io.BytesIO(f.read()), attachment_filename=username, mimetype='image/png')
-			else:
-				raise ValidationException(ErrorCode.CONNECTION_ERROR)
+		document = Document.query .join(UserPrincipal, UserPrincipal.document_id == Document.id) \
+			.filter(UserPrincipal.username == domain['username']).first()
+		# User not found cause is load by username
+		if document is None:
+			raise ValidationException(ErrorCode.USER_NOT_FOUND)		
 		else:
-			with open(path, 'rb') as f:
-				return send_file(io.BytesIO(f.read()), attachment_filename=username, mimetype='image/png')
+			filename = os.path.join(document.folder,
+		                        document.filename if 'thumbnails' not in domain else document.thumbnails)
+			return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+				
 	
-	@Key(['id', 'username', 'phone_number', 'fullname', "gender"])
+	@Key(['id'])
 	def edit_user_principal_by_username(self, domain):
+		log.info("Input %s", domain)
 		user_principal = UserPrincipal.query.get(domain['id'])
 		
 		if user_principal is None:
 			raise ValidationException(ErrorCode.USER_NOT_FOUND)
 		
-		self.validate_edit_user(domain, user_principal)
-		if 'password' in domain:
-			domain['hash_password'] = bcrypt.generate_password_hash(domain['password'], 10).replace(b'$2b$', b'$2a$')
+		if 'username' in domain and 'phone_number' in domain:
+			self.validate_edit_user(domain, user_principal)
+			if 'password' in domain:			
+				domain['hash_password'] = bcrypt.generate_password_hash(domain['password'], 10).replace(b'$2b$', b'$2a$')
 		
-		if domain['phone_number'].startswith('0'):
-			domain['phone_number'] = domain['phone_number'].replace('0', '+62', 1)
+			if domain['phone_number'].startswith('0'):
+				domain['phone_number'] = domain['phone_number'].replace('0', '+62', 1)				
 		
 		user_principal.update(domain)
 		user_dict = user_principal.to_dict()

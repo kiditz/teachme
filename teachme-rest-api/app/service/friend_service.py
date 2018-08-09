@@ -76,7 +76,8 @@ class FriendService(object):
 		user_principal_q = UserPrincipal.query \
 			.with_entities(UserPrincipal.id, UserPrincipal.username, UserPrincipal.fullname,
 		                   SchoolLevel.name.label('level'),
-		                   SchoolClass.name.label('class_name')) \
+		                   SchoolClass.name.label('class_name'),
+		                   UserPrincipal.register_type) \
 			.join(SchoolLevel, UserPrincipal.level_id == SchoolLevel.id) \
 			.outerjoin(SchoolClass, UserPrincipal.class_id == SchoolClass.id) \
 			.filter(UserPrincipal.id != user_id) \

@@ -21,3 +21,17 @@ def add_task():
     """
     domain = request.get_json()
     return task_service.add_task(domain)
+
+
+@api.route('/get_task_by_user_id', methods=['GET'])
+def get_task_by_user_id():
+
+    """
+    {
+        "page": "Long",
+        "size": "Long",
+        "user_id": "Long"
+    }
+    """
+    domain = request.args.to_dict()
+    return task_service.get_task_by_user_id(domain)
