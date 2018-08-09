@@ -1,0 +1,11 @@
+/include/*
+/bin/*
+/lib/*
+/.idea/*
+/app/**.log.*
+*.log
+*.pyc
+**/__pycache__/*
+/app/migrations/*
+/dist/*
+/fl_model.egg-info/*
