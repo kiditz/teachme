@@ -53,8 +53,7 @@ class UserPrincipal(db.Model, Entity):
 	level_id = db.Column(db.ForeignKey(u'tm_school_level.school_level_id'), index=True)
 	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
 	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
-	__json_hidden__ = ['hash_password', 'enabled', 'account_non_expired', 'account_non_locked',
-	                   'credentials_non_expired']
+	__json_hidden__ = ['hash_password', 'enabled', 'account_non_expired', 'account_non_locked', 'credentials_non_expired']
 	
 	def __init__(self, obj=None):
 		Entity.__init__(self, obj)

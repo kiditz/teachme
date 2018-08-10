@@ -1,28 +1,28 @@
 version: '3.1'
 services:
-  # teachme-rest-api:
-  #   image: teachme-rest-api
-  #   build: teachme-rest-api
-  #   environment:
-  #     - "CONSUL_HOST=172.17.0.1"
-  #     - "CONSUL_PORT=8500"
-  #     - "SERVICE_NAME=teachme-rest-api-service"
-  #     - "SERVICE_TAGS=service"      
-  #   networks:
-  #     - teachme_overlay_net
-  #   volumes:
-  #     - teachme_data_vol:/teachmeio/teachme-rest-api/
-  #   deploy:
-  #     mode: global      
-  #     placement:
-  #       constraints: [node.role == worker]
-  #     restart_policy:
-  #       condition: on-failure
-  #       delay: 5s
-  #       max_attempts: 3
-  #       window: 120s
-  #   ports:
-  #     - 5002:5002/tcp
+  teachme-rest-api:
+    image: teachme-rest-api
+    build: teachme-rest-api
+    environment:
+      - "CONSUL_HOST=172.17.0.1"
+      - "CONSUL_PORT=8500"
+      - "SERVICE_NAME=teachme-rest-api-service"
+      - "SERVICE_TAGS=service"      
+    networks:
+      - teachme_overlay_net
+    volumes:
+      - teachme_data_vol:/teachme/teachme-rest-api/
+    deploy:
+      mode: global      
+      placement:
+        constraints: [node.role == worker]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    ports:
+      - 5002:5002/tcp
   teachme-oauth-api:
     environment:
       CONSUL_HOST: 172.17.0.1

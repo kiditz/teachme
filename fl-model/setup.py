@@ -8,8 +8,6 @@ flask, consulate and sql alchemy together
 
 """
 
-import sys
-
 from setuptools import setup, find_packages
 
 # Dependencies:
