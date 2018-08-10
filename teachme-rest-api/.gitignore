@@ -7,3 +7,4 @@
 *.pyc
 **/__pycache__/*
 /app/migrations/*
+fl-model-0.0.1.tar.gz

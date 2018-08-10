@@ -15,7 +15,8 @@ COPY /requirements.txt /app/requirements.txt
 RUN pip3 install -r requirements.txt -vvv
 RUN pip3 install Pillow==5.0.0
 COPY ./app /app
-
+COPY ./fl-model-0.0.1.tar.gz /app/fl-model-0.0.1.tar.gz
+RUN pip3 install  --no-index --find-links file:///app/fl-model-0.0.1.tar.gz fl-model
 ENV CONSUL_HOST=172.17.0.1
 ENV CONSUL_PORT=8500
 CMD [ "uwsgi","--socket", "0.0.0.0:5002", "--processes", "2","--threads", "10", "--plugins", "python3", "--protocol=http", "-w", "main:app", "--wsgi-disable-file-wrapper"]
