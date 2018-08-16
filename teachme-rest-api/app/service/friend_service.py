@@ -51,9 +51,15 @@ class FriendService(object):
 		return {'payload': friend_list, 'total': friend_q.total, 'total_pages': friend_q.pages}
 	
 	@Key(['user_id', 'friend_id'])
-	def delete_friend(self, domain):
+	def delete_friend(self, domain):		
 		friend = Friend.query.filter_by(user_id=domain['user_id'], friend_id=domain['friend_id']).first()
+		friend_dict = friend.to_dict()
 		friend.delete()
+		activity_domain = {'user_id': domain['user_id'],
+		                   'message': ActivityMessage.STOP_FOLLOW,
+		                   'raw': json.dumps(friend_dict, indent=4, sort_keys=True, cls=TeachmeJsonEncoder),
+		                   'doc_type': ActivityType.UNFOLLOW}
+		activity_service.add_activity(activity_domain)
 		return {'payload': {'success': True}}
 	
 	@Key(['user_id'])

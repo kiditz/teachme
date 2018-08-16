@@ -9,9 +9,8 @@ from slerp.validator import Number, Blank, Key, ValidationException
 from werkzeug.utils import secure_filename
 
 from api.activity_api import activity_service
-from api.user_principal_api import user_principal_service
 from constant.api_constant import ActivityType, ActivityMessage, ErrorCode
-from entity.models import Lesson, Topic
+from entity.models import Lesson, Topic, UserPrincipal
 
 log = logging.getLogger(__name__)
 
@@ -23,7 +22,7 @@ class LessonService(object):
 	@Blank(['title', 'type'])
 	@Number(['document_id', 'user_id', 'price'])
 	def add_lesson(self, domain):
-		user = user_principal_service.find_user_principal_by_id(domain)['payload']
+		user = UserPrincipal.query.get(domain['user_id'])
 		if 'topic_id' not in domain:
 			topic = Topic({'user_id': user['id']})
 			if is_blank(domain['name']):
@@ -119,7 +118,6 @@ class LessonService(object):
 		lesson.active = domain['active']
 		lesson.save()
 		lesson_dict = lesson.to_dict()
-		lesson_dict.pop("user")
 		if lesson.active == 'A':
 			activity_domain = {'user_id': lesson.user_id,
 			                   'message': ActivityMessage.NEW_LESSON,

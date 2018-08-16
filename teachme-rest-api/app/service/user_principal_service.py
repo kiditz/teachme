@@ -9,7 +9,7 @@ from slerp.exception import ValidationException
 from slerp.logger import logging
 from slerp.validator import Key
 
-from constant.api_constant import ErrorCode
+from constant.api_constant import ErrorCode, UserType
 from constant.auth_constant import TEACHER_AUTHORITIES, STUDENT_AUTHORITIES
 
 log = logging.getLogger(__name__)
@@ -24,10 +24,10 @@ class UserPrincipalService(object):
 	def register(self, domain):
 		self.validate_add_user(domain)
 		if domain['is_teacher']:
-			domain['register_type'] = 'TEACHER'
+			domain['register_type'] = UserType.TEACHER
 			user_dict = self.do_register(domain, TEACHER_AUTHORITIES)
 		else:
-			domain['register_type'] = 'STUDENT'
+			domain['register_type'] = UserType.STUDENT
 			user_dict = self.do_register(domain, STUDENT_AUTHORITIES)
 		return {'payload': user_dict}
 	

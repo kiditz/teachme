@@ -10,6 +10,7 @@ class ActivityMessage(object):
 	NEW_LESSON = 'create.new.lesson'
 	START_FOLLOW = 'start.following'
 	READ_LESSON = 'read.lesson'
+	STOP_FOLLOW = 'stop.following'
 	
 
 class ActivityType(object):
@@ -17,7 +18,13 @@ class ActivityType(object):
 	LESSON_VIEWER = 'LESSON_VIEWER'
 	FOLLOW = 'FOLLOW'
 	TASK = 'TASK'
-	
+	UNFOLLOW = 'UNFOLLOW'
+
+
+class UserType(object):
+	TEACHER = 'TEACHER'
+	STUDENT = 'STUDENT'
+
 
 class ErrorCode(object):
 	USERNAME_HAS_BEEN_USED = 'username.has.used'
