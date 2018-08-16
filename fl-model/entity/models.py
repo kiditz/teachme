@@ -243,6 +243,7 @@ class TaskQuestion(db.Model, Entity):
 	question = db.Column(db.Text, nullable=False, server_default='')
 	question_type = db.Column(db.String(10), nullable=False, server_default='')
 	answer_key = db.Column(db.Text, nullable=False, server_default='')
+	answers = db.relationship(u'TaskAnswer')
 	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
 	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
 	
@@ -282,6 +283,27 @@ class TaskGroup(db.Model, Entity):
 	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
 	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
 	
+	def __init__(self, obj=None):
+		Entity.__init__(self, obj)
+
+class TaskScore(db.Model, Entity):
+	__tablename__ = 'tm_task_score'	
+	id = db.Column('task_score_id', db.BigInteger, db.Sequence('tm_task_score_task_score_id_seq'), primary_key=True)	
+	task_id = db.Column(db.ForeignKey(u'tm_task.task_id'), nullable=False)
+	user_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False)
+	score = db.Column(db.Numeric, nullable=False)
+	__table_args__ = (db.UniqueConstraint('user_id', 'task_id', name='uix_task_score_task_id_user_id'),)
+	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
+	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
+						
+
+class QuestionScore(db.Model, Entity):	
+	__tablename__ = 'tm_question_score'
+	id = db.Column('question_score_id', db.BigInteger, db.Sequence('tm_question_score_question_score_id_seq'), primary_key=True)
+	question_id = db.Column(db.ForeignKey('tm_task_question.question_id'), nullable=False)	
+	user_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False)
+	score = db.Column(db.Numeric, nullable=False)
+	__table_args__ = (db.UniqueConstraint('user_id', 'question_id', name='uix_question_score_question_id_user_id'),)
 	def __init__(self, obj=None):
 		Entity.__init__(self, obj)
 
