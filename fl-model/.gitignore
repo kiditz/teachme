@@ -6,6 +6,6 @@
 *.log
 *.pyc
 **/__pycache__/*
-/app/migrations/*
+/migrations/*
 /dist/*
 /fl_model.egg-info/*

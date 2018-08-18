@@ -2,8 +2,10 @@ import re
 from slerp.logger import logging
 from slerp.validator import Key, Blank, Number
 from slerp.sender import send_message
-from entity.models import Task, TaskQuestion, TaskAnswer, TaskGroup, UserPrincipal, SchoolLevel, SchoolClass, TaskScore, t_learning_group_user
-from constant.api_constant import UserType
+from slerp.exception import ValidationException
+from slerp.app import db
+from entity.models import QuestionScore, Task, TaskQuestion, TaskAnswer, TaskGroup, UserPrincipal, SchoolLevel, SchoolClass, TaskScore, t_learning_group_user
+from constant.api_constant import UserType, ErrorCode
 from sqlalchemy import and_
 
 log = logging.getLogger(__name__)
@@ -15,6 +17,7 @@ class TaskService(object):
 
     @Key(['title', 'user_id'])
     def add_task(self, domain):
+        log.info('Task Input : %s', domain)
         if 'active' not in domain:
             domain['active'] = False
         task_data = {
@@ -22,12 +25,19 @@ class TaskService(object):
             'active': domain['active'],
             'user_id': domain['user_id']
         }
+
         if 'time_limit' in domain:
             task_data['time_limit'] = re.sub(
                 '[^0-9]', '', str(domain['time_limit']).lower())
 
-        task = Task(task_data)
-        task.save()
+        if 'task_id' in domain:
+            task_data['id'] = domain['task_id']
+            task = Task.query.filter_by(id=task_data['id']).first()
+            task.update(task_data)
+        else:
+            task = Task(task_data)
+            task.save()
+
         questions = domain['questions']
         for question in questions:
             question_data = {
@@ -37,20 +47,29 @@ class TaskService(object):
             if 'answer_key' in question:
                 question_data['answer_key'] = question['answer_key']
             question_data['task_id'] = task.id
-            task_question = TaskQuestion(question_data)
-            task_question.save()
+            if 'id' in question:
+                question_data['id'] = question['id']
+                task_question = TaskQuestion.query.filter_by(id = question_data['id']).first()
+                task_question.update(question_data)
+            else:
+                task_question = TaskQuestion(question_data)
+                task_question.save()
             if 'answers' in question:
                 answers = question['answers']
                 for answer in answers:
                     answer_data = {
-                        'answer': answer,
+                        'answer': answer['answer'],
                         'question_id': task_question.id
                     }
-                    task_answer = TaskAnswer(answer_data)
-                    task_answer.save()
+                    if 'id' in answer:
+                        answer_data['id'] = answer['id']
+                        task_answer = TaskAnswer.query.filter_by(id = answer_data['id']).first()
+                        task_answer.update(answer_data)
+                    else:
+                        task_answer = TaskAnswer(answer_data)
+                        task_answer.save()
                     pass
             pass
-        # task.save()
         return {'payload': task.to_dict()}
 
     @Blank(['answers.answer'])
@@ -134,11 +153,50 @@ class TaskService(object):
     def get_question_for_judgement(self, domain):
         page = int(domain['page'])
         size = int(domain['size'])
-        entities = (TaskQuestion.task_id,
-                    TaskQuestion.question, QuestionScore.score)
-        question_q = TaskQuestion.query.with_entities(entities) \
-            .join(QuestionScore.question_id, TaskQuestion.question_id)
-            .filter(QuestionScore.user_id == domain['user_id'])
+        entities = (
+            TaskQuestion.task_id,
+            TaskQuestion.question,
+            QuestionScore.score,
+            QuestionScore.user_answer,
+            TaskQuestion.answer_key
+        )
+        question_q = TaskQuestion.query.with_entities(*entities) \
+            .join(QuestionScore, QuestionScore.question_id == TaskQuestion.id) \
+            .filter(QuestionScore.user_id == domain['user_id']) \
             .paginate(page, size, error_out=False)
         question_list = list(map(lambda x: x._asdict(), question_q.items))
         return {'payload': question_list, 'total': question_q.total, 'total_pages': question_q.pages}
+
+    @Number(['task_id'])
+    def get_task_for_edit(self, domain):
+        task = Task.query.filter_by(id=domain['task_id']).first()
+        if task == None:
+            raise ValidationException(ErrorCode.TASK_NOT_FOUND)
+        task_data = {
+            'task_id': task.id,
+            'active': task.active,
+            'user_id': task.user_id,
+            'title': task.title,
+            'time_limit': task.time_limit
+        }
+        question_q = TaskQuestion.query.with_entities(TaskQuestion.id, TaskQuestion.answer_key, TaskQuestion.question, TaskQuestion.question_type.label('type')) \
+            .filter(TaskQuestion.task_id == task.id) \
+            .order_by(TaskQuestion.id.asc())
+        question_list = list(
+            map(lambda x: self.handle_question(x._asdict()), question_q.all()))
+        task_data['questions'] = question_list
+        return {'payload': task_data}
+
+    @staticmethod
+    def handle_question(question):
+        answer_q = TaskAnswer.query.with_entities(
+            TaskAnswer.answer, TaskAnswer.id).filter_by(question_id=question['id']).order_by(TaskAnswer.id.asc())
+        answer_list = list(map(lambda x: x._asdict(), answer_q.all()))
+        question['answers'] = answer_list
+        return question
+
+    @Key(['id'])
+    def edit_task_by_id(self, domain):
+        task = Task.query.filter_by(id=domain['id']).first()
+        task.update(domain)
+        return {'payload': task.to_dict()}
