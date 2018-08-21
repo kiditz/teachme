@@ -1,0 +1,610 @@
+2018-08-21 00:12:25,194 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'name_1': '%%', 'user_id_1': '1', 'active_2': 'A', 'name_2': '%%', 'param_1': 10, 'level_id_1': '2', 'active_1': 'A'}
+2018-08-21 00:12:25,205 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:25,209 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:25] "GET /get_lesson_topic?size=10&user_id=1&level_id=2&name=&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:25,234 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:25,240 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_activity_activity_id AS anon_1_tm_activity_activity_id, anon_1.tm_activity_doc_type AS anon_1_tm_activity_doc_type, anon_1.tm_activity_message AS anon_1_tm_activity_message, anon_1.tm_activity_created_at AS anon_1_tm_activity_created_at, anon_1.tm_activity_user_id AS anon_1_tm_activity_user_id, anon_1.tm_activity_raw AS anon_1_tm_activity_raw, anon_1.tm_user_username AS anon_1_tm_user_username, anon_1.tm_user_fullname AS anon_1_tm_user_fullname, anon_1.title AS anon_1_title 
+FROM (SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_friend ON tm_friend.friend_id = tm_activity.user_id JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_friend.user_id = %(user_id_2)s AND tm_activity.created_at >= tm_friend.created_at AND tm_activity.doc_type != %(doc_type_1)s UNION SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_activity.user_id = %(user_id_3)s) AS anon_1 ORDER BY anon_1.tm_activity_created_at DESC 
+ LIMIT %(param_2)s OFFSET %(param_3)s
+2018-08-21 00:12:25,240 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 10, 'user_id_2': '1', 'param_3': 0, 'user_id_3': '1', 'doc_type_1': 'UNFOLLOW', 'param_1': 'Anda', 'user_id_1': '1'}
+2018-08-21 00:12:25,253 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:25,254 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'user_id_1': 2, 'coalesce_1': -1, 'concat_1': ' ', 'register_type_1': 'STUDENT', 'param_1': 'Siswa', 'concat_2': ' '}
+2018-08-21 00:12:25,266 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:25,267 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'concat_1': ' ', 'register_type_1': 'STUDENT', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:25,277 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:25,278 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'user_id_1': 2, 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'concat_2': ' '}
+2018-08-21 00:12:25,294 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:25,297 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'concat_1': ' ', 'register_type_1': 'STUDENT', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:25,313 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT count(*) AS count_1 
+FROM (SELECT tm_lesson_viewer.user_id AS tm_lesson_viewer_user_id, tm_lesson_viewer.lesson_id AS tm_lesson_viewer_lesson_id, tm_lesson_viewer.created_at AS tm_lesson_viewer_created_at, tm_lesson_viewer.update_at AS tm_lesson_viewer_update_at 
+FROM tm_lesson_viewer 
+WHERE tm_lesson_viewer.lesson_id = %(lesson_id_1)s) AS anon_1
+2018-08-21 00:12:25,313 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'lesson_id_1': 2}
+2018-08-21 00:12:25,319 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_lesson.document_id AS tm_lesson_document_id, tm_lesson.title AS tm_lesson_title 
+FROM tm_lesson 
+WHERE tm_lesson.lesson_id = %(lesson_id_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:25,320 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'lesson_id_1': 2, 'param_1': 1}
+2018-08-21 00:12:25,333 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:25,334 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'concat_1': ' ', 'register_type_1': 'STUDENT', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:25,345 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:25,349 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:25] "GET /get_all_activity?size=10&user_id=1&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:25,357 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:25,359 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_document.document_id AS tm_document_document_id, tm_document.filename AS tm_document_filename, tm_document.original_filename AS tm_document_original_filename, tm_document.thumbnails AS tm_document_thumbnails, tm_document.mimetype AS tm_document_mimetype, tm_document.folder AS tm_document_folder, tm_document.secure AS tm_document_secure, tm_document.created_at AS tm_document_created_at, tm_document.update_at AS tm_document_update_at 
+FROM tm_document JOIN tm_user ON tm_user.document_id = tm_document.document_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:25,360 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:25,376 ERROR 17974 [slerp.app] app.py:56 - [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 51, in get_user_image
+    return user_principal_service.get_user_image(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 87, in get_user_image
+    return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/helpers.py", line 549, in send_file
+    file = open(filename, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+2018-08-21 00:12:25,380 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - ROLLBACK
+2018-08-21 00:12:25,383 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:25] "GET /get_user_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:25,390 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:25,394 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_lesson.lesson_id AS tm_lesson_lesson_id, tm_lesson.title AS tm_lesson_title, tm_lesson.type AS tm_lesson_type, tm_lesson.document_id AS tm_lesson_document_id, tm_lesson.price AS tm_lesson_price, tm_lesson.user_id AS tm_lesson_user_id, tm_lesson.topic_id AS tm_lesson_topic_id, tm_lesson.active AS tm_lesson_active, tm_lesson.created_at AS tm_lesson_created_at, tm_lesson.update_at AS tm_lesson_update_at 
+FROM tm_lesson 
+WHERE tm_lesson.topic_id = %(topic_id_1)s AND tm_lesson.active = %(active_1)s ORDER BY tm_lesson.title ASC 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:12:25,396 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'topic_id_1': '1', 'active_1': 'A', 'param_1': 10}
+2018-08-21 00:12:25,406 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.document_id AS tm_user_document_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_user.hash_password AS tm_user_hash_password, tm_user.address_id AS tm_user_address_id, tm_user.enabled AS tm_user_enabled, tm_user.account_non_expired AS tm_user_account_non_expired, tm_user.account_non_locked AS tm_user_account_non_locked, tm_user.credentials_non_expired AS tm_user_credentials_non_expired, tm_user.register_type AS tm_user_register_type, tm_user.class_id AS tm_user_class_id, tm_user.level_id AS tm_user_level_id, tm_user.created_at AS tm_user_created_at, tm_user.update_at AS tm_user_update_at 
+FROM tm_user 
+WHERE tm_user.user_id = %(param_1)s
+2018-08-21 00:12:25,408 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_1': 2}
+2018-08-21 00:12:25,415 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.document_id AS tm_user_document_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_user.hash_password AS tm_user_hash_password, tm_user.address_id AS tm_user_address_id, tm_user.enabled AS tm_user_enabled, tm_user.account_non_expired AS tm_user_account_non_expired, tm_user.account_non_locked AS tm_user_account_non_locked, tm_user.credentials_non_expired AS tm_user_credentials_non_expired, tm_user.register_type AS tm_user_register_type, tm_user.class_id AS tm_user_class_id, tm_user.level_id AS tm_user_level_id, tm_user.created_at AS tm_user_created_at, tm_user.update_at AS tm_user_update_at 
+FROM tm_user 
+WHERE tm_user.user_id = %(param_1)s
+2018-08-21 00:12:25,415 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_1': 1}
+2018-08-21 00:12:25,420 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:25,423 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:25] "GET /get_lesson_by_topic_id?size=10&topic_id=1&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:25,471 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:25,474 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_document.document_id AS tm_document_document_id, tm_document.filename AS tm_document_filename, tm_document.original_filename AS tm_document_original_filename, tm_document.thumbnails AS tm_document_thumbnails, tm_document.mimetype AS tm_document_mimetype, tm_document.folder AS tm_document_folder, tm_document.secure AS tm_document_secure, tm_document.created_at AS tm_document_created_at, tm_document.update_at AS tm_document_update_at 
+FROM tm_document JOIN tm_user ON tm_user.document_id = tm_document.document_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:25,476 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:25,480 ERROR 17974 [slerp.app] app.py:56 - [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 51, in get_user_image
+    return user_principal_service.get_user_image(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 87, in get_user_image
+    return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/helpers.py", line 549, in send_file
+    file = open(filename, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+2018-08-21 00:12:25,487 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - ROLLBACK
+2018-08-21 00:12:25,489 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:25] "GET /get_user_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:25,507 ERROR 17974 [slerp.app] app.py:56 - required.number.id
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/document_api.py", line 77, in get_document
+    return document_service.get_document(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 138, in new_function
+    raise ValidationException('required.number.' + key, key=key)
+slerp.exception.ValidationException: required.number.id
+2018-08-21 00:12:25,512 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:25] "GET /get_document?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&id=-1 HTTP/1.1" 200 -
+2018-08-21 00:12:27,869 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:27,876 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_learning_group_group_id AS anon_1_tm_learning_group_group_id, anon_1.tm_learning_group_name AS anon_1_tm_learning_group_name, anon_1.tm_user_fullname AS anon_1_tm_user_fullname, anon_1.tm_learning_group_document_id AS anon_1_tm_learning_group_document_id, anon_1.tm_learning_group_user_id AS anon_1_tm_learning_group_user_id, anon_1.tm_learning_group_created_at AS anon_1_tm_learning_group_created_at 
+FROM ((SELECT tm_learning_group.group_id AS tm_learning_group_group_id, tm_learning_group.name AS tm_learning_group_name, tm_user.fullname AS tm_user_fullname, tm_learning_group.document_id AS tm_learning_group_document_id, tm_learning_group.user_id AS tm_learning_group_user_id, tm_learning_group.created_at AS tm_learning_group_created_at 
+FROM tm_learning_group JOIN tm_user ON tm_user.user_id = tm_learning_group.user_id JOIN tm_learning_group_user ON tm_learning_group_user.user_id = %(user_id_1)s 
+WHERE tm_learning_group.name ILIKE %(name_1)s ORDER BY tm_learning_group.group_id DESC) UNION (SELECT tm_learning_group.group_id AS tm_learning_group_group_id, tm_learning_group.name AS tm_learning_group_name, tm_user.fullname AS tm_user_fullname, tm_learning_group.document_id AS tm_learning_group_document_id, tm_learning_group.user_id AS tm_learning_group_user_id, tm_learning_group.created_at AS tm_learning_group_created_at 
+FROM tm_learning_group JOIN tm_user ON tm_user.user_id = tm_learning_group.user_id 
+WHERE tm_learning_group.user_id = %(user_id_2)s AND tm_learning_group.name ILIKE %(name_2)s ORDER BY tm_learning_group.group_id DESC)) AS anon_1 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:12:27,880 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'user_id_2': '1', 'name_1': '%%', 'name_2': '%%', 'param_1': 10, 'user_id_1': '1'}
+2018-08-21 00:12:27,895 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT count(*) AS total 
+FROM tm_learning_group_user JOIN tm_user ON tm_learning_group_user.user_id = tm_user.user_id 
+WHERE tm_learning_group_user.group_id = %(group_id_1)s
+2018-08-21 00:12:27,899 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'group_id_1': 6}
+2018-08-21 00:12:27,904 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:27,907 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:27] "GET /get_learning_group_by_user_id?size=10&user_id=1&name=&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:32,784 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:32,788 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_school_level.name AS level, tm_school_class.name AS class_name, tm_user.level_id AS tm_user_level_id, tm_user.class_id AS tm_user_class_id, tm_user.register_type AS tm_user_register_type 
+FROM tm_user JOIN tm_school_level ON tm_user.level_id = tm_school_level.school_level_id LEFT OUTER JOIN tm_school_class ON tm_user.class_id = tm_school_class.school_class_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:32,789 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:32,793 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:32,796 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:32] "GET /find_user_principal_by_username?username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:32,819 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:32,825 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_topic_topic_id AS anon_1_tm_topic_topic_id, anon_1.tm_topic_name AS anon_1_tm_topic_name, anon_1.tm_topic_user_id AS anon_1_tm_topic_user_id, anon_1.tm_topic_level_id AS anon_1_tm_topic_level_id, anon_1.tm_topic_class_id AS anon_1_tm_topic_class_id, anon_1.tm_topic_created_at AS anon_1_tm_topic_created_at, anon_1.tm_topic_update_at AS anon_1_tm_topic_update_at 
+FROM (SELECT tm_topic.topic_id AS tm_topic_topic_id, tm_topic.name AS tm_topic_name, tm_topic.user_id AS tm_topic_user_id, tm_topic.level_id AS tm_topic_level_id, tm_topic.class_id AS tm_topic_class_id, tm_topic.created_at AS tm_topic_created_at, tm_topic.update_at AS tm_topic_update_at 
+FROM tm_topic JOIN tm_friend ON tm_friend.friend_id = tm_topic.user_id JOIN tm_lesson ON tm_topic.topic_id = tm_lesson.topic_id 
+WHERE tm_lesson.active = %(active_1)s AND tm_topic.name ILIKE %(name_1)s AND tm_friend.user_id = %(user_id_1)s UNION SELECT tm_topic.topic_id AS tm_topic_topic_id, tm_topic.name AS tm_topic_name, tm_topic.user_id AS tm_topic_user_id, tm_topic.level_id AS tm_topic_level_id, tm_topic.class_id AS tm_topic_class_id, tm_topic.created_at AS tm_topic_created_at, tm_topic.update_at AS tm_topic_update_at 
+FROM tm_topic JOIN tm_lesson ON tm_topic.topic_id = tm_lesson.topic_id 
+WHERE tm_lesson.active = %(active_2)s AND tm_topic.name ILIKE %(name_2)s AND tm_topic.level_id = %(level_id_1)s) AS anon_1 ORDER BY anon_1.tm_topic_name ASC 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:12:32,825 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'active_1': 'A', 'user_id_1': '1', 'active_2': 'A', 'name_2': '%%', 'name_1': '%%', 'level_id_1': '2', 'param_1': 10}
+2018-08-21 00:12:32,834 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:32,837 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:32] "GET /get_lesson_topic?size=10&user_id=1&level_id=2&name=&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:32,872 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:32,877 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_activity_activity_id AS anon_1_tm_activity_activity_id, anon_1.tm_activity_doc_type AS anon_1_tm_activity_doc_type, anon_1.tm_activity_message AS anon_1_tm_activity_message, anon_1.tm_activity_created_at AS anon_1_tm_activity_created_at, anon_1.tm_activity_user_id AS anon_1_tm_activity_user_id, anon_1.tm_activity_raw AS anon_1_tm_activity_raw, anon_1.tm_user_username AS anon_1_tm_user_username, anon_1.tm_user_fullname AS anon_1_tm_user_fullname, anon_1.title AS anon_1_title 
+FROM (SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_friend ON tm_friend.friend_id = tm_activity.user_id JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_friend.user_id = %(user_id_2)s AND tm_activity.created_at >= tm_friend.created_at AND tm_activity.doc_type != %(doc_type_1)s UNION SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_activity.user_id = %(user_id_3)s) AS anon_1 ORDER BY anon_1.tm_activity_created_at DESC 
+ LIMIT %(param_2)s OFFSET %(param_3)s
+2018-08-21 00:12:32,878 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 10, 'user_id_2': '1', 'param_3': 0, 'user_id_3': '1', 'doc_type_1': 'UNFOLLOW', 'param_1': 'Anda', 'user_id_1': '1'}
+2018-08-21 00:12:32,890 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:32,891 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:32,900 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:32,903 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:32,918 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:32,918 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'user_id_1': 2, 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'concat_2': ' '}
+2018-08-21 00:12:32,928 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:32,929 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'user_id_1': 2, 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'concat_2': ' '}
+2018-08-21 00:12:32,941 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT count(*) AS count_1 
+FROM (SELECT tm_lesson_viewer.user_id AS tm_lesson_viewer_user_id, tm_lesson_viewer.lesson_id AS tm_lesson_viewer_lesson_id, tm_lesson_viewer.created_at AS tm_lesson_viewer_created_at, tm_lesson_viewer.update_at AS tm_lesson_viewer_update_at 
+FROM tm_lesson_viewer 
+WHERE tm_lesson_viewer.lesson_id = %(lesson_id_1)s) AS anon_1
+2018-08-21 00:12:32,942 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'lesson_id_1': 2}
+2018-08-21 00:12:32,947 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_lesson.document_id AS tm_lesson_document_id, tm_lesson.title AS tm_lesson_title 
+FROM tm_lesson 
+WHERE tm_lesson.lesson_id = %(lesson_id_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:32,948 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_1': 1, 'lesson_id_1': 2}
+2018-08-21 00:12:32,960 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:32,962 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'user_id_1': 2, 'coalesce_1': -1, 'concat_1': ' ', 'register_type_1': 'STUDENT', 'param_1': 'Siswa', 'concat_2': ' '}
+2018-08-21 00:12:32,969 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:32,973 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:32] "GET /get_all_activity?size=10&user_id=1&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:32,979 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:32,982 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_document.document_id AS tm_document_document_id, tm_document.filename AS tm_document_filename, tm_document.original_filename AS tm_document_original_filename, tm_document.thumbnails AS tm_document_thumbnails, tm_document.mimetype AS tm_document_mimetype, tm_document.folder AS tm_document_folder, tm_document.secure AS tm_document_secure, tm_document.created_at AS tm_document_created_at, tm_document.update_at AS tm_document_update_at 
+FROM tm_document JOIN tm_user ON tm_user.document_id = tm_document.document_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:32,984 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:33,001 ERROR 17974 [slerp.app] app.py:56 - [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 51, in get_user_image
+    return user_principal_service.get_user_image(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 87, in get_user_image
+    return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/helpers.py", line 549, in send_file
+    file = open(filename, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+2018-08-21 00:12:33,003 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - ROLLBACK
+2018-08-21 00:12:33,006 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:33] "GET /get_user_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:33,015 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:33,029 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_lesson.lesson_id AS tm_lesson_lesson_id, tm_lesson.title AS tm_lesson_title, tm_lesson.type AS tm_lesson_type, tm_lesson.document_id AS tm_lesson_document_id, tm_lesson.price AS tm_lesson_price, tm_lesson.user_id AS tm_lesson_user_id, tm_lesson.topic_id AS tm_lesson_topic_id, tm_lesson.active AS tm_lesson_active, tm_lesson.created_at AS tm_lesson_created_at, tm_lesson.update_at AS tm_lesson_update_at 
+FROM tm_lesson 
+WHERE tm_lesson.topic_id = %(topic_id_1)s AND tm_lesson.active = %(active_1)s ORDER BY tm_lesson.title ASC 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:12:33,030 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'topic_id_1': '1', 'active_1': 'A', 'param_1': 10}
+2018-08-21 00:12:33,037 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.document_id AS tm_user_document_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_user.hash_password AS tm_user_hash_password, tm_user.address_id AS tm_user_address_id, tm_user.enabled AS tm_user_enabled, tm_user.account_non_expired AS tm_user_account_non_expired, tm_user.account_non_locked AS tm_user_account_non_locked, tm_user.credentials_non_expired AS tm_user_credentials_non_expired, tm_user.register_type AS tm_user_register_type, tm_user.class_id AS tm_user_class_id, tm_user.level_id AS tm_user_level_id, tm_user.created_at AS tm_user_created_at, tm_user.update_at AS tm_user_update_at 
+FROM tm_user 
+WHERE tm_user.user_id = %(param_1)s
+2018-08-21 00:12:33,038 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_1': 2}
+2018-08-21 00:12:33,046 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.document_id AS tm_user_document_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_user.hash_password AS tm_user_hash_password, tm_user.address_id AS tm_user_address_id, tm_user.enabled AS tm_user_enabled, tm_user.account_non_expired AS tm_user_account_non_expired, tm_user.account_non_locked AS tm_user_account_non_locked, tm_user.credentials_non_expired AS tm_user_credentials_non_expired, tm_user.register_type AS tm_user_register_type, tm_user.class_id AS tm_user_class_id, tm_user.level_id AS tm_user_level_id, tm_user.created_at AS tm_user_created_at, tm_user.update_at AS tm_user_update_at 
+FROM tm_user 
+WHERE tm_user.user_id = %(param_1)s
+2018-08-21 00:12:33,047 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_1': 1}
+2018-08-21 00:12:33,053 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:33,060 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:33] "GET /get_lesson_by_topic_id?size=10&topic_id=1&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:33,103 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:33,108 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_document.document_id AS tm_document_document_id, tm_document.filename AS tm_document_filename, tm_document.original_filename AS tm_document_original_filename, tm_document.thumbnails AS tm_document_thumbnails, tm_document.mimetype AS tm_document_mimetype, tm_document.folder AS tm_document_folder, tm_document.secure AS tm_document_secure, tm_document.created_at AS tm_document_created_at, tm_document.update_at AS tm_document_update_at 
+FROM tm_document JOIN tm_user ON tm_user.document_id = tm_document.document_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:33,111 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:33,126 ERROR 17974 [slerp.app] app.py:56 - [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 51, in get_user_image
+    return user_principal_service.get_user_image(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 87, in get_user_image
+    return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/helpers.py", line 549, in send_file
+    file = open(filename, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+2018-08-21 00:12:33,134 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - ROLLBACK
+2018-08-21 00:12:33,145 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:33] "GET /get_user_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:33,162 ERROR 17974 [slerp.app] app.py:56 - required.number.id
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/document_api.py", line 77, in get_document
+    return document_service.get_document(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 138, in new_function
+    raise ValidationException('required.number.' + key, key=key)
+slerp.exception.ValidationException: required.number.id
+2018-08-21 00:12:33,185 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:33] "GET /get_document?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&id=-1 HTTP/1.1" 200 -
+2018-08-21 00:12:37,627 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:37,632 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_school_level.name AS level, tm_school_class.name AS class_name, tm_user.level_id AS tm_user_level_id, tm_user.class_id AS tm_user_class_id, tm_user.register_type AS tm_user_register_type 
+FROM tm_user JOIN tm_school_level ON tm_user.level_id = tm_school_level.school_level_id LEFT OUTER JOIN tm_school_class ON tm_user.class_id = tm_school_class.school_class_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:37,633 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:37,642 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:37,645 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:37] "GET /find_user_principal_by_username?username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:37,668 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:37,674 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_topic_topic_id AS anon_1_tm_topic_topic_id, anon_1.tm_topic_name AS anon_1_tm_topic_name, anon_1.tm_topic_user_id AS anon_1_tm_topic_user_id, anon_1.tm_topic_level_id AS anon_1_tm_topic_level_id, anon_1.tm_topic_class_id AS anon_1_tm_topic_class_id, anon_1.tm_topic_created_at AS anon_1_tm_topic_created_at, anon_1.tm_topic_update_at AS anon_1_tm_topic_update_at 
+FROM (SELECT tm_topic.topic_id AS tm_topic_topic_id, tm_topic.name AS tm_topic_name, tm_topic.user_id AS tm_topic_user_id, tm_topic.level_id AS tm_topic_level_id, tm_topic.class_id AS tm_topic_class_id, tm_topic.created_at AS tm_topic_created_at, tm_topic.update_at AS tm_topic_update_at 
+FROM tm_topic JOIN tm_friend ON tm_friend.friend_id = tm_topic.user_id JOIN tm_lesson ON tm_topic.topic_id = tm_lesson.topic_id 
+WHERE tm_lesson.active = %(active_1)s AND tm_topic.name ILIKE %(name_1)s AND tm_friend.user_id = %(user_id_1)s UNION SELECT tm_topic.topic_id AS tm_topic_topic_id, tm_topic.name AS tm_topic_name, tm_topic.user_id AS tm_topic_user_id, tm_topic.level_id AS tm_topic_level_id, tm_topic.class_id AS tm_topic_class_id, tm_topic.created_at AS tm_topic_created_at, tm_topic.update_at AS tm_topic_update_at 
+FROM tm_topic JOIN tm_lesson ON tm_topic.topic_id = tm_lesson.topic_id 
+WHERE tm_lesson.active = %(active_2)s AND tm_topic.name ILIKE %(name_2)s AND tm_topic.level_id = %(level_id_1)s) AS anon_1 ORDER BY anon_1.tm_topic_name ASC 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:12:37,674 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'name_1': '%%', 'user_id_1': '1', 'active_2': 'A', 'name_2': '%%', 'active_1': 'A', 'level_id_1': '2', 'param_1': 10}
+2018-08-21 00:12:37,682 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:37,684 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:37] "GET /get_lesson_topic?size=10&user_id=1&level_id=2&name=&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:37,739 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:37,749 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_activity_activity_id AS anon_1_tm_activity_activity_id, anon_1.tm_activity_doc_type AS anon_1_tm_activity_doc_type, anon_1.tm_activity_message AS anon_1_tm_activity_message, anon_1.tm_activity_created_at AS anon_1_tm_activity_created_at, anon_1.tm_activity_user_id AS anon_1_tm_activity_user_id, anon_1.tm_activity_raw AS anon_1_tm_activity_raw, anon_1.tm_user_username AS anon_1_tm_user_username, anon_1.tm_user_fullname AS anon_1_tm_user_fullname, anon_1.title AS anon_1_title 
+FROM (SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_friend ON tm_friend.friend_id = tm_activity.user_id JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_friend.user_id = %(user_id_2)s AND tm_activity.created_at >= tm_friend.created_at AND tm_activity.doc_type != %(doc_type_1)s UNION SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_activity.user_id = %(user_id_3)s) AS anon_1 ORDER BY anon_1.tm_activity_created_at DESC 
+ LIMIT %(param_2)s OFFSET %(param_3)s
+2018-08-21 00:12:37,750 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 10, 'doc_type_1': 'UNFOLLOW', 'param_3': 0, 'user_id_3': '1', 'user_id_2': '1', 'param_1': 'Anda', 'user_id_1': '1'}
+2018-08-21 00:12:37,768 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:37,769 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'concat_1': ' ', 'register_type_1': 'STUDENT', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:37,779 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:37,781 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:37,791 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:37,793 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:37,807 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:37,808 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'user_id_1': 2, 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'concat_2': ' '}
+2018-08-21 00:12:37,821 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT count(*) AS count_1 
+FROM (SELECT tm_lesson_viewer.user_id AS tm_lesson_viewer_user_id, tm_lesson_viewer.lesson_id AS tm_lesson_viewer_lesson_id, tm_lesson_viewer.created_at AS tm_lesson_viewer_created_at, tm_lesson_viewer.update_at AS tm_lesson_viewer_update_at 
+FROM tm_lesson_viewer 
+WHERE tm_lesson_viewer.lesson_id = %(lesson_id_1)s) AS anon_1
+2018-08-21 00:12:37,823 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'lesson_id_1': 2}
+2018-08-21 00:12:37,829 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_lesson.document_id AS tm_lesson_document_id, tm_lesson.title AS tm_lesson_title 
+FROM tm_lesson 
+WHERE tm_lesson.lesson_id = %(lesson_id_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:37,830 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'lesson_id_1': 2, 'param_1': 1}
+2018-08-21 00:12:37,843 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:37,845 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'concat_1': ' ', 'register_type_1': 'STUDENT', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:37,851 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:37,854 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:37] "GET /get_all_activity?size=10&user_id=1&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:37,861 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:37,866 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_document.document_id AS tm_document_document_id, tm_document.filename AS tm_document_filename, tm_document.original_filename AS tm_document_original_filename, tm_document.thumbnails AS tm_document_thumbnails, tm_document.mimetype AS tm_document_mimetype, tm_document.folder AS tm_document_folder, tm_document.secure AS tm_document_secure, tm_document.created_at AS tm_document_created_at, tm_document.update_at AS tm_document_update_at 
+FROM tm_document JOIN tm_user ON tm_user.document_id = tm_document.document_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:37,868 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:37,873 ERROR 17974 [slerp.app] app.py:56 - [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 51, in get_user_image
+    return user_principal_service.get_user_image(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 87, in get_user_image
+    return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/helpers.py", line 549, in send_file
+    file = open(filename, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+2018-08-21 00:12:37,877 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - ROLLBACK
+2018-08-21 00:12:37,879 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:37] "GET /get_user_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:37,891 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:37,894 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_lesson.lesson_id AS tm_lesson_lesson_id, tm_lesson.title AS tm_lesson_title, tm_lesson.type AS tm_lesson_type, tm_lesson.document_id AS tm_lesson_document_id, tm_lesson.price AS tm_lesson_price, tm_lesson.user_id AS tm_lesson_user_id, tm_lesson.topic_id AS tm_lesson_topic_id, tm_lesson.active AS tm_lesson_active, tm_lesson.created_at AS tm_lesson_created_at, tm_lesson.update_at AS tm_lesson_update_at 
+FROM tm_lesson 
+WHERE tm_lesson.topic_id = %(topic_id_1)s AND tm_lesson.active = %(active_1)s ORDER BY tm_lesson.title ASC 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:12:37,894 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'topic_id_1': '1', 'active_1': 'A', 'param_1': 10}
+2018-08-21 00:12:37,900 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.document_id AS tm_user_document_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_user.hash_password AS tm_user_hash_password, tm_user.address_id AS tm_user_address_id, tm_user.enabled AS tm_user_enabled, tm_user.account_non_expired AS tm_user_account_non_expired, tm_user.account_non_locked AS tm_user_account_non_locked, tm_user.credentials_non_expired AS tm_user_credentials_non_expired, tm_user.register_type AS tm_user_register_type, tm_user.class_id AS tm_user_class_id, tm_user.level_id AS tm_user_level_id, tm_user.created_at AS tm_user_created_at, tm_user.update_at AS tm_user_update_at 
+FROM tm_user 
+WHERE tm_user.user_id = %(param_1)s
+2018-08-21 00:12:37,902 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_1': 2}
+2018-08-21 00:12:37,907 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.document_id AS tm_user_document_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_user.hash_password AS tm_user_hash_password, tm_user.address_id AS tm_user_address_id, tm_user.enabled AS tm_user_enabled, tm_user.account_non_expired AS tm_user_account_non_expired, tm_user.account_non_locked AS tm_user_account_non_locked, tm_user.credentials_non_expired AS tm_user_credentials_non_expired, tm_user.register_type AS tm_user_register_type, tm_user.class_id AS tm_user_class_id, tm_user.level_id AS tm_user_level_id, tm_user.created_at AS tm_user_created_at, tm_user.update_at AS tm_user_update_at 
+FROM tm_user 
+WHERE tm_user.user_id = %(param_1)s
+2018-08-21 00:12:37,908 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_1': 1}
+2018-08-21 00:12:37,914 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:37,919 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:37] "GET /get_lesson_by_topic_id?size=10&topic_id=1&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:38,007 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:38,010 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_document.document_id AS tm_document_document_id, tm_document.filename AS tm_document_filename, tm_document.original_filename AS tm_document_original_filename, tm_document.thumbnails AS tm_document_thumbnails, tm_document.mimetype AS tm_document_mimetype, tm_document.folder AS tm_document_folder, tm_document.secure AS tm_document_secure, tm_document.created_at AS tm_document_created_at, tm_document.update_at AS tm_document_update_at 
+FROM tm_document JOIN tm_user ON tm_user.document_id = tm_document.document_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:38,010 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:38,016 ERROR 17974 [slerp.app] app.py:56 - [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 51, in get_user_image
+    return user_principal_service.get_user_image(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 87, in get_user_image
+    return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/helpers.py", line 549, in send_file
+    file = open(filename, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+2018-08-21 00:12:38,019 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - ROLLBACK
+2018-08-21 00:12:38,022 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:38] "GET /get_user_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:38,060 ERROR 17974 [slerp.app] app.py:56 - required.number.id
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/document_api.py", line 77, in get_document
+    return document_service.get_document(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 138, in new_function
+    raise ValidationException('required.number.' + key, key=key)
+slerp.exception.ValidationException: required.number.id
+2018-08-21 00:12:38,066 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:38] "GET /get_document?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&id=-1 HTTP/1.1" 200 -
+2018-08-21 00:12:40,032 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:40,037 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_learning_group_group_id AS anon_1_tm_learning_group_group_id, anon_1.tm_learning_group_name AS anon_1_tm_learning_group_name, anon_1.tm_user_fullname AS anon_1_tm_user_fullname, anon_1.tm_learning_group_document_id AS anon_1_tm_learning_group_document_id, anon_1.tm_learning_group_user_id AS anon_1_tm_learning_group_user_id, anon_1.tm_learning_group_created_at AS anon_1_tm_learning_group_created_at 
+FROM ((SELECT tm_learning_group.group_id AS tm_learning_group_group_id, tm_learning_group.name AS tm_learning_group_name, tm_user.fullname AS tm_user_fullname, tm_learning_group.document_id AS tm_learning_group_document_id, tm_learning_group.user_id AS tm_learning_group_user_id, tm_learning_group.created_at AS tm_learning_group_created_at 
+FROM tm_learning_group JOIN tm_user ON tm_user.user_id = tm_learning_group.user_id JOIN tm_learning_group_user ON tm_learning_group_user.user_id = %(user_id_1)s 
+WHERE tm_learning_group.name ILIKE %(name_1)s ORDER BY tm_learning_group.group_id DESC) UNION (SELECT tm_learning_group.group_id AS tm_learning_group_group_id, tm_learning_group.name AS tm_learning_group_name, tm_user.fullname AS tm_user_fullname, tm_learning_group.document_id AS tm_learning_group_document_id, tm_learning_group.user_id AS tm_learning_group_user_id, tm_learning_group.created_at AS tm_learning_group_created_at 
+FROM tm_learning_group JOIN tm_user ON tm_user.user_id = tm_learning_group.user_id 
+WHERE tm_learning_group.user_id = %(user_id_2)s AND tm_learning_group.name ILIKE %(name_2)s ORDER BY tm_learning_group.group_id DESC)) AS anon_1 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:12:40,039 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'user_id_2': '1', 'name_1': '%%', 'name_2': '%%', 'param_1': 10, 'user_id_1': '1'}
+2018-08-21 00:12:40,051 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT count(*) AS total 
+FROM tm_learning_group_user JOIN tm_user ON tm_learning_group_user.user_id = tm_user.user_id 
+WHERE tm_learning_group_user.group_id = %(group_id_1)s
+2018-08-21 00:12:40,052 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'group_id_1': 6}
+2018-08-21 00:12:40,059 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:40,065 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:40] "GET /get_learning_group_by_user_id?size=10&user_id=1&name=&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:41,028 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:41,032 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_school_level.name AS level, tm_school_class.name AS class_name, tm_user.level_id AS tm_user_level_id, tm_user.class_id AS tm_user_class_id, tm_user.register_type AS tm_user_register_type 
+FROM tm_user JOIN tm_school_level ON tm_user.level_id = tm_school_level.school_level_id LEFT OUTER JOIN tm_school_class ON tm_user.class_id = tm_school_class.school_class_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:41,034 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:41,042 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:41,045 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:41] "GET /find_user_principal_by_username?username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:41,076 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:41,081 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_topic_topic_id AS anon_1_tm_topic_topic_id, anon_1.tm_topic_name AS anon_1_tm_topic_name, anon_1.tm_topic_user_id AS anon_1_tm_topic_user_id, anon_1.tm_topic_level_id AS anon_1_tm_topic_level_id, anon_1.tm_topic_class_id AS anon_1_tm_topic_class_id, anon_1.tm_topic_created_at AS anon_1_tm_topic_created_at, anon_1.tm_topic_update_at AS anon_1_tm_topic_update_at 
+FROM (SELECT tm_topic.topic_id AS tm_topic_topic_id, tm_topic.name AS tm_topic_name, tm_topic.user_id AS tm_topic_user_id, tm_topic.level_id AS tm_topic_level_id, tm_topic.class_id AS tm_topic_class_id, tm_topic.created_at AS tm_topic_created_at, tm_topic.update_at AS tm_topic_update_at 
+FROM tm_topic JOIN tm_friend ON tm_friend.friend_id = tm_topic.user_id JOIN tm_lesson ON tm_topic.topic_id = tm_lesson.topic_id 
+WHERE tm_lesson.active = %(active_1)s AND tm_topic.name ILIKE %(name_1)s AND tm_friend.user_id = %(user_id_1)s UNION SELECT tm_topic.topic_id AS tm_topic_topic_id, tm_topic.name AS tm_topic_name, tm_topic.user_id AS tm_topic_user_id, tm_topic.level_id AS tm_topic_level_id, tm_topic.class_id AS tm_topic_class_id, tm_topic.created_at AS tm_topic_created_at, tm_topic.update_at AS tm_topic_update_at 
+FROM tm_topic JOIN tm_lesson ON tm_topic.topic_id = tm_lesson.topic_id 
+WHERE tm_lesson.active = %(active_2)s AND tm_topic.name ILIKE %(name_2)s AND tm_topic.level_id = %(level_id_1)s) AS anon_1 ORDER BY anon_1.tm_topic_name ASC 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:12:41,083 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'name_1': '%%', 'user_id_1': '1', 'active_2': 'A', 'name_2': '%%', 'active_1': 'A', 'level_id_1': '2', 'param_1': 10}
+2018-08-21 00:12:41,094 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:41,104 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:41] "GET /get_lesson_topic?size=10&user_id=1&level_id=2&name=&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:41,136 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:41,142 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_activity_activity_id AS anon_1_tm_activity_activity_id, anon_1.tm_activity_doc_type AS anon_1_tm_activity_doc_type, anon_1.tm_activity_message AS anon_1_tm_activity_message, anon_1.tm_activity_created_at AS anon_1_tm_activity_created_at, anon_1.tm_activity_user_id AS anon_1_tm_activity_user_id, anon_1.tm_activity_raw AS anon_1_tm_activity_raw, anon_1.tm_user_username AS anon_1_tm_user_username, anon_1.tm_user_fullname AS anon_1_tm_user_fullname, anon_1.title AS anon_1_title 
+FROM (SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_friend ON tm_friend.friend_id = tm_activity.user_id JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_friend.user_id = %(user_id_2)s AND tm_activity.created_at >= tm_friend.created_at AND tm_activity.doc_type != %(doc_type_1)s UNION SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_activity.user_id = %(user_id_3)s) AS anon_1 ORDER BY anon_1.tm_activity_created_at DESC 
+ LIMIT %(param_2)s OFFSET %(param_3)s
+2018-08-21 00:12:41,145 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 10, 'doc_type_1': 'UNFOLLOW', 'param_3': 0, 'user_id_3': '1', 'user_id_2': '1', 'param_1': 'Anda', 'user_id_1': '1'}
+2018-08-21 00:12:41,163 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:41,164 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'user_id_1': 2, 'coalesce_1': -1, 'concat_1': ' ', 'register_type_1': 'STUDENT', 'param_1': 'Siswa', 'concat_2': ' '}
+2018-08-21 00:12:41,184 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:41,186 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:41,203 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:41,204 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'user_id_1': 2, 'coalesce_1': -1, 'concat_1': ' ', 'register_type_1': 'STUDENT', 'param_1': 'Siswa', 'concat_2': ' '}
+2018-08-21 00:12:41,219 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:41,222 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:41,240 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT count(*) AS count_1 
+FROM (SELECT tm_lesson_viewer.user_id AS tm_lesson_viewer_user_id, tm_lesson_viewer.lesson_id AS tm_lesson_viewer_lesson_id, tm_lesson_viewer.created_at AS tm_lesson_viewer_created_at, tm_lesson_viewer.update_at AS tm_lesson_viewer_update_at 
+FROM tm_lesson_viewer 
+WHERE tm_lesson_viewer.lesson_id = %(lesson_id_1)s) AS anon_1
+2018-08-21 00:12:41,248 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'lesson_id_1': 2}
+2018-08-21 00:12:41,255 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_lesson.document_id AS tm_lesson_document_id, tm_lesson.title AS tm_lesson_title 
+FROM tm_lesson 
+WHERE tm_lesson.lesson_id = %(lesson_id_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:41,256 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'lesson_id_1': 2, 'param_1': 1}
+2018-08-21 00:12:41,269 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.fullname AS title, coalesce(tm_user.document_id, %(coalesce_1)s) AS document_id, upper(concat(CASE WHEN (tm_user.register_type = %(register_type_1)s) THEN %(param_1)s ELSE %(param_2)s END, %(concat_1)s, coalesce(tm_school_class.name, %(coalesce_2)s), %(concat_2)s, tm_school_level.name)) AS detail 
+FROM tm_user LEFT OUTER JOIN tm_school_class ON tm_school_class.school_class_id = tm_user.class_id JOIN tm_school_level ON tm_school_level.school_level_id = tm_user.level_id 
+WHERE tm_user.user_id = %(user_id_1)s 
+ LIMIT %(param_3)s
+2018-08-21 00:12:41,270 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 'Guru', 'coalesce_2': '', 'param_3': 1, 'concat_2': ' ', 'coalesce_1': -1, 'register_type_1': 'STUDENT', 'concat_1': ' ', 'param_1': 'Siswa', 'user_id_1': 2}
+2018-08-21 00:12:41,277 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:41,282 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:41] "GET /get_all_activity?size=10&user_id=1&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:41,289 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:41,292 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_document.document_id AS tm_document_document_id, tm_document.filename AS tm_document_filename, tm_document.original_filename AS tm_document_original_filename, tm_document.thumbnails AS tm_document_thumbnails, tm_document.mimetype AS tm_document_mimetype, tm_document.folder AS tm_document_folder, tm_document.secure AS tm_document_secure, tm_document.created_at AS tm_document_created_at, tm_document.update_at AS tm_document_update_at 
+FROM tm_document JOIN tm_user ON tm_user.document_id = tm_document.document_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:41,294 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:41,300 ERROR 17974 [slerp.app] app.py:56 - [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 51, in get_user_image
+    return user_principal_service.get_user_image(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 87, in get_user_image
+    return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/helpers.py", line 549, in send_file
+    file = open(filename, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+2018-08-21 00:12:41,303 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - ROLLBACK
+2018-08-21 00:12:41,305 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:41] "GET /get_user_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:41,312 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:41,315 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_lesson.lesson_id AS tm_lesson_lesson_id, tm_lesson.title AS tm_lesson_title, tm_lesson.type AS tm_lesson_type, tm_lesson.document_id AS tm_lesson_document_id, tm_lesson.price AS tm_lesson_price, tm_lesson.user_id AS tm_lesson_user_id, tm_lesson.topic_id AS tm_lesson_topic_id, tm_lesson.active AS tm_lesson_active, tm_lesson.created_at AS tm_lesson_created_at, tm_lesson.update_at AS tm_lesson_update_at 
+FROM tm_lesson 
+WHERE tm_lesson.topic_id = %(topic_id_1)s AND tm_lesson.active = %(active_1)s ORDER BY tm_lesson.title ASC 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:12:41,316 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'topic_id_1': '1', 'active_1': 'A', 'param_1': 10}
+2018-08-21 00:12:41,323 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.document_id AS tm_user_document_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_user.hash_password AS tm_user_hash_password, tm_user.address_id AS tm_user_address_id, tm_user.enabled AS tm_user_enabled, tm_user.account_non_expired AS tm_user_account_non_expired, tm_user.account_non_locked AS tm_user_account_non_locked, tm_user.credentials_non_expired AS tm_user_credentials_non_expired, tm_user.register_type AS tm_user_register_type, tm_user.class_id AS tm_user_class_id, tm_user.level_id AS tm_user_level_id, tm_user.created_at AS tm_user_created_at, tm_user.update_at AS tm_user_update_at 
+FROM tm_user 
+WHERE tm_user.user_id = %(param_1)s
+2018-08-21 00:12:41,324 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_1': 2}
+2018-08-21 00:12:41,329 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.document_id AS tm_user_document_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_user.hash_password AS tm_user_hash_password, tm_user.address_id AS tm_user_address_id, tm_user.enabled AS tm_user_enabled, tm_user.account_non_expired AS tm_user_account_non_expired, tm_user.account_non_locked AS tm_user_account_non_locked, tm_user.credentials_non_expired AS tm_user_credentials_non_expired, tm_user.register_type AS tm_user_register_type, tm_user.class_id AS tm_user_class_id, tm_user.level_id AS tm_user_level_id, tm_user.created_at AS tm_user_created_at, tm_user.update_at AS tm_user_update_at 
+FROM tm_user 
+WHERE tm_user.user_id = %(param_1)s
+2018-08-21 00:12:41,330 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_1': 1}
+2018-08-21 00:12:41,335 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:12:41,338 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:41] "GET /get_lesson_by_topic_id?size=10&topic_id=1&page=1 HTTP/1.1" 200 -
+2018-08-21 00:12:41,437 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:12:41,442 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_document.document_id AS tm_document_document_id, tm_document.filename AS tm_document_filename, tm_document.original_filename AS tm_document_original_filename, tm_document.thumbnails AS tm_document_thumbnails, tm_document.mimetype AS tm_document_mimetype, tm_document.folder AS tm_document_folder, tm_document.secure AS tm_document_secure, tm_document.created_at AS tm_document_created_at, tm_document.update_at AS tm_document_update_at 
+FROM tm_document JOIN tm_user ON tm_user.document_id = tm_document.document_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:12:41,443 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'kiditz', 'param_1': 1}
+2018-08-21 00:12:41,447 ERROR 17974 [slerp.app] app.py:56 - [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/user_principal_api.py", line 51, in get_user_image
+    return user_principal_service.get_user_image(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/app/service/user_principal_service.py", line 87, in get_user_image
+    return send_file(filename, mimetype=document.mimetype if 'thumbnails' not in domain else 'image/png')
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/helpers.py", line 549, in send_file
+    file = open(filename, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/teachme/teachme-rest-api/profile/2018_08_14_14_20_47_IMG-20180729-WA0001.jpg'
+2018-08-21 00:12:41,450 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - ROLLBACK
+2018-08-21 00:12:41,452 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:41] "GET /get_user_image?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&username=kiditz HTTP/1.1" 200 -
+2018-08-21 00:12:41,456 ERROR 17974 [slerp.app] app.py:56 - required.number.id
+Traceback (most recent call last):
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kiditz/teachme/teachme-rest-api/app/api/document_api.py", line 77, in get_document
+    return document_service.get_document(domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 35, in new_function
+    return original_function(other, domain)
+  File "/home/kiditz/teachme/teachme-rest-api/lib/python3.5/site-packages/slerp/validator.py", line 138, in new_function
+    raise ValidationException('required.number.' + key, key=key)
+slerp.exception.ValidationException: required.number.id
+2018-08-21 00:12:41,460 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:12:41] "GET /get_document?access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic2xlcnAiXSwidXNlcl9uYW1lIjoia2lkaXR6Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTUzNDc4NTYzMiwiYXV0aG9yaXRpZXMiOlsiQUREX0FCU0VOVCIsIlNVQk1JVF9MRVNTT04iLCJWSUVXX0FCU0VOVCIsIlZJRVdfTEVTU09OIiwiSlVER0VfVEFTSyIsIlZJRVdfUFJPRklMRSIsIkVESVRfUFJPRklMRSIsIlZJRVdfQUNUSVZJVFkiLCJNQU5BR0VfR1JPVVAiLCJHSVZFX1RBU0siLCJTSEFSRV9UQVNLIl0sImp0aSI6IjZmZTU1YjE2LTI1MGEtNDFkNy04M2VjLWY0OWRlZjE4MDhlMyIsImNsaWVudF9pZCI6ImtpZGl0eiJ9.fbB-hCavXNwhH_K2KXO527JUe6QCiqO5eMsHQCcVIZjFdneVJF8TRgkk2LAd5DMb_8PK134DDGnTsyea-B9QuAbKQduPw6ZYS3TcYpklRPgoDM8Gj3ZyJFV9783vDbt_3ZrU3INxLEX6NL92oJb55wHVNOoObTmjYHyhPqs7suC9lLJ8XV9_MkffGV99R6Cit1XFjtR5t4XVtznx89zsX3IXLlZKot1l005A_MC5tkwTe84Y36q0moPrVhuNeeUjHHy0jZS23Be-M1P7ILHNPCAlwhI9wHaIbFOexQkkMeHTS6l79iMgZ1K5XrNtKBMSjLZA4PFMdn7w8cjLJp8WQg&id=-1 HTTP/1.1" 200 -
+2018-08-21 00:12:44,963 INFO 17974 [werkzeug] _internal.py:88 - 127.0.0.1 - - [21/Aug/2018 00:12:44] "GET /health HTTP/1.1" 200 -
+2018-08-21 00:13:04,977 INFO 17974 [werkzeug] _internal.py:88 - 127.0.0.1 - - [21/Aug/2018 00:13:04] "GET /health HTTP/1.1" 200 -
+2018-08-21 00:13:24,994 INFO 17974 [werkzeug] _internal.py:88 - 127.0.0.1 - - [21/Aug/2018 00:13:24] "GET /health HTTP/1.1" 200 -
+2018-08-21 00:13:45,002 INFO 17974 [werkzeug] _internal.py:88 - 127.0.0.1 - - [21/Aug/2018 00:13:45] "GET /health HTTP/1.1" 200 -
+2018-08-21 00:13:53,039 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:13:53,056 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT tm_user.user_id AS tm_user_user_id, tm_user.phone_number AS tm_user_phone_number, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, tm_user.gender AS tm_user_gender, tm_school_level.name AS level, tm_school_class.name AS class_name, tm_user.level_id AS tm_user_level_id, tm_user.class_id AS tm_user_class_id, tm_user.register_type AS tm_user_register_type 
+FROM tm_user JOIN tm_school_level ON tm_user.level_id = tm_school_level.school_level_id LEFT OUTER JOIN tm_school_class ON tm_user.class_id = tm_school_class.school_class_id 
+WHERE tm_user.username = %(username_1)s 
+ LIMIT %(param_1)s
+2018-08-21 00:13:53,057 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'username_1': 'syehren', 'param_1': 1}
+2018-08-21 00:13:53,062 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:13:53,064 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:13:53] "GET /find_user_principal_by_username?username=syehren HTTP/1.1" 200 -
+2018-08-21 00:13:53,084 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:13:53,089 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_topic_topic_id AS anon_1_tm_topic_topic_id, anon_1.tm_topic_name AS anon_1_tm_topic_name, anon_1.tm_topic_user_id AS anon_1_tm_topic_user_id, anon_1.tm_topic_level_id AS anon_1_tm_topic_level_id, anon_1.tm_topic_class_id AS anon_1_tm_topic_class_id, anon_1.tm_topic_created_at AS anon_1_tm_topic_created_at, anon_1.tm_topic_update_at AS anon_1_tm_topic_update_at 
+FROM (SELECT tm_topic.topic_id AS tm_topic_topic_id, tm_topic.name AS tm_topic_name, tm_topic.user_id AS tm_topic_user_id, tm_topic.level_id AS tm_topic_level_id, tm_topic.class_id AS tm_topic_class_id, tm_topic.created_at AS tm_topic_created_at, tm_topic.update_at AS tm_topic_update_at 
+FROM tm_topic JOIN tm_friend ON tm_friend.friend_id = tm_topic.user_id JOIN tm_lesson ON tm_topic.topic_id = tm_lesson.topic_id 
+WHERE tm_lesson.active = %(active_1)s AND tm_topic.name ILIKE %(name_1)s AND tm_friend.user_id = %(user_id_1)s UNION SELECT tm_topic.topic_id AS tm_topic_topic_id, tm_topic.name AS tm_topic_name, tm_topic.user_id AS tm_topic_user_id, tm_topic.level_id AS tm_topic_level_id, tm_topic.class_id AS tm_topic_class_id, tm_topic.created_at AS tm_topic_created_at, tm_topic.update_at AS tm_topic_update_at 
+FROM tm_topic JOIN tm_lesson ON tm_topic.topic_id = tm_lesson.topic_id 
+WHERE tm_lesson.active = %(active_2)s AND tm_topic.name ILIKE %(name_2)s AND tm_topic.level_id = %(level_id_1)s) AS anon_1 ORDER BY anon_1.tm_topic_name ASC 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2018-08-21 00:13:53,090 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 0, 'name_1': '%%', 'user_id_1': '1', 'active_2': 'A', 'name_2': '%%', 'param_1': 10, 'level_id_1': '2', 'active_1': 'A'}
+2018-08-21 00:13:53,098 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - COMMIT
+2018-08-21 00:13:53,100 INFO 17974 [werkzeug] _internal.py:88 - 172.20.0.5 - - [21/Aug/2018 00:13:53] "GET /get_lesson_topic?size=10&user_id=1&level_id=2&name=&page=1 HTTP/1.1" 200 -
+2018-08-21 00:13:53,124 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - BEGIN (implicit)
+2018-08-21 00:13:53,129 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - SELECT anon_1.tm_activity_activity_id AS anon_1_tm_activity_activity_id, anon_1.tm_activity_doc_type AS anon_1_tm_activity_doc_type, anon_1.tm_activity_message AS anon_1_tm_activity_message, anon_1.tm_activity_created_at AS anon_1_tm_activity_created_at, anon_1.tm_activity_user_id AS anon_1_tm_activity_user_id, anon_1.tm_activity_raw AS anon_1_tm_activity_raw, anon_1.tm_user_username AS anon_1_tm_user_username, anon_1.tm_user_fullname AS anon_1_tm_user_fullname, anon_1.title AS anon_1_title 
+FROM (SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_friend ON tm_friend.friend_id = tm_activity.user_id JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_friend.user_id = %(user_id_2)s AND tm_activity.created_at >= tm_friend.created_at AND tm_activity.doc_type != %(doc_type_1)s UNION SELECT tm_activity.activity_id AS tm_activity_activity_id, tm_activity.doc_type AS tm_activity_doc_type, tm_activity.message AS tm_activity_message, tm_activity.created_at AS tm_activity_created_at, tm_activity.user_id AS tm_activity_user_id, tm_activity.raw AS tm_activity_raw, tm_user.username AS tm_user_username, tm_user.fullname AS tm_user_fullname, CASE WHEN (tm_user.user_id = %(user_id_1)s) THEN %(param_1)s ELSE tm_user.fullname END AS title 
+FROM tm_activity JOIN tm_user ON tm_user.user_id = tm_activity.user_id 
+WHERE tm_activity.user_id = %(user_id_3)s) AS anon_1 ORDER BY anon_1.tm_activity_created_at DESC 
+ LIMIT %(param_2)s OFFSET %(param_3)s
+2018-08-21 00:13:53,130 INFO 17974 [sqlalchemy.engine.base.Engine] log.py:109 - {'param_2': 10, 'doc_type_1': 'UNFOLLOW', 'param_3': 0, 'user_id_3': '1', 'user_id_2': '1', 'param_1': 'Anda', 'user_id_1': '1'}
