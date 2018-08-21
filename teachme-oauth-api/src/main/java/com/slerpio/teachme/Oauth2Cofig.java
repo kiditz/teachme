@@ -86,19 +86,4 @@ public class Oauth2Cofig {
             return converter;
         }
     }
-
-
-//    @Configuration
-//    @EnableResourceServer
-//    protected class Oauth2ResourceServerConfiguration extends
-//            ResourceServerConfigurerAdapter {
-//        @Autowired
-//        RestAuthenticationFailureHandler customAuthenticationEntryPoint;
-//
-//        @Override
-//        public void configure(HttpSecurity http) throws Exception {
-//            http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
-//        }
-//
-//    }
 }

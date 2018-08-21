@@ -46,6 +46,7 @@ class TaskScoreConsumer(multiprocessing.Process):
                         answer_key = question.answer_key                        
                         answer_input = {
                             'question_id': it['question_id'],
+                            'task_id': task['task_id']
                             'user_id': task['user_id'],
                             'user_answer': user_answer
                         }
@@ -65,8 +66,8 @@ class TaskScoreConsumer(multiprocessing.Process):
                     log.info('answers_list : %s', answers_list)
                     log.info('total_mc : %s', total_mc)
                     log.info('total_score_mc : %s', score_mc)
-                    total_score = (score_mc / total_mc) * 100
-                    log.info('task_score: %s', total_score)
+                    #total_score = (score_mc / total_mc) * 100
+                    #log.info('task_score: %s', total_score)
 
                 try:
                     db.session.bulk_insert_mappings(

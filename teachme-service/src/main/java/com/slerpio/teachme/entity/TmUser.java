@@ -10,6 +10,10 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
+import com.slerpio.teachme.entity.TmNotification;
 
 @Entity
 @Table(name = "tm_user")
@@ -62,6 +66,9 @@ public class TmUser {
 	@Column(name = "address_id")
 	private Long addressId;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+	private List<TmNotification> tmNotificationList;
+
 	@JsonProperty
 	public Long getUserId() {
 		return userId;
@@ -107,7 +114,6 @@ public class TmUser {
 		this.gender = gender;
 	}
 
-	//@JsonProperty
 	public byte[] getHashPassword() {
 		return hashPassword;
 	}
@@ -177,6 +183,14 @@ public class TmUser {
 
 	public void setAddressId(Long addressId) {
 		this.addressId = addressId;
+	}
+
+	public List<TmNotification> getTmNotificationList() {
+		return tmNotificationList;
+	}
+
+	public void setTmNotificationList(List<TmNotification> tmNotificationList) {
+		this.tmNotificationList = tmNotificationList;
 	}
 
 }

@@ -33,7 +33,7 @@ public class KafkaConfiguration {
 	@Value("${kafka.groupId}")
 	private String groupId;
 
-	public ConsumerFactory<String, Domain> consumerFactory() {
+	ConsumerFactory<String, Domain> consumerFactory() {
 		Map<String, Object> props = new HashMap<>();
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, this.address);
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, this.groupId);

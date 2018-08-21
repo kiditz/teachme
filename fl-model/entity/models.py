@@ -286,6 +286,7 @@ class TaskGroup(db.Model, Entity):
 	def __init__(self, obj=None):
 		Entity.__init__(self, obj)
 
+
 class TaskScore(db.Model, Entity):
 	__tablename__ = 'tm_task_score'	
 	id = db.Column('task_score_id', db.BigInteger, db.Sequence('tm_task_score_task_score_id_seq'), primary_key=True)	
@@ -295,6 +296,9 @@ class TaskScore(db.Model, Entity):
 	__table_args__ = (db.UniqueConstraint('user_id', 'task_id', name='uix_task_score_task_id_user_id'),)
 	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
 	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
+
+	def __init__(self, obj=None):
+		Entity.__init__(self, obj)
 						
 
 class QuestionScore(db.Model, Entity):	
@@ -302,11 +306,28 @@ class QuestionScore(db.Model, Entity):
 	id = db.Column('question_score_id', db.BigInteger, db.Sequence('tm_question_score_question_score_id_seq'), primary_key=True)
 	question_id = db.Column(db.ForeignKey('tm_task_question.question_id'), nullable=False)	
 	user_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False)
+	task_id = db.Column(db.ForeignKey(u'tm_task.task_id'))
 	score = db.Column(db.Numeric, nullable=False)
+	user_answer = db.Column(db.Text, nullable=False, server_default='')
 	__table_args__ = (db.UniqueConstraint('user_id', 'question_id', name='uix_question_score_question_id_user_id'),)
 	def __init__(self, obj=None):
 		Entity.__init__(self, obj)
 
+
+class Notification(db.Model, Entity):	
+	__tablename__ = 'tm_notification'
+	id = db.Column('notification_id', db.BigInteger, db.Sequence('tm_notification_notification_id_seq'), primary_key=True)
+	user_id = db.Column(db.ForeignKey(u'tm_user.user_id'), nullable=False)
+	message = db.Column(db.String(60), nullable=False)	
+	title = db.Column(db.String(60), nullable=False)
+	text = db.Column(db.Text, nullable=False)	
+	sent = db.Column(db.Boolean, nullable=False, server_default='f')
+	
+	created_at = db.Column(db.DateTime(timezone=False), default=datetime.now)
+	update_at = db.Column(db.DateTime(timezone=False), onupdate=datetime.now)
+
+	def __init__(self, obj=None):
+		Entity.__init__(self, obj)
 
 if __name__ == '__main__':
 	app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('db.name',

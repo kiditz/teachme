@@ -63,7 +63,8 @@ class UserPrincipalService(object):
 			SchoolLevel.name.label('level'),
 			SchoolClass.name.label('class_name'),
 			UserPrincipal.level_id,
-			UserPrincipal.class_id
+			UserPrincipal.class_id,
+			UserPrincipal.register_type
 		).join(SchoolLevel, UserPrincipal.level_id == SchoolLevel.id) \
 			.outerjoin(SchoolClass, UserPrincipal.class_id == SchoolClass.id) \
 			.filter(UserPrincipal.username == domain['username']).first()

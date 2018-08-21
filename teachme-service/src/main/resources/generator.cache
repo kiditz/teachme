@@ -1,6 +1,6 @@
 {
   "packageRepo" : "com.slerpio.teachme.repository",
-  "packageService" : "com.slerpio.teachme.service",
+  "packageService" : "com.slerpio.teachme.service.notification",
   "enablePrepare" : true,
   "packageEntity" : "com.slerpio.teachme.entity",
   "packageController" : "com.slerpio.teachme.api.controller"

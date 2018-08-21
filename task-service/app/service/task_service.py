@@ -49,7 +49,8 @@ class TaskService(object):
             question_data['task_id'] = task.id
             if 'id' in question:
                 question_data['id'] = question['id']
-                task_question = TaskQuestion.query.filter_by(id = question_data['id']).first()
+                task_question = TaskQuestion.query.filter_by(
+                    id=question_data['id']).first()
                 task_question.update(question_data)
             else:
                 task_question = TaskQuestion(question_data)
@@ -63,7 +64,8 @@ class TaskService(object):
                     }
                     if 'id' in answer:
                         answer_data['id'] = answer['id']
-                        task_answer = TaskAnswer.query.filter_by(id = answer_data['id']).first()
+                        task_answer = TaskAnswer.query.filter_by(
+                            id=answer_data['id']).first()
                         task_answer.update(answer_data)
                     else:
                         task_answer = TaskAnswer(answer_data)
@@ -112,13 +114,18 @@ class TaskService(object):
             .join(UserPrincipal, and_(t_learning_group_user.c.user_id == UserPrincipal.id, UserPrincipal.id == domain['user_id'])) \
             .filter(UserPrincipal.register_type == UserType.STUDENT) \
             .paginate(page, size, error_out=False)
-        task_list = list(map(lambda x: x.to_dict(), task_q.items))
+        task_list = list(map(lambda x: self.check_has_judge(x.to_dict()), task_q.items))
         return {'payload': task_list, 'total': task_q.total, 'total_pages': task_q.pages}
-
+    
+    @staticmethod
+    def check_has_judge(task):
+        task['has_finish'] = db.session.query(QuestionScore.query.filter_by(task_id=task['id']).exists()).scalar()
+        return task
+        
     @Number(['task_id'])
     def get_task_question(self, domain):
         question_q = TaskQuestion.query.filter(
-            TaskQuestion.task_id == domain['task_id']).all()
+            TaskQuestion.task_id == domain['task_id']).order_by(TaskQuestion.id.asc()).all()
         qustion_list = list(map(lambda x: x.to_dict(), question_q))
         return {'payload': qustion_list}
 
@@ -145,6 +152,7 @@ class TaskService(object):
             .outerjoin(TaskScore, TaskScore.task_id == Task.id) \
             .filter(UserPrincipal.register_type == UserType.STUDENT) \
             .filter(Task.id == domain['task_id']) \
+            .order_by(UserPrincipal.fullname.asc()) \
             .paginate(page, size, error_out=False)
         task_list = list(map(lambda x: x._asdict(), task_q.items))
         return {'payload': task_list, 'total': task_q.total, 'total_pages': task_q.pages}
@@ -158,11 +166,13 @@ class TaskService(object):
             TaskQuestion.question,
             QuestionScore.score,
             QuestionScore.user_answer,
-            TaskQuestion.answer_key
+            TaskQuestion.answer_key,
+            QuestionScore.id.label('score_id')
         )
         question_q = TaskQuestion.query.with_entities(*entities) \
             .join(QuestionScore, QuestionScore.question_id == TaskQuestion.id) \
             .filter(QuestionScore.user_id == domain['user_id']) \
+            .order_by(TaskQuestion.id.asc()) \
             .paginate(page, size, error_out=False)
         question_list = list(map(lambda x: x._asdict(), question_q.items))
         return {'payload': question_list, 'total': question_q.total, 'total_pages': question_q.pages}
@@ -195,8 +205,19 @@ class TaskService(object):
         question['answers'] = answer_list
         return question
 
-    @Key(['id'])
-    def edit_task_by_id(self, domain):
-        task = Task.query.filter_by(id=domain['id']).first()
-        task.update(domain)
-        return {'payload': task.to_dict()}
+    @Number(['task_id', 'user_id', 'score'])
+    def add_task_score(self, domain):
+        task_score = TaskScore.query.filter_by(
+            task_id=domain['task_id'], user_id=domain['user_id']).first()
+        if task_score is not None:
+            task_score.update(domain)
+        else:
+            task_score = TaskScore(domain)
+            task_score.save()
+        return {'payload': task_score.to_dict()}
+
+    @Number(['question_scores.id', 'question_scores.score'])
+    def edit_question_score(self, domain):
+        db.session.bulk_update_mappings(
+            QuestionScore, domain['question_scores'])
+        return {'payload': domain}

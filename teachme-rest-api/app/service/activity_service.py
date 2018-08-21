@@ -90,7 +90,6 @@ class ActivityService(object):
 				(UserPrincipal.register_type == 'STUDENT', 'Siswa')
 			], else_='Guru').label('type')
 			
-			
 			# Process query using upper concat and case expr
 			user_dict = UserPrincipal.query.with_entities(
 				UserPrincipal.fullname.label('title'),

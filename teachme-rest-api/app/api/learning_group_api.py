@@ -44,4 +44,4 @@ def is_learning_grop_exists_by_user_id():
     }
     """
     domain = request.args.to_dict()
-    return learning_group_service.is_learning_grop_exists_by_user_id(domain)
+    return learning_group_service.is_learning_group_exists_by_user_id(domain)

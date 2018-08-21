@@ -101,6 +101,7 @@ def get_question_for_judgement():
     domain = request.args.to_dict()
     return task_service.get_question_for_judgement(domain)
 
+
 @api.route('/get_task_for_edit')
 def get_task_for_edit():
     """
@@ -111,9 +112,9 @@ def get_task_for_edit():
     domain = request.args.to_dict()
     return task_service.get_task_for_edit(domain)
 
+
 @api.route('/edit_task_by_id', methods=['PUT'])
 def edit_task_by_id():
-
     """
     {
     "id": "Long",
@@ -125,3 +126,36 @@ def edit_task_by_id():
     """
     domain = request.get_json()
     return task_service.edit_task_by_id(domain)
+
+
+@api.route('/add_task_score', methods=['POST'])
+def add_task_score():
+    """
+    {
+    "task_id": "Long",
+    "user_id": "Long",
+    "score": "Double"
+    }
+    """
+    domain = request.get_json()
+    return task_service.add_task_score(domain)
+
+
+@api.route('/edit_question_score', methods=['PUT'])
+def edit_question_score():
+    """
+    {
+        "question_scores": [
+            {
+                "id": "String",
+                "score": 0
+            },
+            {
+                "id": "String",
+                "score": 0
+            },
+        ]
+    }
+    """
+    domain = request.get_json()
+    return task_service.edit_question_score(domain)
