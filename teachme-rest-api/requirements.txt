@@ -24,5 +24,5 @@ requests==2.18.4
 six==1.11.0
 slerp-py==0.0.19
 SQLAlchemy==1.2.8
-urllib3==1.22
+urllib3==1.26.5
 Werkzeug==0.14.1
